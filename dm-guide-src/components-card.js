@@ -3,27 +3,15 @@
 // Drug text in the chosen language: the English twin is stored as <key>En
 const pickLang = (obj, key, lang) => (lang !== 'th' && obj[key + 'En']) || obj[key];
 
-// NLEM list letters: ก=A, ข=B, ค=C, จ2=E2 (Thai National List of Essential Medicines)
-const NLEM_SUB_EN = {
-  'ก': 'A',
-  'ข/ค': 'B/C',
-  'ข/ค สำหรับ Aspart/Lispro': 'B/C for aspart/lispro',
-  'จ2 ตามเกณฑ์สิทธิประโยชน์': 'E2, benefit criteria',
-  'จ2 ตามเกณฑ์สิทธิประโยชน์ HF/CKD': 'E2, HF/CKD benefit criteria',
-  'จ2 ตามเกณฑ์เกิดน้ำตาลต่ำจาก NPH': 'E2, if hypoglycaemia on NPH'
-};
-// Text inside the brackets of drug.nlemCategory, in the chosen language ('' when none)
-const nlemSub = (drug, lang) => {
-  const m = /\(([^)]*)\)/.exec(drug.nlemCategory || '');
-  if (!m) return '';
-  return lang === 'th' ? m[1] : (NLEM_SUB_EN[m[1]] || m[1]);
-};
+// NLEM B.E. 2569 sub-list codes: b = basic (old ก/ข), s = supplemental (old ค), ex = exclusive (old ง), R1/R2 = special (old จ1/จ2)
+const NLEM_CODE_EN = { b: 'basic list (b)', s: 'supplemental list (s)', ex: 'exclusive list (ex)', R1: 'special list R1', R2: 'special list R2' };
+// Short code for the NLEM chip ('' when not listed)
+const nlemSub = (drug) => drug.nlemCode || '';
 // Full NLEM status line for tables and monographs
 const nlemLabel = (drug, lang) => {
-  if (!drug.nlem) return lang === 'th' ? 'ยานอกบัญชียาหลักแห่งชาติ' : 'Non-NLEM';
+  if (!drug.nlem) return lang === 'th' ? 'ไม่อยู่ในบัญชียาหลักแห่งชาติ 2569' : 'Not in NLEM 2569';
   if (lang === 'th') return drug.nlemCategory;
-  const sub = nlemSub(drug, 'en');
-  return sub ? 'NLEM list ' + sub : 'NLEM';
+  return 'NLEM 2569: ' + (NLEM_CODE_EN[drug.nlemCode] || drug.nlemCode);
 };
 
 const formatCurrency = (level, lang = 'th') => {

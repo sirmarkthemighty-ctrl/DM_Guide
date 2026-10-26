@@ -38,6 +38,41 @@ const NlemChip = ({ drug, lang }) => (
   )
 );
 
+// Brands, each marked when the Thai FDA register has no current record: † cancelled, ‡ not found under that name
+const brandMark = (drug, b) => ((drug.brandsCancelled || []).includes(b) ? '†' : (drug.brandsNotFound || []).includes(b) ? '‡' : '');
+const noCurrentReg = (drug) => drug.brandNames.every((b) => brandMark(drug, b));
+const BrandList = ({ drug, lang }) => (
+  <>
+    {drug.brandNames.map((b, i) => {
+      const m = brandMark(drug, b);
+      const tip = m === '†' ? (lang === 'th' ? 'ทะเบียนยา อย. ถูกยกเลิก' : 'Thai FDA registration cancelled')
+        : m === '‡' ? (lang === 'th' ? 'ไม่พบทะเบียนที่ยังคงอยู่ภายใต้ชื่อนี้' : 'No current Thai registration found under this name') : '';
+      return (
+        <span key={b}>{i > 0 && ', '}
+          <span className={m ? 'text-slate-400 dark:text-slate-500 font-medium' : ''} title={tip || undefined} data-brand-mark={m || undefined}>{b}{m && <sup className="ml-0.5">{m}</sup>}</span>
+        </span>
+      );
+    })}
+  </>
+);
+const BrandLegend = ({ drug, lang }) => {
+  const c = (drug.brandsCancelled || []).length, n = (drug.brandsNotFound || []).length;
+  if (!c && !n) return null;
+  return (
+    <span className="block mt-1 text-[10px] font-medium text-slate-500 dark:text-slate-400 leading-snug" data-brand-legend>
+      {c > 0 && (lang === 'th' ? '† ทะเบียนยา อย. ถูกยกเลิก' : '† Thai FDA registration cancelled')}
+      {c > 0 && n > 0 && '; '}
+      {n > 0 && (lang === 'th' ? '‡ ไม่พบทะเบียนที่ยังคงอยู่ภายใต้ชื่อนี้' : '‡ no current Thai registration found under this name')}
+      {lang === 'th' ? ' (ค้นในระบบทะเบียนยา อย. 26 ต.ค. 2569)' : ' (Thai FDA register searched 26 Oct 2026)'}
+    </span>
+  );
+};
+const NoRegChip = ({ drug, lang }) => (noCurrentReg(drug) ? (
+  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded border border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-900 dark:bg-rose-950 dark:text-rose-300" data-no-reg>
+    {lang === 'th' ? 'ไม่พบทะเบียนยาในไทยที่ยังคงอยู่' : 'No current Thai registration'}
+  </span>
+) : null);
+
 // ASCVD / HF / CKD outcome badges
 const BenefitBadges = ({ drug, t, className = 'mt-2' }) => {
   const items = [
@@ -109,11 +144,12 @@ const DrugCard = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }) =
         <div className="flex gap-2 items-center mb-1 flex-wrap pr-0">
           <ClassChip drug={drug} lang={lang} />
           <NlemChip drug={drug} lang={lang} />
+          <NoRegChip drug={drug} lang={lang} />
         </div>
         <h3 className="text-lg font-extrabold text-slate-800 dark:text-white leading-tight mb-0.5 mt-2 break-words">{drug.genericName}</h3>
         {lang === 'th' && <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug break-words">{drug.genericNameTh}</p>}
         <p className="text-[11px] mt-1.5 text-slate-500 dark:text-slate-400 break-words">
-          <span className="font-medium">{t.brandNames}:</span> <span className="font-bold text-slate-700 dark:text-slate-200">{drug.brandNames.join(', ')}</span>
+          <span className="font-medium">{t.brandNames}:</span> <span className="font-bold text-slate-700 dark:text-slate-200"><BrandList drug={drug} lang={lang} /></span>
         </p>
         <BenefitBadges drug={drug} t={t} className="mt-2.5" />
 
@@ -163,10 +199,11 @@ const DrugListRow = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }
             <h3 className="text-sm md:text-base font-extrabold text-slate-800 dark:text-white leading-tight break-words">{drug.genericName}</h3>
             <ClassChip drug={drug} lang={lang} />
             <NlemChip drug={drug} lang={lang} />
+            <NoRegChip drug={drug} lang={lang} />
           </div>
           <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 break-words">
             {lang === 'th' && <span>{drug.genericNameTh} · </span>}
-            <span className="font-bold text-slate-700 dark:text-slate-200">{drug.brandNames.join(', ')}</span>
+            <span className="font-bold text-slate-700 dark:text-slate-200"><BrandList drug={drug} lang={lang} /></span>
           </p>
           <p className="text-[11px] mt-1 leading-snug text-slate-600 dark:text-slate-300 flex flex-wrap gap-x-3 gap-y-0.5">
             <span>{t.factA1c}: <b className="text-teal-700 dark:text-teal-300">{drug.a1cReduction}</b></span>
@@ -303,6 +340,7 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <div className="flex flex-wrap items-center gap-1.5 mb-1">
               <ClassChip drug={drug} lang={lang} />
               <NlemChip drug={drug} lang={lang} />
+              <NoRegChip drug={drug} lang={lang} />
             </div>
             <h2 className="text-lg sm:text-xl font-extrabold text-slate-800 dark:text-white leading-tight break-words">{drug.genericName}</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5 break-words">{lang === 'th' ? drug.genericNameTh : drug.classNameEn}</p>
@@ -313,7 +351,7 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
 
         <div className="p-3 sm:p-5 flex-grow overflow-y-auto flex flex-col gap-3 bg-white dark:bg-slate-900">
           <FoldSection {...fold('dose')} title={t.secDose} icon={PillIcon} tone="teal">
-            <DetailRow label={t.brandNames}>{drug.brandNames.join(', ')}</DetailRow>
+            <DetailRow label={t.brandNames} stack><BrandList drug={drug} lang={lang} /><BrandLegend drug={drug} lang={lang} /></DetailRow>
             <DetailRow label={t.factForms} stack>{drug.formulations.join(' • ')}</DetailRow>
             <DetailRow label={t.startingDose} stack>{lang === 'th' ? drug.startingDoseTh : drug.startingDoseEn}</DetailRow>
             <DetailRow label={t.maintenanceDose} stack>{lang === 'th' ? drug.maintenanceDoseTh : drug.maintenanceDoseEn}</DetailRow>
@@ -371,6 +409,7 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <DetailRow label={t.adviceLabel} stack>{pickLang(drug, 'patientTips', lang)}</DetailRow>
             <DetailRow label={t.priceEstimate}>{formatCurrency(drug.priceLevel, lang)}</DetailRow>
             <DetailRow label={t.nlemStatus} valueClass={drug.nlem ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-500'}>{nlemLabel(drug, lang)}</DetailRow>
+            {drug.nlemNoteEn && <DetailRow label={lang === 'th' ? 'เงื่อนไขในบัญชียาหลัก' : 'NLEM conditions'} stack attrs={{ 'data-nlem-note': '' }}>{pickLang(drug, 'nlemNote', lang)}</DetailRow>}
             {src([SRC.nlem])}
             {!reg && (
               <DetailRow label={L('ทะเบียนยา อย.', 'Thai FDA registration')} stack valueClass="text-rose-700 dark:text-rose-300 font-semibold" attrs={{ 'data-thai-reg': 'none' }}>

@@ -1,13 +1,18 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.4.0";
+const APP_VERSION = "v1.4.1";
 
 const changelogData = [
   {
-    version: "v1.4.0",
+    version: "v1.4.1",
     date: "October 26, 2026",
     dateTh: "26 ตุลาคม 2569",
     features: [
+      "Kidney limits follow CPG 2566 (Table 2, p. 100): dapagliflozin is not used if eGFR < 25 and empagliflozin if eGFR < 20, on the cards, in the detail view and in the kidney tool. Sitagliptin: 50 mg if eGFR 30-50, 25 mg if < 30.",
+      "NLEM status follows the National List of Essential Medicines B.E. 2569 and its codes (b basic, ex exclusive), with each listing's conditions. Metformin XR, gliclazide MR, glimepiride, acarbose, DPP-4 and SGLT2 inhibitors, GLP-1 receptor agonists, degludec, glargine U300 and the fixed combinations are not in it; repaglinide, aspart/lispro, their premixes and glargine U100 are listed as ex.",
+      "A1C lowering values follow CPG 2566 Table 1 (sulfonylureas 1-2%, DPP-4 and SGLT2 inhibitors 0.8%, GLP-1 receptor agonists 1-1.5%).",
+      "Removed a pioglitazone dose note that the guideline does not contain; added the Ozempic 2 mg pen, which is registered in Thailand.",
+      "Brands without a current Thai FDA registration are marked († cancelled, ‡ not found under that name); NovoNorm, Victoza and Glucobay are tagged No current Thai registration.",
       "Drug pictures now come only from written product descriptions (US or EU labels): 12 tablets are drawn in their described colour and shape, and the detail view names the product shown. Drugs with no checked description, and all pens and vials (labels give no colours), show N/A.",
       "Show sources button in the drug detail view: each section lists the guideline table, the NLEM 2569 list and the product label behind it, or says No source recorded.",
       "Thai FDA registration numbers in the drug detail view, each linked to its register record.",
@@ -22,12 +27,17 @@ const changelogData = [
       "Phone layout: long drug names on cards now wrap onto a second line instead of being cut off.",
       "Language button shows ไทย / EN as plain text (flag emoji showed as letters on Windows).",
       "Shorter search box hint so it fits on a phone screen.",
-      "English mode: card badges, NLEM list (A/B/C/E2), compare button and monograph labels now in English; NLEM badge no longer shows double brackets.",
+      "English mode: card badges, compare button and monograph labels now in English.",
       "English versions of every drug's renal dosing by CKD stage, hepatic dosing, weight effect, hypoglycaemia detail, pregnancy/lactation and patient advice (all 31 drugs), plus English Benefits, Safety, Ramadan and Advice tabs.",
       "Renal dosing rows stack on phones so long advice is not squeezed.",
       "Sitagliptin and rapid-acting insulin: CKD 3a/3b rows now state the eGFR < 50 cut-off clearly instead of quoting a range that did not match the row."
     ],
     featuresTh: [
+      "เกณฑ์การใช้ยาในโรคไตตาม CPG 2566 (ตารางที่ 2 และหน้า 100): ไม่ใช้ dapagliflozin ถ้า eGFR < 25 และไม่ใช้ empagliflozin ถ้า eGFR < 20 ทั้งในการ์ด หน้ารายละเอียด และเครื่องมือโรคไต; sitagliptin 50 มก. ถ้า eGFR 30-50 และ 25 มก. ถ้า < 30",
+      "สถานะบัญชียาหลักตามบัญชียาหลักแห่งชาติ พ.ศ. 2569 และรหัสบัญชีย่อย (b บัญชียาพื้นฐาน, ex บัญชียาเฉพาะโรค) พร้อมเงื่อนไขการใช้ metformin XR, gliclazide MR, glimepiride, acarbose, DPP-4 inhibitors, SGLT2 inhibitors, GLP-1 RA, degludec, glargine U300 และยาผสมคงที่ไม่อยู่ในบัญชี; repaglinide, aspart/lispro, ยาผสมสำเร็จรูปของทั้งสอง และ glargine U100 อยู่ในบัญชี ex",
+      "ประสิทธิภาพลด A1C ตาม CPG 2566 ตารางที่ 1 (sulfonylurea 1-2%, DPP-4 และ SGLT2 inhibitors 0.8%, GLP-1 RA 1-1.5%)",
+      "ตัดข้อความเรื่องขนาดยา pioglitazone ที่ไม่มีในแนวทางเวชปฏิบัติ; เพิ่มปากกา Ozempic 2 มก. ที่มีทะเบียนในไทย",
+      "ทำเครื่องหมายชื่อการค้าที่ไม่พบทะเบียนยา อย. ที่ยังคงอยู่ († ทะเบียนถูกยกเลิก, ‡ ไม่พบภายใต้ชื่อนี้) และติดป้าย ไม่พบทะเบียนยาในไทยที่ยังคงอยู่ ที่ NovoNorm, Victoza และ Glucobay",
       "ภาพยามาจากคำบรรยายลักษณะยาในเอกสารกำกับยา (สหรัฐฯ หรือยุโรป) เท่านั้น: วาดเม็ดยา 12 รายการตามสีและรูปร่างที่ระบุ และหน้ารายละเอียดระบุชื่อผลิตภัณฑ์ที่แสดง ยาที่ไม่พบคำบรรยาย รวมถึงปากกาและขวดยาทุกชนิด (ฉลากไม่ระบุสี) แสดงเป็น N/A",
       "ปุ่มแสดงแหล่งที่มาในหน้ารายละเอียดยา: แต่ละหมวดระบุตารางในแนวทางเวชปฏิบัติ บัญชียาหลักแห่งชาติ 2569 และเอกสารกำกับยาที่ใช้อ้างอิง หรือระบุว่ายังไม่มีแหล่งอ้างอิงที่ตรวจสอบแล้ว",
       "เลขทะเบียนยา อย. ในหน้ารายละเอียดยา พร้อมลิงก์ไปยังข้อมูลทะเบียนแต่ละรายการ",
@@ -42,7 +52,7 @@ const changelogData = [
       "หน้าจอโทรศัพท์: ชื่อยายาวบนการ์ดขึ้นบรรทัดใหม่ ไม่ถูกตัดหาย",
       "ปุ่มสลับภาษาแสดงเป็น ไทย / EN (ธงชาติแสดงเป็นตัวอักษรบน Windows)",
       "ข้อความในช่องค้นหาสั้นลง พอดีกับหน้าจอโทรศัพท์",
-      "โหมดภาษาอังกฤษ: ป้ายบนการ์ด บัญชียาหลัก (A/B/C/E2) ปุ่มเปรียบเทียบ และหัวข้อในหน้ารายละเอียดยาเป็นภาษาอังกฤษ; แก้วงเล็บซ้อนในป้าย NLEM",
+      "โหมดภาษาอังกฤษ: ป้ายบนการ์ด ปุ่มเปรียบเทียบ และหัวข้อในหน้ารายละเอียดยาเป็นภาษาอังกฤษ",
       "เพิ่มข้อมูลภาษาอังกฤษของยาทั้ง 31 ชนิด: การปรับยาตามระยะโรคไต การปรับยาในโรคตับ ผลต่อน้ำหนัก ความเสี่ยงน้ำตาลต่ำ การตั้งครรภ์/ให้นมบุตร และคำแนะนำผู้ป่วย พร้อมแท็บประโยชน์ ความปลอดภัย รอมฎอน และคำแนะนำเป็นภาษาอังกฤษ",
       "แถวการปรับยาตามระยะโรคไตเรียงซ้อนบนโทรศัพท์ ข้อความไม่ถูกบีบ",
       "Sitagliptin และอินซูลินออกฤทธิ์เร็ว: แถว CKD 3a/3b ระบุจุดตัด eGFR < 50 ให้ชัดเจน แทนช่วงค่าที่ไม่ตรงกับแถว"
@@ -131,10 +141,10 @@ const REFERENCES = [
   },
   {
     key: 'thai_nlem',
-    cite: 'คณะกรรมการพัฒนาระบบยาแห่งชาติ. บัญชียาหลักแห่งชาติ พ.ศ. 2566 และฉบับปรับปรุง พ.ศ. 2567. ราชกิจจานุเบกษา.',
-    url: 'https://ndp.fda.moph.go.th/nlem/',
-    usedForEn: 'National List of Essential Medicines (NLEM) reimbursement status (ก, ข, ค, ง, จ2) and qualifying clinical criteria.',
-    usedForTh: 'สถานะยาในบัญชียาหลักแห่งชาติ (ก, ข, ค, ง, จ2) และเงื่อนไขข้อบ่งชี้กำกับยาในประเทศไทย'
+    cite: 'คณะกรรมการพัฒนาระบบยาแห่งชาติ. ประกาศคณะกรรมการพัฒนาระบบยาแห่งชาติ เรื่อง บัญชียาหลักแห่งชาติ พ.ศ. 2569. ราชกิจจานุเบกษา; 2569 (National List of Essential Medicines B.E. 2569).',
+    url: 'https://ratchakitcha.soc.go.th/documents/111371.pdf',
+    usedForEn: 'NLEM status of each drug with its sub-list code (b basic, s supplemental, ex exclusive, R1/R2 special) and listing conditions (section 6.1, drugs used in diabetes).',
+    usedForTh: 'สถานะยาในบัญชียาหลักแห่งชาติพร้อมรหัสบัญชีย่อย (b บัญชียาพื้นฐาน, s บัญชียาทางเลือก, ex บัญชียาเฉพาะโรค, R1/R2 บัญชียาพิเศษ) และเงื่อนไขการใช้ (หมวด 6.1 ยาเบาหวาน)'
   },
   {
     key: 'thai_fda',

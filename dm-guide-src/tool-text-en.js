@@ -1,6 +1,10 @@
 // English for the Thai text in the ten tool windows and the guideline data (v1.3.0).
 // Keys are the Thai text with spaces collapsed; tx() returns the English in English mode.
 const TX_EN = {
+ "ไม่ใช้ถ้า eGFR < 20": "Not used if eGFR < 20",
+ "ไม่ใช้ถ้า eGFR < 25": "Not used if eGFR < 25",
+ "50 มก. ต่อวัน ถ้า eGFR 30-50": "50 mg/day if eGFR 30-50",
+ "12.5 มก. ต่อวัน ถ้า eGFR 30-50": "12.5 mg/day if eGFR 30-50",
  "อันดับ 1 (First Choice in Heart Failure)": "First choice (in heart failure)",
  "SGLT-2 Inhibitor (Dapagliflozin 10 mg หรือ Empagliflozin 10 mg)": "SGLT-2 inhibitor (dapagliflozin 10 mg or empagliflozin 10 mg)",
  "อันดับ 1 ในโรคไตเรื้อรัง (CKD with eGFR < 60 or UACR ≥ 200 mg/g)": "First choice in chronic kidney disease (CKD with eGFR < 60 or UACR ≥ 200 mg/g)",
