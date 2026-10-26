@@ -313,3 +313,71 @@ const PenSvg = InsulinPenSvg;
 const PillSvg = OralTabletSvg;
 const VialSvg = InsulinVialSvg;
 
+
+// --- Guide icons (v1.3.0): one picture per tool, used on its button and its window header ---
+const guideSvg = (className, children, filled = false) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke={filled ? 'none' : 'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">{children}</svg>
+);
+// Start T2D drugs: a two-colour capsule
+const GuideStartIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M10.5 20.5 20.5 10.5a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" />
+  <path d="m8.5 8.5 7 7" />
+  <path d="M5.5 14.5 8 12" />
+</>);
+// Insulin: syringe
+const GuideInsulinIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="m18 2 4 4" /><path d="m17 7 3-3" />
+  <path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5" />
+  <path d="m9 11 4 4" /><path d="m5 19-3 3" /><path d="m14 4 6 6" />
+</>);
+// Kidney dosing: a kidney with its ureter
+const GuideKidneyIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M16 2.5c3.6 0 5.5 4.1 5.5 9.2S19.2 21 15.8 21c-3 0-5.2-2.1-5.2-4.4 0-1.7 2.6-2.3 2.6-4.8s-2.6-3.1-2.6-4.9C10.6 4.4 12.9 2.5 16 2.5Z" />
+  <path d="M13.2 11.8c-2.7 0-4.7.8-5.8 3-1 2-1.8 4.8-4.4 5.7" />
+</>);
+// Hypoglycaemia: blood drop with a falling arrow
+const GuideHypoIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M12 2.5S5.5 9.3 5.5 14a6.5 6.5 0 0 0 13 0c0-4.7-6.5-11.5-6.5-11.5Z" />
+  <path d="M12 9.5v7" /><path d="m9.2 13.8 2.8 2.8 2.8-2.8" />
+</>);
+// DKA / HHS: IV fluid bag with drip chamber
+const GuideDkaIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M12 1.5v2" />
+  <rect x="6.5" y="3.5" width="11" height="11" rx="2.5" />
+  <path d="M9.5 7.5h5" /><path d="M9.5 10.5h3" />
+  <path d="M12 14.5v2" />
+  <rect x="10.2" y="16.5" width="3.6" height="3.5" rx="1" />
+  <path d="M12 20v2.5" />
+</>);
+// Ramadan: crescent moon and star
+const GuideRamadanIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M13 3.2A8.8 8.8 0 1 0 20.8 15 7 7 0 0 1 13 3.2Z" />
+  <path d="m18 3.5.8 1.7 1.8.3-1.3 1.3.3 1.8-1.6-.9-1.6.9.3-1.8-1.3-1.3 1.8-.3Z" />
+</>);
+// Thai Diabetes Risk Score: a risk gauge
+const GuideDrsIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M3.5 17.5a8.5 8.5 0 1 1 17 0" />
+  <path d="M12 17.5 16.5 11" />
+  <circle cx="12" cy="17.5" r="1.3" />
+  <path d="M6.2 11.6 7.4 12.6" /><path d="M12 7.5v1.6" /><path d="M3.5 17.5h2" /><path d="M18.5 17.5h2" />
+</>);
+// Diabetic foot: a footprint (sole and five toes)
+const GuideFootIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M8.4 10.6C8.4 8.9 10.2 7.9 12.3 7.9c2.4 0 4.3 1.2 4.3 3.3 0 1.9-1.2 2.9-1.3 4.6-.1 1.8 0 3.1-.4 4.3-.5 1.5-1.8 2.3-3.1 2.3-1.7 0-2.9-1.2-2.8-3 .1-1.4 1.3-2.4 1.3-4.1 0-1.6-1.9-3.1-1.9-4.7Z" />
+  <circle cx="9.4" cy="5" r="1.85" />
+  <circle cx="12.7" cy="4" r="1.25" />
+  <circle cx="15.1" cy="4.6" r="1.1" />
+  <circle cx="17" cy="6.1" r="0.95" />
+  <circle cx="18.3" cy="8" r="0.85" />
+</>, true);
+// Gestational diabetes: a pregnant woman in profile
+const GuideGdmIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <circle cx="11" cy="4.3" r="2.4" />
+  <path d="M10 7.6C8.5 8.2 8 9.9 8.2 11.8l.3 2.6c.1 1.5-.3 2.9-.3 4.5v3.1h3l.2-2.9c2.2.1 4.6-1.3 4.9-3.8.3-2.5-1.4-4.2-3.2-4.5-.2-1.1-.7-2.4-1.2-3.2Z" />
+</>, true);
+// Diabetes remission: a falling trend
+const GuideRemissionIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M3 3v18h18" />
+  <path d="m7 7 4.5 4.5 3-3 5.5 5.5" />
+  <path d="M20 9.5V14h-4.5" />
+</>);

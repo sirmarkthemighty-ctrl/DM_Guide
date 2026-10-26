@@ -134,7 +134,7 @@ const StartingWizardModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-teal-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-teal-600 text-white shadow-sm shadow-teal-600/30">
-              <CompassIcon className="w-5 h-5" />
+              <GuideStartIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -396,7 +396,7 @@ const InsulinCalculatorModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-blue-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-blue-600 text-white shadow-sm shadow-blue-600/30">
-              <CalculatorIcon className="w-5 h-5" />
+              <GuideInsulinIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -686,7 +686,7 @@ const CkdMatrixModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-emerald-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-emerald-600 text-white shadow-sm shadow-emerald-600/30">
-              <KidneyIcon className="w-5 h-5" />
+              <GuideKidneyIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">

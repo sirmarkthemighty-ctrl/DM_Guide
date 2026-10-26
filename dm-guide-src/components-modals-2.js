@@ -34,7 +34,7 @@ const HypoModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-amber-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-amber-600 text-white shadow-sm shadow-amber-600/30">
-              <AlertTriangleIcon className="w-5 h-5" />
+              <GuideHypoIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -240,7 +240,7 @@ const DkaHhsModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-rose-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-rose-600 text-white shadow-sm shadow-rose-600/30">
-              <FlameIcon className="w-5 h-5" />
+              <GuideDkaIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -407,7 +407,7 @@ const RamadanModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-indigo-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-indigo-600 text-white shadow-sm shadow-indigo-600/30">
-              <MoonIcon className="w-5 h-5" />
+              <GuideRamadanIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -538,7 +538,7 @@ const ThaiDrsModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-teal-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-teal-600 text-white shadow-sm shadow-teal-600/30">
-              <CalculatorIcon className="w-5 h-5" />
+              <GuideDrsIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">

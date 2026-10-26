@@ -14,6 +14,7 @@ const changelogData = [
       "Drug details: one scrolling view of colour-coded sections that fold (dosing, kidney and liver, benefits, safety, Ramadan and pregnancy, patient advice, mechanism), with Expand all / Collapse all; the folds are remembered on this device. Hypoglycaemia risk detail is now shown.",
       "Compare bar at the bottom of the screen; a disclaimer section above the references.",
       "English mode now covers all ten tools (start wizard, insulin, kidney dosing, hypoglycaemia, DKA/HHS, Ramadan, Thai DRS, diabetic foot, GDM, remission): every heading, step, table and result is in English, including the guideline tables they use.",
+      "New pictures for the ten tool buttons and their windows: capsule (start drugs), syringe (insulin), kidney, falling blood drop (hypoglycaemia), IV drip (DKA/HHS), crescent and star (Ramadan), risk gauge (Thai DRS), footprint (diabetic foot), pregnant woman (GDM) and falling trend (remission).",
       "Hypoglycaemia tool: on phones the tab row now scrolls, so the third tab (severe hypoglycaemia, IV / glucagon) can be reached.",
       "Phone layout: long drug names on cards now wrap onto a second line instead of being cut off.",
       "Language button shows ไทย / EN as plain text (flag emoji showed as letters on Windows).",
@@ -30,6 +31,7 @@ const changelogData = [
       "รายละเอียดยา: หน้าเดียวเลื่อนดูได้ แบ่งเป็นหมวดสีที่พับเก็บได้ (ขนาดยา ไตและตับ ประโยชน์ ความปลอดภัย รอมฎอนและการตั้งครรภ์ คำแนะนำผู้ป่วย กลไกการออกฤทธิ์) พร้อมปุ่มขยาย/ย่อทั้งหมด และจำการพับไว้ในเครื่องนี้ เพิ่มรายละเอียดความเสี่ยงน้ำตาลต่ำ",
       "แถบเปรียบเทียบที่ด้านล่างจอ และหมวดข้อจำกัดความรับผิดชอบก่อนเอกสารอ้างอิง",
       "โหมดภาษาอังกฤษครอบคลุมเครื่องมือทั้ง 10 รายการ (เริ่มยา อินซูลิน ยาในโรคไต น้ำตาลต่ำ DKA/HHS รอมฎอน Thai DRS เท้าเบาหวาน GDM ระยะสงบ): หัวข้อ ขั้นตอน ตาราง และผลลัพธ์ทั้งหมดเป็นภาษาอังกฤษ รวมถึงตารางแนวทางเวชปฏิบัติที่ใช้",
+      "ไอคอนใหม่ของปุ่มเครื่องมือทั้ง 10 และหน้าต่างของแต่ละเครื่องมือ: แคปซูลยา (เริ่มยา) กระบอกฉีดยา (อินซูลิน) ไต หยดเลือดลูกศรลง (น้ำตาลต่ำ) ถุงน้ำเกลือ (DKA/HHS) จันทร์เสี้ยวและดาว (รอมฎอน) มาตรวัดความเสี่ยง (Thai DRS) รอยเท้า (เท้าเบาหวาน) หญิงตั้งครรภ์ (GDM) และกราฟลดลง (ระยะสงบ)",
       "เครื่องมือภาวะน้ำตาลต่ำ: บนโทรศัพท์แถบแท็บเลื่อนได้ จึงเปิดแท็บที่ 3 (ภาวะน้ำตาลต่ำรุนแรง IV / glucagon) ได้",
       "หน้าจอโทรศัพท์: ชื่อยายาวบนการ์ดขึ้นบรรทัดใหม่ ไม่ถูกตัดหาย",
       "ปุ่มสลับภาษาแสดงเป็น ไทย / EN (ธงชาติแสดงเป็นตัวอักษรบน Windows)",
@@ -497,16 +499,16 @@ function App() {
 
   // Guide (clinical tool) buttons: key, full name, colour, icon, opener
   const GUIDES = [
-    ['start', t.toolStartingWizard, 'bg-teal-600 hover:bg-teal-700 border-teal-700', CompassIcon, () => setIsStartingWizardOpen(true)],
-    ['insulin', t.toolInsulinCalc, 'bg-blue-600 hover:bg-blue-700 border-blue-700', CalculatorIcon, () => setIsInsulinCalcOpen(true)],
-    ['ckd', t.toolCkdMatrix, 'bg-emerald-600 hover:bg-emerald-700 border-emerald-700', KidneyIcon, () => setIsCkdMatrixOpen(true)],
-    ['hypo', t.toolHypo, 'bg-amber-600 hover:bg-amber-700 border-amber-700', AlertTriangleIcon, () => setIsHypoOpen(true)],
-    ['dka', t.toolDkaHhs, 'bg-rose-600 hover:bg-rose-700 border-rose-700', FlameIcon, () => setIsDkaHhsOpen(true)],
-    ['ramadan', t.toolRamadan, 'bg-indigo-600 hover:bg-indigo-700 border-indigo-700', MoonIcon, () => setIsRamadanOpen(true)],
-    ['drs', t.toolThaiDrs, 'bg-cyan-700 hover:bg-cyan-800 border-cyan-800', ActivityIcon, () => setIsThaiDrsOpen(true)],
-    ['foot', t.toolFoot, 'bg-slate-700 hover:bg-slate-800 border-slate-800', FootIcon, () => setIsFootCareOpen(true)],
-    ['gdm', t.toolGdm, 'bg-pink-600 hover:bg-pink-700 border-pink-700', BabyIcon, () => setIsGdmOpen(true)],
-    ['remission', t.toolRemission, 'bg-violet-600 hover:bg-violet-700 border-violet-700', RefreshCwIcon, () => setIsRemissionOpen(true)]
+    ['start', t.toolStartingWizard, 'bg-teal-600 hover:bg-teal-700 border-teal-700', GuideStartIcon, () => setIsStartingWizardOpen(true)],
+    ['insulin', t.toolInsulinCalc, 'bg-blue-600 hover:bg-blue-700 border-blue-700', GuideInsulinIcon, () => setIsInsulinCalcOpen(true)],
+    ['ckd', t.toolCkdMatrix, 'bg-emerald-600 hover:bg-emerald-700 border-emerald-700', GuideKidneyIcon, () => setIsCkdMatrixOpen(true)],
+    ['hypo', t.toolHypo, 'bg-amber-600 hover:bg-amber-700 border-amber-700', GuideHypoIcon, () => setIsHypoOpen(true)],
+    ['dka', t.toolDkaHhs, 'bg-rose-600 hover:bg-rose-700 border-rose-700', GuideDkaIcon, () => setIsDkaHhsOpen(true)],
+    ['ramadan', t.toolRamadan, 'bg-indigo-600 hover:bg-indigo-700 border-indigo-700', GuideRamadanIcon, () => setIsRamadanOpen(true)],
+    ['drs', t.toolThaiDrs, 'bg-cyan-700 hover:bg-cyan-800 border-cyan-800', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
+    ['foot', t.toolFoot, 'bg-slate-700 hover:bg-slate-800 border-slate-800', GuideFootIcon, () => setIsFootCareOpen(true)],
+    ['gdm', t.toolGdm, 'bg-pink-600 hover:bg-pink-700 border-pink-700', GuideGdmIcon, () => setIsGdmOpen(true)],
+    ['remission', t.toolRemission, 'bg-violet-600 hover:bg-violet-700 border-violet-700', GuideRemissionIcon, () => setIsRemissionOpen(true)]
   ];
 
   const CLINICAL = [

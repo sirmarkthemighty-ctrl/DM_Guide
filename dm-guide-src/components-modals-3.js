@@ -23,7 +23,7 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-amber-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-amber-600 text-white shadow-sm shadow-amber-600/30">
-              <FootIcon className="w-5 h-5" />
+              <GuideFootIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -181,7 +181,7 @@ const GdmModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-pink-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-pink-600 text-white shadow-sm shadow-pink-600/30">
-              <BabyIcon className="w-5 h-5" />
+              <GuideGdmIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
@@ -293,7 +293,7 @@ const RemissionModal = ({ isOpen, onClose, lang }) => {
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-emerald-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-emerald-600 text-white shadow-sm shadow-emerald-600/30">
-              <RefreshCwIcon className="w-5 h-5" />
+              <GuideRemissionIcon className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">
