@@ -233,6 +233,23 @@ const BulletList = ({ items }) => (
   </ul>
 );
 
+// "Source:" line under a detail section. items: {en, th, url} or [label, url]; none = "No source recorded"
+const SourceLine = ({ items, lang }) => {
+  const list = (items || []).filter(Boolean).map((x) => (Array.isArray(x) ? { en: x[0], th: x[0], url: x[1] } : x))
+    .filter((s, i, all) => !s.url || all.findIndex((o) => o.url === s.url) === i);
+  return (
+    <p className="mt-1.5 text-[10px] leading-snug text-slate-500 dark:text-slate-400 break-words" data-source>
+      <span className="font-bold">{lang === 'th' ? 'แหล่งที่มา' : 'Source'}:</span>{' '}
+      {list.length ? list.map((s, i) => (
+        <span key={i}>{i > 0 && '; '}{s.url
+          ? <a href={s.url} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-teal-700 dark:hover:text-teal-300">{lang === 'th' ? s.th : s.en}</a>
+          : (lang === 'th' ? s.th : s.en)}</span>
+      )) : <span className="italic">{lang === 'th' ? 'ยังไม่มีแหล่งอ้างอิงที่ตรวจสอบแล้ว' : 'No source recorded'}</span>}
+    </p>
+  );
+};
+const SRC_KEY = 'dmg-show-sources';
+
 const DETAIL_FOLDS = ['dose', 'kidney', 'benefit', 'safety', 'special', 'advice', 'mechanism'];
 const FOLD_KEY = 'dmg-detail-folds';
 const readFolds = () => {
@@ -243,6 +260,9 @@ const readFolds = () => {
 // --- Drug detail view: one scrolling page of colour-coded, foldable sections ---
 const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompared }) => {
   const [folds, setFolds] = useState(readFolds);
+  // Source lines are folded away until asked for (remembered on this device)
+  const [showSrc, setShowSrc] = useState(() => { try { return localStorage.getItem(SRC_KEY) === '1'; } catch (e) { return false; } });
+  const toggleSrc = () => setShowSrc((v) => { try { localStorage.setItem(SRC_KEY, v ? '0' : '1'); } catch (e) {} return !v; });
   useEffect(() => {
     if (!isOpen) return undefined;
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -260,6 +280,12 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
   const weight = getWeightBadge(drug.weightEffect, lang);
   const hypo = getHypoBadge(drug.hypoRisk, lang);
   const stages = pickLang(drug.renalAdjustment, 'stages', lang);
+  const label = DRUG_LABEL[drug.id];
+  const pic = DRUG_PICTURE[drug.id];
+  const isInsulin = drug.category === 'insulin';
+  const isGlp1 = drug.classKey === 'glp1ra' || drug.classKey === 'combo_glp1_insulin';
+  const src = (items) => (showSrc ? <SourceLine items={items} lang={lang} /> : null);
+  const reg = (typeof THAI_REG !== 'undefined' && THAI_REG[drug.id]) || null;
   const stageRows = [
     ['g1', L('CKD ระยะ 1-2 (eGFR ≥ 60)', 'CKD stage 1-2 (eGFR ≥ 60)')],
     ['g3a', L('CKD ระยะ 3a (eGFR 45-59)', 'CKD stage 3a (eGFR 45-59)')],
@@ -292,6 +318,12 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <DetailRow label={t.startingDose} stack>{lang === 'th' ? drug.startingDoseTh : drug.startingDoseEn}</DetailRow>
             <DetailRow label={t.maintenanceDose} stack>{lang === 'th' ? drug.maintenanceDoseTh : drug.maintenanceDoseEn}</DetailRow>
             <DetailRow label={maxDoseHeading(t, lang)} stack valueClass="text-amber-800 dark:text-amber-300 font-bold" attrs={{ 'data-max-dose': '' }}>{lang === 'th' ? drug.maxDoseTh : drug.maxDoseEn}</DetailRow>
+            <DetailRow label={L('ภาพยา', 'Picture')} stack valueClass="text-slate-600 dark:text-slate-300 font-medium" attrs={{ 'data-picture-note': '' }}>
+              {pic
+                ? <>{pic.brand}: {lang === 'th' ? pic.th : pic.en}</>
+                : L('N/A: ไม่พบคำบรรยายลักษณะยาหรือภาพอ้างอิงที่ตรวจสอบได้', 'N/A: no checked description or reference picture') + (drug.deviceType === 'pill' ? '' : L(' (ฉลากยาไม่ระบุสีของปากกาหรือขวดยา)', ' (product labels do not give pen or vial colours)'))}
+            </DetailRow>
+            {src([label, isGlp1 && SRC.cpgGlp1Table, isInsulin && SRC.cpgInsulinTable, pic && pic.src])}
           </FoldSection>
 
           <FoldSection {...fold('kidney')} title={t.secKidney} icon={KidneyIcon} tone="emerald">
@@ -300,6 +332,7 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
               <DetailRow key={k} label={label} stack attrs={{ 'data-stage': k }}>{stages[k]}</DetailRow>
             ))}
             <DetailRow label={t.hepaticAdjustment} stack>{pickLang(drug, 'hepaticAdjustment', lang)}</DetailRow>
+            {src([isInsulin ? SRC.cpgInsulinCkd : SRC.cpgKidney, label])}
           </FoldSection>
 
           <FoldSection {...fold('benefit')} title={t.secBenefit} icon={HeartPulseIcon} tone="rose">
@@ -317,6 +350,7 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <DetailRow label={t.ckdBenefit} stack>
               {drug.ckdBenefit ? L('ชะลอการลดลงของ eGFR และลดอัตราการเกิดไตวายระยะสุดท้าย (ESRD)', 'Slows eGFR decline and lowers the rate of end-stage kidney disease (ESRD)') : L('ไม่มีผลชะลอการดำเนินโรคไตโดยตรง', 'No direct effect on slowing kidney disease')}
             </DetailRow>
+            {src([drug.category === 'combo' ? null : SRC.cpgA1c, label])}
           </FoldSection>
 
           <FoldSection {...fold('safety')} title={t.secSafety} icon={AlertTriangleIcon} tone="amber">
@@ -337,6 +371,25 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <DetailRow label={t.adviceLabel} stack>{pickLang(drug, 'patientTips', lang)}</DetailRow>
             <DetailRow label={t.priceEstimate}>{formatCurrency(drug.priceLevel, lang)}</DetailRow>
             <DetailRow label={t.nlemStatus} valueClass={drug.nlem ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-500'}>{nlemLabel(drug, lang)}</DetailRow>
+            {src([SRC.nlem])}
+            {!reg && (
+              <DetailRow label={L('ทะเบียนยา อย.', 'Thai FDA registration')} stack valueClass="text-rose-700 dark:text-rose-300 font-semibold" attrs={{ 'data-thai-reg': 'none' }}>
+                {L('ไม่พบทะเบียนที่ยังคงอยู่ (ค้นตามชื่อการค้าและชื่อสามัญ 26 ต.ค. 2569): ทะเบียนเดิมถูกยกเลิก', 'No current registration found (brand and generic names searched 26 Oct 2026): the earlier registrations are cancelled')}
+              </DetailRow>
+            )}
+            {reg && (
+              <DetailRow label={L('ทะเบียนยา อย.', 'Thai FDA registration')} stack attrs={{ 'data-thai-reg': '' }}>
+                <ul className="space-y-0.5 font-medium">
+                  {reg.map((r) => (
+                    <li key={r.newcode} className="break-words">
+                      <a href={'https://pertento.fda.moph.go.th/FDA_INFORMATION_DRUG/Home/Public_Information_Drug?Newcode=' + r.newcode} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-teal-700 dark:hover:text-teal-300">{r.name}</a>
+                      <span className="text-slate-500 dark:text-slate-400"> · {r.reg}</span>
+                    </li>
+                  ))}
+                </ul>
+              </DetailRow>
+            )}
+            {src([SRC.thaiFda])}
           </FoldSection>
 
           <FoldSection {...fold('mechanism')} title={t.secMechanism} icon={ActivityIcon} tone="slate">
@@ -345,6 +398,9 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
         </div>
 
         <div className="flex flex-wrap items-center justify-end gap-2 p-3 sm:p-4 border-t border-slate-100 dark:border-slate-800 shrink-0">
+          <button onClick={toggleSrc} aria-pressed={showSrc} data-src-toggle className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold border transition-colors ${showSrc ? 'bg-slate-100 text-slate-800 border-slate-300 dark:bg-slate-700 dark:text-white dark:border-slate-600' : 'bg-white text-slate-600 border-slate-200 hover:border-teal-300 hover:text-teal-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300'}`}>
+            <BookOpenIcon className="w-3.5 h-3.5" /> {showSrc ? L('ซ่อนแหล่งที่มา', 'Hide sources') : L('แสดงแหล่งที่มา', 'Show sources')}
+          </button>
           <button onClick={() => setAll(!allOpen)} data-fold-all className="mr-auto flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-bold border bg-white text-slate-600 border-slate-200 hover:border-teal-300 hover:text-teal-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-300 transition-colors">
             <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform ${allOpen ? 'rotate-180' : ''}`} /> {allOpen ? t.collapseAll : t.expandAll}
           </button>

@@ -295,12 +295,8 @@ const InsulinVialSvg = ({ drug = {}, className = "w-11 h-11" }) => {
 };
 
 // Main Unified Drug Picture Dispatcher
-const DrugPicture = ({ drug, className = "w-12 h-12" }) => {
-  if (!drug) return null;
-  if (drug.deviceType === 'vial') return <InsulinVialSvg drug={drug} className={className} />;
-  if (drug.deviceType === 'pen' || drug.deviceType === 'syringe') return <InsulinPenSvg drug={drug} className={className} />;
-  return <OralTabletSvg drug={drug} className={className} />;
-};
+// Drug pictures come only from a written product description (sources.js); otherwise N/A
+const DrugPicture = ({ drug, className = "w-12 h-12" }) => (drug ? <SourcedPicture drug={drug} className={className} /> : null);
 
 const DeviceBadge = ({ type, color = "#0d9488", className = "w-8 h-8" }) => {
   if (type === 'pen' || type === 'syringe') return <InsulinPenSvg drug={{ color }} className={className} />;

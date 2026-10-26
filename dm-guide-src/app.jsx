@@ -1,13 +1,16 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.3.0";
+const APP_VERSION = "v1.4.0";
 
 const changelogData = [
   {
-    version: "v1.3.0",
+    version: "v1.4.0",
     date: "October 26, 2026",
     dateTh: "26 ตุลาคม 2569",
     features: [
+      "Drug pictures now come only from written product descriptions (US or EU labels): 12 tablets are drawn in their described colour and shape, and the detail view names the product shown. Drugs with no checked description, and all pens and vials (labels give no colours), show N/A.",
+      "Show sources button in the drug detail view: each section lists the guideline table, the NLEM 2569 list and the product label behind it, or says No source recorded.",
+      "Thai FDA registration numbers in the drug detail view, each linked to its register record.",
       "New layout matching the Bronchodilator Guide: large title with author and disclaimer link, round version/language/theme buttons, colour guide buttons (two rows of icon tiles on phones), one search/sort/view/Filters row pinned while scrolling, compact filter groups, removable filter chips and a result count.",
       "Drug cards: picture, Select and Details at the top right, class and NLEM tags, ASCVD/HF/CKD badges, a facts box (A1C, weight, hypoglycaemia, kidney, forms, starting dose) and the max dose as the card footer. A click anywhere on a card opens its details.",
       "List view: compact rows with the key facts (replaces the table).",
@@ -25,6 +28,9 @@ const changelogData = [
       "Sitagliptin and rapid-acting insulin: CKD 3a/3b rows now state the eGFR < 50 cut-off clearly instead of quoting a range that did not match the row."
     ],
     featuresTh: [
+      "ภาพยามาจากคำบรรยายลักษณะยาในเอกสารกำกับยา (สหรัฐฯ หรือยุโรป) เท่านั้น: วาดเม็ดยา 12 รายการตามสีและรูปร่างที่ระบุ และหน้ารายละเอียดระบุชื่อผลิตภัณฑ์ที่แสดง ยาที่ไม่พบคำบรรยาย รวมถึงปากกาและขวดยาทุกชนิด (ฉลากไม่ระบุสี) แสดงเป็น N/A",
+      "ปุ่มแสดงแหล่งที่มาในหน้ารายละเอียดยา: แต่ละหมวดระบุตารางในแนวทางเวชปฏิบัติ บัญชียาหลักแห่งชาติ 2569 และเอกสารกำกับยาที่ใช้อ้างอิง หรือระบุว่ายังไม่มีแหล่งอ้างอิงที่ตรวจสอบแล้ว",
+      "เลขทะเบียนยา อย. ในหน้ารายละเอียดยา พร้อมลิงก์ไปยังข้อมูลทะเบียนแต่ละรายการ",
       "หน้าตาใหม่แบบเดียวกับ Bronchodilator Guide: ชื่อแอปขนาดใหญ่พร้อมชื่อผู้จัดทำและลิงก์ข้อจำกัดความรับผิดชอบ ปุ่มกลมสำหรับเวอร์ชัน/ภาษา/ธีม ปุ่มเครื่องมือสี (บนโทรศัพท์เป็นไอคอน 2 แถว) แถวค้นหา/เรียง/มุมมอง/ตัวกรองที่ค้างอยู่ด้านบนเมื่อเลื่อน กลุ่มตัวกรองแบบกะทัดรัด ป้ายตัวกรองที่กดเอาออกได้ และจำนวนผลลัพธ์",
       "การ์ดยา: รูปยา ปุ่มเลือกและรายละเอียดที่มุมขวาบน ป้ายกลุ่มยาและ NLEM ป้าย ASCVD/HF/CKD กล่องข้อมูลสำคัญ (A1C น้ำหนัก น้ำตาลต่ำ ไต รูปแบบยา ขนาดเริ่มต้น) และขนาดยาสูงสุดที่ท้ายการ์ด กดที่ใดก็ได้บนการ์ดเพื่อเปิดรายละเอียด",
       "มุมมองรายการ: แถวกะทัดรัดพร้อมข้อมูลสำคัญ (แทนตาราง)",

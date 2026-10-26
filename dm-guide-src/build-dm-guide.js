@@ -33,6 +33,7 @@ async function buildJs() {
     'translations.js',
     'ui-text.js',
     'tool-text-en.js',
+    'sources.js',
     'components-card.js',
     'components-layout.js',
     'components-modals.js',

@@ -88,6 +88,8 @@ window.__dmAuditRun = async () => {
       const m = top();
       const all = m.querySelector('[data-fold-all]');
       if ([...m.querySelectorAll('[data-fold]')].some((s) => s.dataset.open !== '1')) { all.click(); await wait(120); }
+      const srcBtn = m.querySelector('[data-src-toggle]');
+      if (srcBtn && srcBtn.getAttribute('aria-pressed') !== 'true') { srcBtn.click(); await wait(120); }
       const id = (document.querySelectorAll('[id^="drug-"]')[i] || {}).id;
       audit(L + ' detail ' + id, top());
       if (lang === 'en') thaiLeft('detail ' + id, top());
