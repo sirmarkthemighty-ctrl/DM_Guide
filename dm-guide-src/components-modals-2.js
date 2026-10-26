@@ -397,6 +397,58 @@ const DkaHhsModal = ({ isOpen, onClose, lang }) => {
 };
 
 // --- Modal 6: Ramadan Fasting Drug Adjustment (CPG 2566 บทที่ 8) ---
+// One Ramadan day: night and Suhoor, sunrise, the daytime fast, sunset and Iftar (CPG 2566 ch. 8, p. 89).
+// No clock times: they change with place and date.
+const RamadanDayGraphic = ({ lang }) => {
+  const th = lang === 'th';
+  const sky = { fill: '#ffffff', fontWeight: 700, stroke: '#1e1b4b', strokeWidth: 3, paintOrder: 'stroke', strokeLinejoin: 'round' };
+  const skySub = { ...sky, fontWeight: 600, fontSize: 12 };
+  const stars = [[14, 14], [66, 12], [22, 62], [78, 70], [330, 64], [388, 14], [342, 12], [380, 72], [56, 40], [318, 40]];
+  return (
+    <svg viewBox="0 0 400 152" className="w-full h-auto block" role="img" data-ramadan-graphic
+      aria-label={th ? 'หนึ่งวันในเดือนรอมฎอน: Suhoor ก่อนรุ่งเช้า ถือศีลอดตั้งแต่พระอาทิตย์ขึ้นถึงพระอาทิตย์ตก และ Iftar เมื่อพระอาทิตย์ตก' : 'A Ramadan day: Suhoor before dawn, fasting from sunrise to sunset, Iftar at sunset'}>
+      <defs>
+        <linearGradient id="rmdSky" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0" stopColor="#1e1b4b" />
+          <stop offset="0.17" stopColor="#312e81" />
+          <stop offset="0.25" stopColor="#fb923c" />
+          <stop offset="0.33" stopColor="#bae6fd" />
+          <stop offset="0.67" stopColor="#bae6fd" />
+          <stop offset="0.75" stopColor="#f97316" />
+          <stop offset="0.83" stopColor="#312e81" />
+          <stop offset="1" stopColor="#1e1b4b" />
+        </linearGradient>
+        <clipPath id="rmdClip"><rect x="0" y="0" width="400" height="112" rx="12" /></clipPath>
+      </defs>
+      <g clipPath="url(#rmdClip)">
+        <rect x="0" y="0" width="400" height="112" fill="url(#rmdSky)" />
+        {stars.map(([x, y], i) => <circle key={i} cx={x} cy={y} r={i % 3 ? 1.1 : 1.6} fill="#fef9c3" />)}
+        {/* Moons over the two night meals */}
+        <path d="M34 20a10 10 0 1 0 8 16 8 8 0 1 1-8-16z" fill="#fde68a" />
+        <path d="M374 20a10 10 0 1 0 8 16 8 8 0 1 1-8-16z" fill="#fde68a" />
+        {/* The sun's path across the fasting day */}
+        <path d="M100 100 Q200 -50 300 100" fill="none" stroke="#f59e0b" strokeWidth="1.6" strokeDasharray="4 4" />
+        <circle cx="200" cy="25" r="9" fill="#fcd34d" stroke="#f59e0b" strokeWidth="1.5" />
+        <circle cx="100" cy="100" r="12" fill="#fbbf24" stroke="#f59e0b" strokeWidth="1.5" />
+        <circle cx="300" cy="100" r="12" fill="#fb923c" stroke="#ea580c" strokeWidth="1.5" />
+        {/* Ground */}
+        <rect x="0" y="100" width="400" height="12" fill="#475569" />
+        <text x="50" y="30" fontSize="15" style={sky}>Suhoor</text>
+        <text x="50" y="47" style={skySub}>{th ? 'ก่อนรุ่งเช้า' : 'Before dawn'}</text>
+        <text x="352" y="30" fontSize="15" textAnchor="end" style={sky}>Iftar</text>
+        <text x="352" y="47" textAnchor="end" style={skySub}>{th ? 'เมื่อพระอาทิตย์ตก' : 'At sunset'}</text>
+        <text x="200" y="61" fontSize="15" textAnchor="middle" fill="#1e293b" fontWeight="700">{th ? 'ถือศีลอด' : 'Fasting'}</text>
+        <text x="200" y="86" fontSize="12" textAnchor="middle" fill="#334155" fontWeight="600">{th ? 'งดอาหาร น้ำ และยารับประทาน' : 'No food, water or oral medicines'}</text>
+      </g>
+      {/* Sunrise and sunset under the horizon, with the fasting span between them */}
+      <path d="M100 118v6h200v-6" fill="none" stroke="#94a3b8" strokeWidth="1.4" />
+      <text x="100" y="140" fontSize="13" textAnchor="middle" fill="#d97706" fontWeight="700">{th ? 'พระอาทิตย์ขึ้น' : 'Sunrise'}</text>
+      <text x="300" y="140" fontSize="13" textAnchor="middle" fill="#ea580c" fontWeight="700">{th ? 'พระอาทิตย์ตก' : 'Sunset'}</text>
+      <text x="200" y="140" fontSize="12" textAnchor="middle" fill="#64748b" fontWeight="600">{th ? 'ช่วงถือศีลอด' : 'Fasting hours'}</text>
+    </svg>
+  );
+};
+
 const RamadanModal = ({ isOpen, onClose, lang }) => {
   if (!isOpen) return null;
 
@@ -431,6 +483,7 @@ const RamadanModal = ({ isOpen, onClose, lang }) => {
               <MoonIcon className="w-4 h-4 shrink-0" />
               {lang === 'th' ? 'ช่วงเวลาในแต่ละวันของเดือนรอมฎอน' : 'The daily timetable in Ramadan'}
             </h4>
+            <div className="mb-2"><RamadanDayGraphic lang={lang} /></div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-indigo-100 dark:border-slate-700 min-w-0" data-ramadan-time="suhoor">
                 <span className="flex items-center gap-1.5 font-bold text-amber-700 dark:text-amber-300"><MoonIcon className="w-3.5 h-3.5 shrink-0" />Suhoor</span>
