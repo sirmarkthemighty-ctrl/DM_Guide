@@ -425,6 +425,32 @@ const RamadanModal = ({ isOpen, onClose, lang }) => {
 
         {/* Content Body */}
         <div className="p-5 overflow-y-auto space-y-4 flex-1">
+          {/* Meal times during Ramadan (CPG 2566 chapter 8, p. 89) */}
+          <div className="p-4 bg-indigo-50 dark:bg-indigo-950/40 rounded-2xl border border-indigo-200 dark:border-indigo-900 text-xs" data-ramadan-times>
+            <h4 className="font-bold text-indigo-800 dark:text-indigo-300 text-sm mb-2 flex items-center gap-1.5">
+              <MoonIcon className="w-4 h-4 shrink-0" />
+              {lang === 'th' ? 'ช่วงเวลาในแต่ละวันของเดือนรอมฎอน' : 'The daily timetable in Ramadan'}
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-indigo-100 dark:border-slate-700 min-w-0" data-ramadan-time="suhoor">
+                <span className="flex items-center gap-1.5 font-bold text-amber-700 dark:text-amber-300"><MoonIcon className="w-3.5 h-3.5 shrink-0" />Suhoor</span>
+                <span className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">{lang === 'th' ? 'มื้อก่อนพระอาทิตย์ขึ้น' : 'Meal before sunrise'}</span>
+                <p className="mt-1 text-slate-700 dark:text-slate-300 leading-snug">{lang === 'th' ? 'มื้อสุดท้ายก่อนเริ่มถือศีลอด รับประทานก่อนรุ่งเช้า' : 'The last meal before the fast begins, eaten before dawn.'}</p>
+              </div>
+              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-indigo-100 dark:border-slate-700 min-w-0" data-ramadan-time="fast">
+                <span className="flex items-center gap-1.5 font-bold text-slate-700 dark:text-slate-200"><SunIcon className="w-3.5 h-3.5 shrink-0" />{lang === 'th' ? 'ช่วงถือศีลอด' : 'Fasting hours'}</span>
+                <span className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">{lang === 'th' ? 'พระอาทิตย์ขึ้นถึงพระอาทิตย์ตก' : 'Sunrise to sunset'}</span>
+                <p className="mt-1 text-slate-700 dark:text-slate-300 leading-snug">{lang === 'th' ? 'งดอาหาร น้ำ การสูบบุหรี่ และการรับประทานยา' : 'No food, no water, no smoking and no oral medicines.'}</p>
+              </div>
+              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-indigo-100 dark:border-slate-700 min-w-0" data-ramadan-time="iftar">
+                <span className="flex items-center gap-1.5 font-bold text-indigo-700 dark:text-indigo-300"><MoonIcon className="w-3.5 h-3.5 shrink-0" />Iftar</span>
+                <span className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">{lang === 'th' ? 'มื้อเย็น เมื่อพระอาทิตย์ตก (ละศีลอด)' : 'Evening meal at sunset (breaking the fast)'}</span>
+                <p className="mt-1 text-slate-700 dark:text-slate-300 leading-snug">{lang === 'th' ? 'มักเป็นมื้อใหญ่ เริ่มด้วยผลอินทผาลัม (น้ำตาลฟรุกโตสและกลูโคสสูง) แล้วตามด้วยอาหารหนัก; หลังพระอาทิตย์ตกมีการละหมาดตะรอเวียะห์ ซึ่งใช้แรงพอสมควร' : 'Often the main meal, started with dates (high in fructose and glucose), then a heavy meal; Taraweeh prayers after sunset involve moderate physical effort.'}</p>
+              </div>
+            </div>
+            <p className="mt-2 text-[10px] text-slate-500 dark:text-slate-400">{lang === 'th' ? 'ที่มา: แนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 บทที่ 8 หน้า 89' : 'Source: Thai CPG for Diabetes 2566, chapter 8, p. 89'}</p>
+          </div>
+
           {/* Breaking the Fast Alert Box */}
           <div className="p-4 bg-rose-50 dark:bg-rose-950/40 rounded-2xl border border-rose-200 dark:border-rose-900 text-xs">
             <span className="font-bold text-rose-800 dark:text-rose-300 text-sm block mb-1 flex items-center gap-1.5">

@@ -1,13 +1,14 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.5.2";
+const APP_VERSION = "v1.5.3";
 
 const changelogData = [
   {
-    version: "v1.5.2",
+    version: "v1.5.3",
     date: "October 26, 2026",
     dateTh: "26 ตุลาคม 2569",
     features: [
+      "Ramadan tool: a timetable at the top explains Suhoor (meal before sunrise), the fasting hours (sunrise to sunset) and Iftar (evening meal at sunset), from CPG 2566 chapter 8, p. 89.",
       "Light mode: input boxes in the tools (e.g. the DKA/HHS calculator) stay white when the page is shown inside a dark-mode viewer.",
       "Renamed to Adult DM Guide.",
       "NLEM filter moved next to the FDA registration filter (shown while Thailand is selected), as in the Bronchodilator Guide.",
@@ -41,6 +42,7 @@ const changelogData = [
       "Sitagliptin and rapid-acting insulin: CKD 3a/3b rows now state the eGFR < 50 cut-off clearly instead of quoting a range that did not match the row."
     ],
     featuresTh: [
+      "เครื่องมือรอมฎอน: เพิ่มตารางช่วงเวลาด้านบน อธิบาย Suhoor (มื้อก่อนพระอาทิตย์ขึ้น) ช่วงถือศีลอด (พระอาทิตย์ขึ้นถึงตก) และ Iftar (มื้อเย็นเมื่อพระอาทิตย์ตก) ตาม CPG 2566 บทที่ 8 หน้า 89",
       "โหมดสว่าง: ช่องกรอกข้อมูลในเครื่องมือ (เช่น เครื่องคำนวณ DKA/HHS) เป็นสีขาวแม้เปิดในหน้าจอที่ใช้โหมดมืด",
       "เปลี่ยนชื่อเป็น Adult DM Guide",
       "ย้ายตัวกรองบัญชียาหลักไปไว้ข้างตัวกรองทะเบียน อย. (แสดงเมื่อเลือกประเทศไทย) แบบเดียวกับ Bronchodilator Guide",
