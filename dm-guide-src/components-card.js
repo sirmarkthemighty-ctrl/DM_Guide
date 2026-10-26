@@ -15,6 +15,7 @@ const nlemLabel = (drug, lang) => {
 };
 
 const formatCurrency = (level, lang = 'th') => {
+  if (level == null) return 'N/A';
   const [th, en] = level === 1 ? ['ประหยัด', 'Low'] : level === 2 ? ['ปานกลาง', 'Moderate'] : level === 3 ? ['สูง', 'High'] : ['พรีเมียม', 'Premium'];
   return '฿'.repeat(Math.min(Math.max(level || 4, 1), 4)) + ' (' + (lang === 'th' ? th : en) + ')';
 };

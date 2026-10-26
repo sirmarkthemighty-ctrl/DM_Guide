@@ -1,13 +1,17 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.4.1";
+const APP_VERSION = "v1.5.0";
 
 const changelogData = [
   {
-    version: "v1.4.1",
+    version: "v1.5.0",
     date: "October 26, 2026",
     dateTh: "26 ตุลาคม 2569",
     features: [
+      "Five new drug cards for guideline drugs registered in Thailand: mitiglinide (Glufast), gemigliptin (Zemiglo), alogliptin (Nesina), canagliflozin (Invokana) and tirzepatide (Mounjaro), from CPG 2566, the product labels and the Thai FDA register. Price level is N/A until checked.",
+      "Countries filter (All, TH, US, UK, EU, JP) and an FDA registration filter (Currently, † Past, ⊘ Never), as in the Bronchodilator Guide. Default: currently registered in Thailand.",
+      "Cards and list rows show a coloured chip per country: the Thai licence holder or an example product, † if registration was cancelled or discontinued, ⊘ if not found.",
+      "Drug details: new Registration by country section (Thai FDA register numbers and licence holders, and US FDA, UK NHS dm+d, EU EMA/HPRA and Japan PMDA status with examples and sources).",
       "Kidney limits follow CPG 2566 (Table 2, p. 100): dapagliflozin is not used if eGFR < 25 and empagliflozin if eGFR < 20, on the cards, in the detail view and in the kidney tool. Sitagliptin: 50 mg if eGFR 30-50, 25 mg if < 30.",
       "NLEM status follows the National List of Essential Medicines B.E. 2569 and its codes (b basic, ex exclusive), with each listing's conditions. Metformin XR, gliclazide MR, glimepiride, acarbose, DPP-4 and SGLT2 inhibitors, GLP-1 receptor agonists, degludec, glargine U300 and the fixed combinations are not in it; repaglinide, aspart/lispro, their premixes and glargine U100 are listed as ex.",
       "A1C lowering values follow CPG 2566 Table 1 (sulfonylureas 1-2%, DPP-4 and SGLT2 inhibitors 0.8%, GLP-1 receptor agonists 1-1.5%).",
@@ -33,6 +37,10 @@ const changelogData = [
       "Sitagliptin and rapid-acting insulin: CKD 3a/3b rows now state the eGFR < 50 cut-off clearly instead of quoting a range that did not match the row."
     ],
     featuresTh: [
+      "เพิ่มการ์ดยา 5 รายการตามแนวทางที่มีทะเบียนในไทย: mitiglinide (Glufast), gemigliptin (Zemiglo), alogliptin (Nesina), canagliflozin (Invokana) และ tirzepatide (Mounjaro) จาก CPG 2566 เอกสารกำกับยา และทะเบียนยา อย. ระดับราคาเป็น N/A จนกว่าจะตรวจสอบ",
+      "ตัวกรองประเทศ (ทั้งหมด, TH, US, UK, EU, JP) และตัวกรองทะเบียน อย. (ปัจจุบัน, † เคยมี, ⊘ ไม่เคยมี) แบบเดียวกับ Bronchodilator Guide ค่าเริ่มต้น: มีทะเบียนในไทยปัจจุบัน",
+      "การ์ดและรายการแสดงชิปสีตามประเทศ: ผู้รับอนุญาตในไทยหรือตัวอย่างผลิตภัณฑ์, † ถ้าทะเบียนถูกยกเลิกหรือเลิกจำหน่าย, ⊘ ถ้าไม่พบ",
+      "รายละเอียดยา: เพิ่มหัวข้อทะเบียนยาในแต่ละประเทศ (เลขทะเบียนและผู้รับอนุญาตในไทย และสถานะใน US FDA, UK NHS dm+d, EU EMA/HPRA, ญี่ปุ่น PMDA พร้อมตัวอย่างและแหล่งที่มา)",
       "เกณฑ์การใช้ยาในโรคไตตาม CPG 2566 (ตารางที่ 2 และหน้า 100): ไม่ใช้ dapagliflozin ถ้า eGFR < 25 และไม่ใช้ empagliflozin ถ้า eGFR < 20 ทั้งในการ์ด หน้ารายละเอียด และเครื่องมือโรคไต; sitagliptin 50 มก. ถ้า eGFR 30-50 และ 25 มก. ถ้า < 30",
       "สถานะบัญชียาหลักตามบัญชียาหลักแห่งชาติ พ.ศ. 2569 และรหัสบัญชีย่อย (b บัญชียาพื้นฐาน, ex บัญชียาเฉพาะโรค) พร้อมเงื่อนไขการใช้ metformin XR, gliclazide MR, glimepiride, acarbose, DPP-4 inhibitors, SGLT2 inhibitors, GLP-1 RA, degludec, glargine U300 และยาผสมคงที่ไม่อยู่ในบัญชี; repaglinide, aspart/lispro, ยาผสมสำเร็จรูปของทั้งสอง และ glargine U100 อยู่ในบัญชี ex",
       "ประสิทธิภาพลด A1C ตาม CPG 2566 ตารางที่ 1 (sulfonylurea 1-2%, DPP-4 และ SGLT2 inhibitors 0.8%, GLP-1 RA 1-1.5%)",
@@ -332,6 +340,15 @@ function App() {
   const [selectedClasses, setSelectedClasses] = useState([]);
   const [selectedClinicalFilters, setSelectedClinicalFilters] = useState([]); // 'ascvd', 'hf', 'ckd', 'weight_loss', 'weight_neutral', 'hypo_safe', 'nlem'
   const [sortOrder, setSortOrder] = useState('nameAsc');
+  // Countries: drugs registered in any selected country are shown (default Thailand); each country is its own switch
+  const [countries, setCountries] = useState(['th']);
+  const toggleCountry = (r) => setCountries((prev) => (prev.includes(r) ? prev.filter((x) => x !== r) : REG_COUNTRIES.filter((x) => x === r || prev.includes(x))));
+  const allCountries = countries.length === REG_COUNTRIES.length;
+  const toggleAllCountries = () => setCountries(allCountries ? [] : [...REG_COUNTRIES]);
+  // Registration status in the selected countries: Currently by default; at least one status stays on
+  const REG_STATUSES = ['current', 'past', 'never'];
+  const [regStatus, setRegStatus] = useState(['current']);
+  const toggleRegStatus = (k) => setRegStatus((prev) => (prev.includes(k) ? (prev.length > 1 ? prev.filter((x) => x !== k) : prev) : REG_STATUSES.filter((x) => x === k || prev.includes(x))));
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [searchOpen, setSearchOpen] = useState(false); // phones: the search box opens across the row
   const searchRef = useRef(null);
@@ -400,6 +417,7 @@ function App() {
 
   // Active filter count for badge
   const activeFilterCount = (selectedCategory !== 'all' ? 1 : 0) +
+    (countries.join() !== 'th' ? 1 : 0) + (regStatus.join() !== 'current' ? 1 : 0) +
     selectedClasses.length +
     selectedClinicalFilters.length;
 
@@ -459,6 +477,8 @@ function App() {
     setSelectedCategory('all');
     setSelectedClasses([]);
     setSelectedClinicalFilters([]);
+    setCountries(['th']);
+    setRegStatus(['current']);
     setSortOrder('nameAsc');
   };
 
@@ -475,6 +495,9 @@ function App() {
         const matchMech = d.mechanismEn.toLowerCase().includes(query) || d.mechanismTh.toLowerCase().includes(query);
         if (!matchGeneric && !matchGenericTh && !matchBrand && !matchClass && !matchMech) return false;
       }
+
+      // Registration: some selected country has one of the selected statuses
+      if (!countries.some((r) => regStatus.includes(regOf(d, r).s))) return false;
 
       // 2. Main category
       if (selectedCategory !== 'all') {
@@ -502,7 +525,7 @@ function App() {
       return true;
     }).sort((a, b) => {
       if (sortOrder === 'nameAsc') return a.genericName.localeCompare(b.genericName);
-      if (sortOrder === 'priceAsc') return a.priceLevel - b.priceLevel;
+      if (sortOrder === 'priceAsc') return (a.priceLevel == null ? 99 : a.priceLevel) - (b.priceLevel == null ? 99 : b.priceLevel) || a.genericName.localeCompare(b.genericName);
       if (sortOrder === 'class') return a.classNameEn.localeCompare(b.classNameEn);
       if (sortOrder === 'a1cDesc') {
         const aVal = parseFloat(a.a1cReduction) || 0;
@@ -511,7 +534,7 @@ function App() {
       }
       return 0;
     });
-  }, [searchTerm, selectedCategory, selectedClasses, selectedClinicalFilters, sortOrder]);
+  }, [searchTerm, selectedCategory, selectedClasses, selectedClinicalFilters, sortOrder, countries, regStatus]);
 
   // Guide (clinical tool) buttons: key, full name, colour, icon, opener
   const GUIDES = [
@@ -541,6 +564,8 @@ function App() {
   Object.values(classesByCategory).forEach((arr) => arr.forEach((c) => { classByKey[c.key] = c; }));
   const filterChips = [
     ...(searchTerm.trim() ? [{ key: 'q', label: '"' + searchTerm.trim() + '"', off: () => setSearchTerm('') }] : []),
+    ...(countries.join() !== 'th' ? [{ key: 'countries', label: t.countriesLabel + ': ' + (countries.length ? countries.map((r) => t.countryCodes[r]).join(', ') : (lang === 'th' ? 'ไม่มี' : 'none')), off: () => setCountries(['th']) }] : []),
+    ...(regStatus.join() !== 'current' ? [{ key: 'reg', label: t.regLabel + ': ' + regStatus.map((k) => t.regOpts[k]).join(', '), off: () => setRegStatus(['current']) }] : []),
     ...(selectedCategory !== 'all' ? [{ key: 'cat', label: (CATEGORIES.find((c) => c.key === selectedCategory) || {}).label, off: () => setSelectedCategory('all') }] : []),
     ...selectedClasses.map((k) => ({ key: 'cls-' + k, label: classByKey[k] ? (lang === 'th' ? classByKey[k].nameTh.split('(')[0].trim() : classByKey[k].nameEn) : k, off: () => toggleClass(k) })),
     ...selectedClinicalFilters.map((k) => ({ key: 'cf-' + k, label: (CLINICAL.find((c) => c[0] === k) || [k, k])[1], off: () => toggleClinicalFilter(k) }))
@@ -652,6 +677,37 @@ function App() {
 
         {/* Filter groups: compact segments that wrap; shown while opened with the Filters button */}
         <div id="filter-bar" className={`${filtersOpen ? 'flex' : 'hidden'} flex-col gap-2 md:gap-2.5 pb-2 md:pb-3 mb-3 md:mb-4 border-b border-slate-200 dark:border-slate-800`} data-filter-bar>
+          <div className="flex flex-wrap items-center gap-1.5 md:gap-2 w-full min-w-0" data-filter-row="registration">
+            <div className={segBox} role="group" aria-label={t.countriesLabel} data-country-group>
+              <span className={segLabel}>{t.countriesLabel}:</span>
+              <button onClick={toggleAllCountries} aria-pressed={allCountries} data-country-all
+                className={`${segBtn} whitespace-nowrap ${allCountries ? 'bg-slate-700 text-white shadow-sm dark:bg-slate-200 dark:text-slate-900' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700'}`}>
+                {t.countriesAll}
+              </button>
+              {REG_COUNTRIES.map((r) => (
+                <button key={r} onClick={() => toggleCountry(r)} aria-pressed={countries.includes(r)} title={t.countryNames[r]} data-country={r}
+                  className={`${segBtn} whitespace-nowrap ${countries.includes(r) ? COUNTRY_COLORS[r].on : COUNTRY_COLORS[r].off}`}>
+                  {t.countryCodes[r]}
+                </button>
+              ))}
+            </div>
+            <div className={segBox} role="group" aria-label={t.regLabel} title={t.regTitle} data-reg-group>
+              <span className={`${segLabel} inline-flex items-center gap-0.5`}>{t.regLabel}<CheckIcon className="w-2.5 h-2.5 md:w-3 md:h-3 text-emerald-600 dark:text-emerald-400" /></span>
+              {REG_STATUSES.map((k) => {
+                const on = regStatus.includes(k);
+                const tone = k === 'current' ? ['bg-emerald-600 text-white shadow-sm', 'text-emerald-700 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-slate-700']
+                  : k === 'past' ? ['bg-amber-500 text-white shadow-sm', 'text-amber-700 hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-slate-700']
+                  : ['bg-slate-600 text-white shadow-sm', 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700'];
+                return (
+                  <button key={k} onClick={() => toggleRegStatus(k)} aria-pressed={on} data-reg={k}
+                    className={`${segBtn} whitespace-nowrap ${on ? tone[0] : tone[1]}`}>
+                    {k !== 'current' && <span aria-hidden="true">{k === 'past' ? '†' : '⊘'}</span>}{t.regOpts[k]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           <div className={segBox} role="group" aria-label={t.typeLabel} data-filter-row="type">
             <span className={segLabel}>{t.typeLabel}:</span>
             {CATEGORIES.map((cat) => {
@@ -720,7 +776,7 @@ function App() {
         {filteredDrugs.length === 0 ? (
           <div className="py-12 md:py-16 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-xl md:rounded-2xl border border-slate-200 dark:border-slate-800 border-dashed">
             <SearchIcon className="w-8 h-8 md:w-10 md:h-10 text-slate-300 mx-auto mb-3 md:mb-4" />
-            <p className="text-base md:text-lg font-medium" data-empty-note>{t.noMeds}</p>
+            <p className="text-base md:text-lg font-medium" data-empty-note>{countries.length ? t.noMeds : t.noCountry}</p>
             <button onClick={resetFilters} className="mt-2 text-teal-700 dark:text-teal-300 hover:underline text-sm md:text-base">{t.clearFilters}</button>
           </div>
         ) : (
@@ -729,7 +785,7 @@ function App() {
               const Comp = viewMode === 'grid' ? DrugCard : DrugListRow;
               return (
                 <Comp key={drug.id} drug={drug} lang={lang} isCompared={compareList.some((d) => d.id === drug.id)}
-                  onToggleCompare={toggleCompare} onSelectDetail={(d) => setSelectedDrugDetail(d)} />
+                  onToggleCompare={toggleCompare} onSelectDetail={(d) => setSelectedDrugDetail(d)} regions={countries} />
               );
             })}
           </div>

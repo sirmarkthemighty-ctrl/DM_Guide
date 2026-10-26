@@ -73,6 +73,75 @@ const NoRegChip = ({ drug, lang }) => (noCurrentReg(drug) ? (
   </span>
 ) : null);
 
+// --- Registration by country (Bronchodilator Guide style) ---
+// One colour per country: filter toggle (on / off) and card chips
+const COUNTRY_COLORS = {
+  th: { on: 'bg-emerald-600 text-white shadow-sm', off: 'text-emerald-700 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-slate-700', chip: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' },
+  us: { on: 'bg-blue-600 text-white shadow-sm', off: 'text-blue-700 hover:bg-blue-50 dark:text-blue-300 dark:hover:bg-slate-700', chip: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300' },
+  uk: { on: 'bg-rose-600 text-white shadow-sm', off: 'text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-slate-700', chip: 'border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-300' },
+  eu: { on: 'bg-amber-500 text-white shadow-sm', off: 'text-amber-700 hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-slate-700', chip: 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300' },
+  jp: { on: 'bg-violet-600 text-white shadow-sm', off: 'text-violet-700 hover:bg-violet-50 dark:text-violet-300 dark:hover:bg-slate-700', chip: 'border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-800 dark:bg-violet-950 dark:text-violet-300' }
+};
+// Example products put the guide's own brand names first (e.g. Mounjaro before Zepbound)
+const regOf = (drug, r) => {
+  const g = ((REG_STATUS[drug.id] || {})[r]) || { s: 'never', p: [] };
+  const brands = (drug.brandNames || []).map((b) => b.toLowerCase().split(/[ (]/)[0]).filter(Boolean);
+  const own = (x) => (brands.some((b) => x.toLowerCase().startsWith(b)) ? 0 : 1);
+  return { ...g, p: [...g.p].sort((x, y) => own(x) - own(y)) };
+};
+// Licence holders of the drug's current Thai records, in the chosen language
+const thaiHolders = (drug, lang) => [...new Set((THAI_REG[drug.id] || []).map((x) => (THAI_HOLDERS[x.h] || [])[lang === 'th' ? 0 : 1]).filter(Boolean))];
+// What follows a country chip on a card line: Thai licence holder(s), or an example product elsewhere
+const regLineText = (drug, r, lang) => {
+  const g = regOf(drug, r);
+  if (r === 'th' && g.s === 'current') { const h = thaiHolders(drug, lang); return h.slice(0, 2).join(', ') + (h.length > 2 ? ' +' + (h.length - 2) : ''); }
+  return g.p.slice(0, 2).join(', ');
+};
+const StatusChip = ({ drug, r, t }) => {
+  const st = regOf(drug, r).s;
+  const name = t.countryNames[r];
+  if (st === 'past') {
+    return (
+      <span title={`${name}: ${t.regStatusText.past}`} data-country={r} data-status="past"
+        className="shrink-0 text-[10px] font-bold rounded border px-1 py-px leading-none whitespace-nowrap border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300">
+        {t.countryCodes[r]} †
+      </span>
+    );
+  }
+  const on = st === 'current';
+  return (
+    <span title={`${name}: ${t.regStatusText[st]}`} data-country={r} data-status={st}
+      className={`shrink-0 text-[10px] font-bold rounded border px-1 py-px leading-none whitespace-nowrap ${on ? COUNTRY_COLORS[r].chip : 'border-slate-200 text-slate-400 dark:border-slate-700 dark:text-slate-500'}`}>
+      {t.countryCodes[r]}{on ? '' : ' ⊘'}
+    </span>
+  );
+};
+// Country block on cards and list rows: one line per selected country where the drug is or was registered
+// (chip, Thai licence holder or example product, and NLEM on the Thailand line); the other chips on one last row:
+// selected countries where it is not found (grey) and unselected countries where it is or was registered.
+const CountryLines = ({ drug, t, lang, regions, className = '' }) => {
+  const all = REG_COUNTRIES.map((r) => [r, regOf(drug, r).s]);
+  const lined = all.filter(([r, st]) => regions.includes(r) && st !== 'never');
+  const rest = all.filter(([r, st]) => !lined.some(([x]) => x === r) && (st !== 'never' || regions.includes(r)));
+  const nlem = (r) => (r === 'th' && regions.includes('th') ? <NlemChip drug={drug} lang={lang} /> : null);
+  return (
+    <div className={`flex flex-col gap-1 min-w-0 text-[11px] ${className}`} data-countries>
+      {lined.map(([r]) => (
+        <p key={r} className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 min-w-0 text-slate-500 dark:text-slate-400 font-medium leading-snug" data-holder-line={r}>
+          <StatusChip drug={drug} r={r} t={t} />
+          <span className="break-words min-w-0" data-holder-name>{regLineText(drug, r, lang)}</span>
+          {nlem(r)}
+        </p>
+      ))}
+      {rest.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1 min-w-0" data-country-rest>
+          {rest.map(([r]) => <React.Fragment key={r}><StatusChip drug={drug} r={r} t={t} />{nlem(r)}</React.Fragment>)}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ASCVD / HF / CKD outcome badges
 const BenefitBadges = ({ drug, t, className = 'mt-2' }) => {
   const items = [
@@ -122,7 +191,7 @@ const openFromCard = (e, drug, onSelectDetail) => {
 };
 
 // --- Grid card ---
-const DrugCard = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }) => {
+const DrugCard = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail, regions = ['th'] }) => {
   const t = translations[lang];
   const weight = getWeightBadge(drug.weightEffect, lang);
   const hypo = getHypoBadge(drug.hypoRisk, lang);
@@ -143,14 +212,13 @@ const DrugCard = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }) =
       <div className="flex-grow">
         <div className="flex gap-2 items-center mb-1 flex-wrap pr-0">
           <ClassChip drug={drug} lang={lang} />
-          <NlemChip drug={drug} lang={lang} />
-          <NoRegChip drug={drug} lang={lang} />
         </div>
         <h3 className="text-lg font-extrabold text-slate-800 dark:text-white leading-tight mb-0.5 mt-2 break-words">{drug.genericName}</h3>
         {lang === 'th' && <p className="text-sm text-slate-500 dark:text-slate-400 leading-snug break-words">{drug.genericNameTh}</p>}
         <p className="text-[11px] mt-1.5 text-slate-500 dark:text-slate-400 break-words">
           <span className="font-medium">{t.brandNames}:</span> <span className="font-bold text-slate-700 dark:text-slate-200"><BrandList drug={drug} lang={lang} /></span>
         </p>
+        <CountryLines drug={drug} t={t} lang={lang} regions={regions} className="mt-2" />
         <BenefitBadges drug={drug} t={t} className="mt-2.5" />
 
         <div className="space-y-1.5 text-xs bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border border-slate-100 dark:border-slate-700 mt-4" data-card-facts>
@@ -179,7 +247,7 @@ const DrugCard = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }) =
 };
 
 // --- List row ---
-const DrugListRow = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }) => {
+const DrugListRow = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail, regions = ['th'] }) => {
   const t = translations[lang];
   const weight = getWeightBadge(drug.weightEffect, lang);
   const hypo = getHypoBadge(drug.hypoRisk, lang);
@@ -198,8 +266,6 @@ const DrugListRow = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <h3 className="text-sm md:text-base font-extrabold text-slate-800 dark:text-white leading-tight break-words">{drug.genericName}</h3>
             <ClassChip drug={drug} lang={lang} />
-            <NlemChip drug={drug} lang={lang} />
-            <NoRegChip drug={drug} lang={lang} />
           </div>
           <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 break-words">
             {lang === 'th' && <span>{drug.genericNameTh} · </span>}
@@ -214,6 +280,7 @@ const DrugListRow = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail }
           <p className="text-[11px] mt-1 leading-snug text-amber-800 dark:text-amber-300 break-words" data-max-dose>
             <b>{maxDoseHeading(t, lang)}:</b> {lang === 'th' ? drug.maxDoseTh : drug.maxDoseEn}
           </p>
+          <CountryLines drug={drug} t={t} lang={lang} regions={regions} className="mt-1.5" />
           <BenefitBadges drug={drug} t={t} className="mt-1.5" />
         </div>
       </div>
@@ -229,6 +296,7 @@ const FOLD_TONE = {
   amber: ['border-l-amber-500', 'text-amber-700 dark:text-amber-300'],
   indigo: ['border-l-indigo-500', 'text-indigo-700 dark:text-indigo-300'],
   sky: ['border-l-sky-500', 'text-sky-700 dark:text-sky-300'],
+  cyan: ['border-l-cyan-500', 'text-cyan-700 dark:text-cyan-300'],
   slate: ['border-l-slate-400', 'text-slate-600 dark:text-slate-300']
 };
 const FoldSection = ({ id, title, icon: Icon, tone = 'slate', open, onToggle, children }) => {
@@ -287,7 +355,7 @@ const SourceLine = ({ items, lang }) => {
 };
 const SRC_KEY = 'dmg-show-sources';
 
-const DETAIL_FOLDS = ['dose', 'kidney', 'benefit', 'safety', 'special', 'advice', 'mechanism'];
+const DETAIL_FOLDS = ['dose', 'kidney', 'benefit', 'safety', 'special', 'advice', 'reg', 'mechanism'];
 const FOLD_KEY = 'dmg-detail-folds';
 const readFolds = () => {
   try { const v = JSON.parse(localStorage.getItem(FOLD_KEY) || 'null'); if (v && typeof v === 'object') return v; } catch (e) {}
@@ -411,24 +479,45 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <DetailRow label={t.nlemStatus} valueClass={drug.nlem ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-500'}>{nlemLabel(drug, lang)}</DetailRow>
             {drug.nlemNoteEn && <DetailRow label={lang === 'th' ? 'เงื่อนไขในบัญชียาหลัก' : 'NLEM conditions'} stack attrs={{ 'data-nlem-note': '' }}>{pickLang(drug, 'nlemNote', lang)}</DetailRow>}
             {src([SRC.nlem])}
-            {!reg && (
-              <DetailRow label={L('ทะเบียนยา อย.', 'Thai FDA registration')} stack valueClass="text-rose-700 dark:text-rose-300 font-semibold" attrs={{ 'data-thai-reg': 'none' }}>
-                {L('ไม่พบทะเบียนที่ยังคงอยู่ (ค้นตามชื่อการค้าและชื่อสามัญ 26 ต.ค. 2569): ทะเบียนเดิมถูกยกเลิก', 'No current registration found (brand and generic names searched 26 Oct 2026): the earlier registrations are cancelled')}
-              </DetailRow>
-            )}
-            {reg && (
-              <DetailRow label={L('ทะเบียนยา อย.', 'Thai FDA registration')} stack attrs={{ 'data-thai-reg': '' }}>
-                <ul className="space-y-0.5 font-medium">
-                  {reg.map((r) => (
-                    <li key={r.newcode} className="break-words">
-                      <a href={'https://pertento.fda.moph.go.th/FDA_INFORMATION_DRUG/Home/Public_Information_Drug?Newcode=' + r.newcode} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-teal-700 dark:hover:text-teal-300">{r.name}</a>
-                      <span className="text-slate-500 dark:text-slate-400"> · {r.reg}</span>
-                    </li>
-                  ))}
-                </ul>
-              </DetailRow>
-            )}
-            {src([SRC.thaiFda])}
+          </FoldSection>
+
+          <FoldSection {...fold('reg')} title={t.secReg} icon={ShieldCheckIcon} tone="cyan">
+            {REG_COUNTRIES.map((r) => {
+              const g = regOf(drug, r);
+              const holders = r === 'th' ? thaiHolders(drug, lang) : [];
+              return (
+                <div key={r} className="py-1.5 border-b border-slate-200 dark:border-slate-700 last:border-b-0 min-w-0" data-reg-row={r} data-status={g.s}>
+                  <div className="flex flex-wrap items-center gap-1.5 min-w-0">
+                    <StatusChip drug={drug} r={r} t={t} />
+                    <span className="font-bold text-slate-700 dark:text-slate-200">{t.countryNames[r]}</span>
+                    <span className={`font-semibold ${g.s === 'current' ? 'text-emerald-700 dark:text-emerald-300' : g.s === 'past' ? 'text-amber-700 dark:text-amber-300' : 'text-slate-500 dark:text-slate-400'}`}>{t.regStatusText[g.s]}</span>
+                  </div>
+                  {r === 'th' && reg && (
+                    <ul className="mt-1 space-y-0.5 font-medium text-slate-700 dark:text-slate-200" data-thai-reg="">
+                      {reg.map((x) => (
+                        <li key={x.newcode} className="break-words">
+                          <a href={'https://pertento.fda.moph.go.th/FDA_INFORMATION_DRUG/Home/Public_Information_Drug?Newcode=' + x.newcode} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-teal-700 dark:hover:text-teal-300">{x.name}</a>
+                          <span className="text-slate-500 dark:text-slate-400"> · {x.reg}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {r === 'th' && holders.length > 0 && <p className="mt-0.5 text-slate-600 dark:text-slate-300 break-words"><span className="text-slate-500 dark:text-slate-400">{t.holderLabel}:</span> {holders.join(', ')}</p>}
+                  {r === 'th' && !reg && (
+                    <p className="mt-0.5 text-rose-700 dark:text-rose-300 font-semibold break-words" data-thai-reg="none">
+                      {L('ไม่พบทะเบียนที่ยังคงอยู่ (ค้นตามชื่อการค้าและชื่อสามัญ 26 ต.ค. 2569): ทะเบียนเดิมถูกยกเลิก', 'No current registration found (brand and generic names searched 26 Oct 2026): the earlier registrations are cancelled')}
+                    </p>
+                  )}
+                  {r !== 'th' && g.p.length > 0 && (
+                    <p className="mt-0.5 text-slate-600 dark:text-slate-300 break-words"><span className="text-slate-500 dark:text-slate-400">{t.regExamples}:</span>{' '}
+                      {g.url ? <a href={g.url} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-teal-700 dark:hover:text-teal-300">{g.p.join(', ')}</a> : g.p.join(', ')}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+            <p className="mt-1.5 text-[10px] leading-snug text-slate-500 dark:text-slate-400 break-words" data-reg-note>{t.regEuNote}</p>
+            {src(REG_COUNTRIES.map((r) => REG_SOURCE[r]))}
           </FoldSection>
 
           <FoldSection {...fold('mechanism')} title={t.secMechanism} icon={ActivityIcon} tone="slate">

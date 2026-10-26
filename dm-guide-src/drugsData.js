@@ -2385,5 +2385,538 @@ const antiDmDrugs = [
     pregnancyLactation: 'ห้ามใช้ในสตรีมีครรภ์',
     patientTipsEn: "Take once daily in the morning. Drink plenty of water. Suitable for people who cannot tolerate metformin.",
     patientTips: 'รับประทานวันละ 1 ครั้งตอนเช้า ดื่มน้ำมากๆ เหมาะสำหรับผู้ที่ทนยาเมทฟอร์มินไม่ได้'
+  },
+  {
+    "id": "mitiglinide",
+    "brandsCancelled": [],
+    "brandsNotFound": [],
+    "nlemCode": null,
+    "genericName": "Mitiglinide",
+    "genericNameTh": "ไมทิกลิไนด์ (Mitiglinide)",
+    "brandNames": [
+      "Glufast"
+    ],
+    "classKey": "glinide",
+    "classNameEn": "Meglitinide / Glinide",
+    "classNameTh": "เมกลิทิไนด์ / กลินายด์ (Glinide)",
+    "category": "oral",
+    "color": "#8b5cf6",
+    "formulations": [
+      "Tablet 10 mg"
+    ],
+    "deviceType": "pill",
+    "mechanismEn": "Rapid-acting insulin secretagogue (glinide) that stimulates early insulin release to lower post-meal glucose.",
+    "mechanismTh": "ยากระตุ้นการหลั่งอินซูลินชนิดออกฤทธิ์เร็ว (กลุ่ม glinide) กระตุ้นการหลั่งอินซูลินระยะแรกเพื่อลดน้ำตาลหลังอาหาร",
+    "a1cReduction": "1.0 - 1.5%",
+    "weightEffect": "gain",
+    "weightDetailEn": "Weight gain (CPG 2566 Table 2, glinides)",
+    "weightDetail": "น้ำหนักตัวเพิ่ม (CPG 2566 ตารางที่ 2 กลุ่ม glinide)",
+    "hypoRisk": "moderate",
+    "hypoDetailEn": "Hypoglycaemia reported in 6.6% (Japanese label); risk higher in kidney or liver impairment",
+    "hypoDetail": "พบภาวะน้ำตาลต่ำร้อยละ 6.6 (เอกสารกำกับยาญี่ปุ่น) ความเสี่ยงสูงขึ้นในผู้ที่ไตหรือตับบกพร่อง",
+    "cvBenefit": false,
+    "hfBenefit": false,
+    "ckdBenefit": false,
+    "nlem": false,
+    "nlemCategory": "ไม่อยู่ในบัญชียาหลักแห่งชาติ 2569",
+    "priceLevel": null,
+    "startingDoseEn": "10 mg three times daily, immediately before each meal (within 5 minutes); consider 5 mg per dose in older people",
+    "startingDoseTh": "10 มก. วันละ 3 ครั้ง ก่อนอาหารทันที (ภายใน 5 นาที); ผู้สูงอายุพิจารณาเริ่ม 5 มก. ต่อครั้ง",
+    "maintenanceDoseEn": "10 mg three times daily before meals, adjusted to the patient",
+    "maintenanceDoseTh": "10 มก. วันละ 3 ครั้ง ก่อนอาหาร ปรับตามสภาวะผู้ป่วย",
+    "maxDoseEn": "10 mg three times daily (usual dose; the label gives no separate maximum)",
+    "maxDoseTh": "10 มก. วันละ 3 ครั้ง (ขนาดปกติ เอกสารกำกับยาไม่ระบุขนาดสูงสุดแยก)",
+    "renalAdjustment": {
+      "minEgfrGlycemic": 0,
+      "minEgfrOrgan": 0,
+      "dialysisSafe": true,
+      "summaryEn": "No adjustment needed in CKD stage 3; if eGFR < 30 start low at 5 mg before meals (CPG 2566).",
+      "summaryTh": "CKD ระยะ 3 ไม่จำเป็นต้องปรับขนาดยา; ถ้า eGFR < 30 เริ่มขนาดต่ำ 5 มก. ก่อนอาหาร (CPG 2566 ตารางที่ 2)",
+      "stagesEn": {
+        "g1": "Usual dose",
+        "g2": "Usual dose",
+        "g3a": "No adjustment needed",
+        "g3b": "No adjustment needed",
+        "g4": "Start low at 5 mg before meals (eGFR < 30)",
+        "g5_hd": "No dose adjustment (CPG 2566); watch for hypoglycaemia"
+      },
+      "stages": {
+        "g1": "ขนาดยาปกติ",
+        "g2": "ขนาดยาปกติ",
+        "g3a": "ไม่จำเป็นต้องปรับขนาดยา",
+        "g3b": "ไม่จำเป็นต้องปรับขนาดยา",
+        "g4": "เริ่มขนาดต่ำ 5 มก. ก่อนอาหาร (eGFR < 30)",
+        "g5_hd": "ไม่ต้องปรับขนาดยา (CPG 2566) ระวังน้ำตาลต่ำ"
+      }
+    },
+    "hepaticAdjustmentEn": "Liver impairment: risk of hypoglycaemia, and liver function may worsen (Japanese label)",
+    "hepaticAdjustment": "ตับบกพร่อง: เสี่ยงน้ำตาลต่ำ และอาจทำให้การทำงานของตับแย่ลง (เอกสารกำกับยาญี่ปุ่น)",
+    "adverseEffectsEn": [
+      "Hypoglycaemia (6.6%)",
+      "Gastrointestinal symptoms (nausea, diarrhoea, constipation, abdominal pain)",
+      "Liver dysfunction (raised AST, ALT, γ-GTP)",
+      "Myocardial infarction (0.1%)"
+    ],
+    "adverseEffectsTh": [
+      "ภาวะน้ำตาลต่ำ (ร้อยละ 6.6)",
+      "อาการทางเดินอาหาร (คลื่นไส้ ท้องเสีย ท้องผูก ปวดท้อง)",
+      "ตับทำงานผิดปกติ (AST, ALT, γ-GTP สูงขึ้น)",
+      "กล้ามเนื้อหัวใจตาย (ร้อยละ 0.1)"
+    ],
+    "warningsEn": [
+      "Do not combine with a sulfonylurea (same site of action)"
+    ],
+    "warningsTh": [
+      "ไม่ใช้ร่วมกับยากลุ่ม sulfonylurea (ออกฤทธิ์ตำแหน่งเดียวกัน)"
+    ],
+    "contraindicationsEn": [
+      "Severe ketosis, diabetic coma or precoma, type 1 diabetes",
+      "Severe infection, before or after surgery, severe trauma",
+      "Pregnancy or possible pregnancy",
+      "Hypersensitivity to any ingredient"
+    ],
+    "contraindicationsTh": [
+      "ภาวะคีโตสิสรุนแรง โคม่าหรือก่อนโคม่าจากเบาหวาน เบาหวานชนิดที่ 1",
+      "ติดเชื้อรุนแรง ก่อนหรือหลังผ่าตัด บาดเจ็บรุนแรง",
+      "หญิงตั้งครรภ์หรืออาจตั้งครรภ์",
+      "แพ้ส่วนประกอบของยา"
+    ],
+    "ramadanAdjustment": {
+      "riskLevel": "N/A",
+      "guidanceEn": "N/A: CPG 2566 gives no Ramadan advice for glinides",
+      "guidanceTh": "N/A: CPG 2566 ไม่มีคำแนะนำช่วงรอมฎอนสำหรับยากลุ่ม glinide"
+    },
+    "pregnancyLactationEn": "Contraindicated in pregnancy. Breastfeeding: weigh the benefits; the drug passed into milk in rats (Japanese label)",
+    "pregnancyLactation": "ห้ามใช้ในหญิงตั้งครรภ์ ระหว่างให้นมบุตร: พิจารณาประโยชน์ ยาผ่านน้ำนมในหนู (เอกสารกำกับยาญี่ปุ่น)",
+    "patientTipsEn": "Take within 5 minutes before each meal: taken after eating it works less well, and taken 30 minutes early it can cause hypoglycaemia before the meal.",
+    "patientTips": "รับประทานภายใน 5 นาทีก่อนอาหารแต่ละมื้อ: ถ้ารับประทานหลังอาหารยาจะได้ผลน้อยลง และถ้ารับประทานก่อนอาหาร 30 นาทีอาจเกิดน้ำตาลต่ำก่อนรับประทานอาหาร"
+  },
+  {
+    "id": "gemigliptin",
+    "brandsCancelled": [],
+    "brandsNotFound": [],
+    "nlemCode": null,
+    "genericName": "Gemigliptin",
+    "genericNameTh": "เจมิกลิปทิน (Gemigliptin)",
+    "brandNames": [
+      "Zemiglo"
+    ],
+    "classKey": "dpp4i",
+    "classNameEn": "DPP-4 Inhibitor",
+    "classNameTh": "ยายับยั้งดีพีพี-4 (DPP-4 Inhibitor)",
+    "category": "oral",
+    "color": "#06b6d4",
+    "formulations": [
+      "Tablet 50 mg"
+    ],
+    "deviceType": "pill",
+    "mechanismEn": "DPP-4 inhibitor: slows the breakdown of incretin hormones (GLP-1, GIP), increasing glucose-dependent insulin release.",
+    "mechanismTh": "ยับยั้งเอนไซม์ DPP-4 ทำให้ฮอร์โมนอินครีติน (GLP-1, GIP) ถูกทำลายช้าลง เพิ่มการหลั่งอินซูลินตามระดับน้ำตาล",
+    "a1cReduction": "0.8%",
+    "weightEffect": "neutral",
+    "weightDetailEn": "Weight unchanged (CPG 2566 Table 1, DPP-4 inhibitors)",
+    "weightDetail": "ไม่เปลี่ยนแปลงน้ำหนักตัว (CPG 2566 ตารางที่ 1 กลุ่ม DPP-4 inhibitors)",
+    "hypoRisk": "very_low",
+    "hypoDetailEn": "Hypoglycaemia 1.1% in trials (Korean label); consider a lower sulfonylurea or insulin dose when combined",
+    "hypoDetail": "พบน้ำตาลต่ำร้อยละ 1.1 ในการศึกษา (เอกสารกำกับยาเกาหลี) เมื่อใช้ร่วมกับ sulfonylurea หรืออินซูลินพิจารณาลดขนาดยาเหล่านั้น",
+    "cvBenefit": false,
+    "hfBenefit": false,
+    "ckdBenefit": false,
+    "nlem": false,
+    "nlemCategory": "ไม่อยู่ในบัญชียาหลักแห่งชาติ 2569",
+    "priceLevel": null,
+    "startingDoseEn": "50 mg once daily, with or without food",
+    "startingDoseTh": "50 มก. วันละ 1 ครั้ง พร้อมหรือไม่พร้อมอาหาร",
+    "maintenanceDoseEn": "50 mg once daily",
+    "maintenanceDoseTh": "50 มก. วันละ 1 ครั้ง",
+    "maxDoseEn": "50 mg/day",
+    "maxDoseTh": "50 มก./วัน",
+    "renalAdjustment": {
+      "minEgfrGlycemic": 0,
+      "minEgfrOrgan": 0,
+      "dialysisSafe": true,
+      "summaryEn": "No dose adjustment at any stage of CKD, including dialysis (CPG 2566; Korean label).",
+      "summaryTh": "ไม่ต้องปรับขนาดยาในทุกระยะของโรคไต รวมถึงผู้ป่วยฟอกไต (CPG 2566 ตารางที่ 2; เอกสารกำกับยาเกาหลี)",
+      "stagesEn": {
+        "g1": "50 mg once daily",
+        "g2": "50 mg once daily",
+        "g3a": "50 mg once daily (no adjustment)",
+        "g3b": "50 mg once daily (no adjustment)",
+        "g4": "50 mg once daily (no adjustment)",
+        "g5_hd": "50 mg once daily (no adjustment)"
+      },
+      "stages": {
+        "g1": "50 มก. วันละ 1 ครั้ง",
+        "g2": "50 มก. วันละ 1 ครั้ง",
+        "g3a": "50 มก. วันละ 1 ครั้ง (ไม่ต้องปรับ)",
+        "g3b": "50 มก. วันละ 1 ครั้ง (ไม่ต้องปรับ)",
+        "g4": "50 มก. วันละ 1 ครั้ง (ไม่ต้องปรับ)",
+        "g5_hd": "50 มก. วันละ 1 ครั้ง (ไม่ต้องปรับ)"
+      }
+    },
+    "hepaticAdjustmentEn": "No adjustment in mild to moderate liver impairment; use with caution in severe impairment (not studied)",
+    "hepaticAdjustment": "ไม่ต้องปรับขนาดยาในตับบกพร่องเล็กน้อยถึงปานกลาง; ระมัดระวังในตับบกพร่องรุนแรง (ไม่มีการศึกษา)",
+    "adverseEffectsEn": [
+      "Hypoglycaemia (1.1%)",
+      "Uncommon: dyspepsia, diarrhoea, nausea, raised lipase"
+    ],
+    "adverseEffectsTh": [
+      "ภาวะน้ำตาลต่ำ (ร้อยละ 1.1)",
+      "พบไม่บ่อย: อาหารไม่ย่อย ท้องเสีย คลื่นไส้ lipase สูงขึ้น"
+    ],
+    "warningsEn": [
+      "Acute pancreatitis: stop if suspected and do not restart",
+      "Heart failure: not recommended in NYHA class III-IV (no experience)",
+      "Contains tartrazine (Yellow No. 5): caution in people allergic to it"
+    ],
+    "warningsTh": [
+      "ตับอ่อนอักเสบเฉียบพลัน: หยุดยาเมื่อสงสัยและไม่กลับมาใช้ซ้ำ",
+      "หัวใจล้มเหลว: ไม่แนะนำใน NYHA ระดับ III-IV (ไม่มีประสบการณ์การใช้)",
+      "มีสี tartrazine (Yellow No. 5): ระวังในผู้ที่แพ้"
+    ],
+    "contraindicationsEn": [
+      "Serious hypersensitivity (anaphylaxis, angioedema) to gemigliptin or another DPP-4 inhibitor",
+      "Type 1 diabetes or diabetic ketoacidosis"
+    ],
+    "contraindicationsTh": [
+      "แพ้ยารุนแรง (anaphylaxis, angioedema) ต่อ gemigliptin หรือยากลุ่ม DPP-4 inhibitor",
+      "เบาหวานชนิดที่ 1 หรือภาวะเลือดเป็นกรดจากคีโตน"
+    ],
+    "ramadanAdjustment": {
+      "riskLevel": "N/A",
+      "guidanceEn": "Usual dose, taken after sunset (Iftar); DPP-4 inhibitors do not cause hypoglycaemia (CPG 2566 p. 109)",
+      "guidanceTh": "รับประทานขนาดปกติ หลังพระอาทิตย์ตก (Iftar); ยากลุ่ม DPP-4 inhibitors ไม่ทำให้น้ำตาลต่ำ (CPG 2566 หน้า 109)"
+    },
+    "pregnancyLactationEn": "Pregnancy: not recommended (no adequate studies). Breastfeeding: do not use (Korean label)",
+    "pregnancyLactation": "หญิงตั้งครรภ์: ไม่แนะนำ (ไม่มีการศึกษาที่เพียงพอ) หญิงให้นมบุตร: ไม่ใช้ (เอกสารกำกับยาเกาหลี)",
+    "patientTipsEn": "Take once daily, with or without food. Report persistent severe abdominal pain (possible pancreatitis).",
+    "patientTips": "รับประทานวันละ 1 ครั้ง พร้อมหรือไม่พร้อมอาหาร หากปวดท้องรุนแรงต่อเนื่องให้แจ้งแพทย์ (อาจเป็นตับอ่อนอักเสบ)"
+  },
+  {
+    "id": "alogliptin",
+    "brandsCancelled": [],
+    "brandsNotFound": [],
+    "nlemCode": null,
+    "genericName": "Alogliptin",
+    "genericNameTh": "อะโลกลิปทิน (Alogliptin)",
+    "brandNames": [
+      "Nesina"
+    ],
+    "classKey": "dpp4i",
+    "classNameEn": "DPP-4 Inhibitor",
+    "classNameTh": "ยายับยั้งดีพีพี-4 (DPP-4 Inhibitor)",
+    "category": "oral",
+    "color": "#06b6d4",
+    "formulations": [
+      "Tablet 25 mg"
+    ],
+    "deviceType": "pill",
+    "mechanismEn": "DPP-4 inhibitor: slows the breakdown of incretin hormones (GLP-1, GIP), lowering fasting and post-meal glucose in a glucose-dependent way.",
+    "mechanismTh": "ยับยั้งเอนไซม์ DPP-4 ทำให้ฮอร์โมนอินครีติน (GLP-1, GIP) ถูกทำลายช้าลง ลดน้ำตาลขณะอดอาหารและหลังอาหารตามระดับน้ำตาล",
+    "a1cReduction": "0.8%",
+    "weightEffect": "neutral",
+    "weightDetailEn": "Weight unchanged (CPG 2566 Table 1, DPP-4 inhibitors)",
+    "weightDetail": "ไม่เปลี่ยนแปลงน้ำหนักตัว (CPG 2566 ตารางที่ 1 กลุ่ม DPP-4 inhibitors)",
+    "hypoRisk": "very_low",
+    "hypoDetailEn": "Low risk alone or with metformin; higher with a sulfonylurea or insulin (CPG 2566 Table 1)",
+    "hypoDetail": "ความเสี่ยงต่ำเมื่อใช้เดี่ยวหรือร่วมกับ metformin; สูงขึ้นเมื่อใช้ร่วมกับ sulfonylurea หรืออินซูลิน (CPG 2566 ตารางที่ 1)",
+    "cvBenefit": false,
+    "hfBenefit": false,
+    "ckdBenefit": false,
+    "nlem": false,
+    "nlemCategory": "ไม่อยู่ในบัญชียาหลักแห่งชาติ 2569",
+    "priceLevel": null,
+    "startingDoseEn": "25 mg once daily, with or without food (do not split tablets)",
+    "startingDoseTh": "25 มก. วันละ 1 ครั้ง พร้อมหรือไม่พร้อมอาหาร (ห้ามหักแบ่งเม็ด)",
+    "maintenanceDoseEn": "25 mg once daily; 12.5 mg if eGFR 30-50, 6.25 mg if eGFR < 30",
+    "maintenanceDoseTh": "25 มก. วันละ 1 ครั้ง; 12.5 มก. ถ้า eGFR 30-50 และ 6.25 มก. ถ้า eGFR < 30",
+    "maxDoseEn": "25 mg once daily (only the 25 mg tablet is registered in Thailand)",
+    "maxDoseTh": "25 มก. วันละ 1 ครั้ง (ในไทยมีทะเบียนเฉพาะเม็ด 25 มก.)",
+    "renalAdjustment": {
+      "minEgfrGlycemic": 0,
+      "minEgfrOrgan": 0,
+      "dialysisSafe": true,
+      "summaryEn": "eGFR 30-50: 12.5 mg/day; eGFR < 30: 6.25 mg/day; CKD 5 and dialysis: 6.25 mg/day (CPG 2566).",
+      "summaryTh": "eGFR 30-50: 12.5 มก./วัน; eGFR < 30: 6.25 มก./วัน; CKD ระยะ 5 และฟอกไต: 6.25 มก./วัน (CPG 2566 ตารางที่ 2)",
+      "stagesEn": {
+        "g1": "25 mg once daily",
+        "g2": "25 mg once daily",
+        "g3a": "25 mg once daily; 12.5 mg once eGFR < 50",
+        "g3b": "12.5 mg once daily",
+        "g4": "6.25 mg once daily",
+        "g5_hd": "6.25 mg once daily"
+      },
+      "stages": {
+        "g1": "25 มก. วันละ 1 ครั้ง",
+        "g2": "25 มก. วันละ 1 ครั้ง",
+        "g3a": "25 มก. วันละ 1 ครั้ง; 12.5 มก. เมื่อ eGFR < 50",
+        "g3b": "12.5 มก. วันละ 1 ครั้ง",
+        "g4": "6.25 มก. วันละ 1 ครั้ง",
+        "g5_hd": "6.25 มก. วันละ 1 ครั้ง"
+      }
+    },
+    "hepaticAdjustmentEn": "No adjustment in mild to moderate liver impairment; not studied in severe impairment, use with caution (US label)",
+    "hepaticAdjustment": "ไม่ต้องปรับขนาดยาในตับบกพร่องเล็กน้อยถึงปานกลาง; ยังไม่มีการศึกษาในตับบกพร่องรุนแรง ใช้ด้วยความระมัดระวัง (เอกสารกำกับยาสหรัฐฯ)",
+    "adverseEffectsEn": [
+      "Nasopharyngitis",
+      "Headache",
+      "Upper respiratory tract infection"
+    ],
+    "adverseEffectsTh": [
+      "เยื่อบุจมูกและคออักเสบ",
+      "ปวดศีรษะ",
+      "ติดเชื้อทางเดินหายใจส่วนบน"
+    ],
+    "warningsEn": [
+      "Pancreatitis: stop if suspected",
+      "Heart failure: weigh risks before starting; consider stopping if heart failure develops",
+      "Liver injury (rare liver failure): stop if liver injury is suspected",
+      "Serious hypersensitivity, severe joint pain, bullous pemphigoid"
+    ],
+    "warningsTh": [
+      "ตับอ่อนอักเสบ: หยุดยาเมื่อสงสัย",
+      "หัวใจล้มเหลว: พิจารณาความเสี่ยงก่อนเริ่มยา และพิจารณาหยุดยาหากเกิดหัวใจล้มเหลว",
+      "ตับบาดเจ็บ (พบตับวายได้น้อย): หยุดยาเมื่อสงสัย",
+      "แพ้ยารุนแรง ปวดข้อรุนแรง และ bullous pemphigoid"
+    ],
+    "contraindicationsEn": [
+      "History of serious hypersensitivity to alogliptin (anaphylaxis, angioedema, severe skin reactions)"
+    ],
+    "contraindicationsTh": [
+      "เคยแพ้ alogliptin รุนแรง (anaphylaxis, angioedema, ผื่นรุนแรง)"
+    ],
+    "ramadanAdjustment": {
+      "riskLevel": "N/A",
+      "guidanceEn": "Usual dose, taken after sunset (Iftar); DPP-4 inhibitors do not cause hypoglycaemia (CPG 2566 p. 109)",
+      "guidanceTh": "รับประทานขนาดปกติ หลังพระอาทิตย์ตก (Iftar); ยากลุ่ม DPP-4 inhibitors ไม่ทำให้น้ำตาลต่ำ (CPG 2566 หน้า 109)"
+    },
+    "pregnancyLactationEn": "Pregnancy: data insufficient to determine risk. Breastfeeding: no human data (US label)",
+    "pregnancyLactation": "หญิงตั้งครรภ์: ข้อมูลไม่เพียงพอที่จะประเมินความเสี่ยง หญิงให้นมบุตร: ไม่มีข้อมูลในคน (เอกสารกำกับยาสหรัฐฯ)",
+    "patientTipsEn": "Take once daily with or without food; do not split the tablet. If a dose is missed, do not double the next dose.",
+    "patientTips": "รับประทานวันละ 1 ครั้ง พร้อมหรือไม่พร้อมอาหาร ห้ามหักแบ่งเม็ด หากลืมรับประทานห้ามเพิ่มขนาดยาเป็น 2 เท่าในครั้งถัดไป"
+  },
+  {
+    "id": "canagliflozin",
+    "brandsCancelled": [],
+    "brandsNotFound": [],
+    "nlemCode": null,
+    "genericName": "Canagliflozin",
+    "genericNameTh": "คานากลิโฟลซิน (Canagliflozin)",
+    "brandNames": [
+      "Invokana"
+    ],
+    "classKey": "sglt2i",
+    "classNameEn": "SGLT-2 Inhibitor",
+    "classNameTh": "ยายับยั้งเอสจีแอลที-2 (SGLT-2 Inhibitor)",
+    "category": "oral",
+    "color": "#0284c7",
+    "formulations": [
+      "Tablet 100 mg",
+      "Tablet 300 mg"
+    ],
+    "deviceType": "pill",
+    "mechanismEn": "SGLT-2 inhibitor: reduces glucose reabsorption in the kidney, increasing urinary glucose excretion.",
+    "mechanismTh": "ยับยั้ง SGLT-2 ที่ท่อไต ลดการดูดกลับกลูโคส เพิ่มการขับกลูโคสทางปัสสาวะ",
+    "a1cReduction": "0.8%",
+    "weightEffect": "loss",
+    "weightDetailEn": "Weight loss (CPG 2566 Table 1, SGLT-2 inhibitors)",
+    "weightDetail": "น้ำหนักตัวลดลง (CPG 2566 ตารางที่ 1 กลุ่ม SGLT-2 inhibitors)",
+    "hypoRisk": "very_low",
+    "hypoDetailEn": "Low risk alone; hypoglycaemia with insulin or insulin secretagogues (US label)",
+    "hypoDetail": "ความเสี่ยงต่ำเมื่อใช้เดี่ยว; เกิดน้ำตาลต่ำได้เมื่อใช้ร่วมกับอินซูลินหรือยากระตุ้นการหลั่งอินซูลิน (เอกสารกำกับยาสหรัฐฯ)",
+    "cvBenefit": true,
+    "hfBenefit": true,
+    "ckdBenefit": true,
+    "nlem": false,
+    "nlemCategory": "ไม่อยู่ในบัญชียาหลักแห่งชาติ 2569",
+    "priceLevel": null,
+    "startingDoseEn": "100 mg once daily, before the first meal of the day",
+    "startingDoseTh": "100 มก. วันละ 1 ครั้ง ก่อนอาหารมื้อแรกของวัน",
+    "maintenanceDoseEn": "100 mg once daily; may increase to 300 mg if eGFR ≥ 60 and more glucose control is needed",
+    "maintenanceDoseTh": "100 มก. วันละ 1 ครั้ง; เพิ่มเป็น 300 มก. ได้ถ้า eGFR ≥ 60 และต้องการคุมน้ำตาลเพิ่ม",
+    "maxDoseEn": "300 mg once daily (100 mg if eGFR 30-60)",
+    "maxDoseTh": "300 มก. วันละ 1 ครั้ง (100 มก. ถ้า eGFR 30-60)",
+    "renalAdjustment": {
+      "minEgfrGlycemic": 30,
+      "minEgfrOrgan": 30,
+      "dialysisSafe": false,
+      "summaryEn": "eGFR 30-60: 100 mg/day; not used if eGFR < 30 (CPG 2566). The US label allows people already taking it with albuminuria > 300 mg/day to continue 100 mg.",
+      "summaryTh": "eGFR 30-60: 100 มก./วัน; ไม่ใช้ถ้า eGFR < 30 (CPG 2566 ตารางที่ 2) เอกสารกำกับยาสหรัฐฯ ให้ผู้ที่ใช้อยู่และมี albuminuria > 300 มก./วัน ใช้ 100 มก. ต่อได้",
+      "stagesEn": {
+        "g1": "100-300 mg once daily",
+        "g2": "100-300 mg once daily",
+        "g3a": "100 mg once daily (eGFR 30-60)",
+        "g3b": "100 mg once daily (eGFR 30-60)",
+        "g4": "Not used if eGFR < 30 (CPG 2566)",
+        "g5_hd": "Contraindicated (CPG 2566)"
+      },
+      "stages": {
+        "g1": "100-300 มก. วันละ 1 ครั้ง",
+        "g2": "100-300 มก. วันละ 1 ครั้ง",
+        "g3a": "100 มก. วันละ 1 ครั้ง (eGFR 30-60)",
+        "g3b": "100 มก. วันละ 1 ครั้ง (eGFR 30-60)",
+        "g4": "ไม่ใช้ถ้า eGFR < 30 (CPG 2566)",
+        "g5_hd": "ห้ามใช้ (CPG 2566)"
+      }
+    },
+    "hepaticAdjustmentEn": "No adjustment in mild or moderate liver impairment; not recommended in severe impairment (US label)",
+    "hepaticAdjustment": "ไม่ต้องปรับขนาดยาในตับบกพร่องเล็กน้อยหรือปานกลาง; ไม่แนะนำในตับบกพร่องรุนแรง (เอกสารกำกับยาสหรัฐฯ)",
+    "adverseEffectsEn": [
+      "Genital fungal infections",
+      "Urinary tract infection",
+      "Increased urination"
+    ],
+    "adverseEffectsTh": [
+      "ติดเชื้อราที่อวัยวะเพศ",
+      "ติดเชื้อทางเดินปัสสาวะ",
+      "ปัสสาวะบ่อย"
+    ],
+    "warningsEn": [
+      "Ketoacidosis, including with near-normal glucose: stop if suspected",
+      "Lower-limb amputation: monitor for infection or ulcers and stop if they occur",
+      "Volume depletion and acute kidney injury",
+      "Urosepsis, pyelonephritis and Fournier's gangrene",
+      "Withhold at least 3 days before surgery or prolonged fasting"
+    ],
+    "warningsTh": [
+      "ภาวะเลือดเป็นกรดจากคีโตน แม้น้ำตาลใกล้ปกติ: หยุดยาเมื่อสงสัย",
+      "การตัดขา: ติดตามการติดเชื้อหรือแผลที่ขาและหยุดยาเมื่อพบ",
+      "ภาวะขาดน้ำและไตบาดเจ็บเฉียบพลัน",
+      "ติดเชื้อในกระแสเลือดจากทางเดินปัสสาวะ กรวยไตอักเสบ และ Fournier's gangrene",
+      "หยุดยาอย่างน้อย 3 วันก่อนผ่าตัดหรือต้องอดอาหารนาน"
+    ],
+    "contraindicationsEn": [
+      "Serious hypersensitivity to canagliflozin (anaphylaxis, angioedema)"
+    ],
+    "contraindicationsTh": [
+      "แพ้ canagliflozin รุนแรง (anaphylaxis, angioedema)"
+    ],
+    "ramadanAdjustment": {
+      "riskLevel": "N/A",
+      "guidanceEn": "Start at least 12 weeks before Ramadan; take at Iftar, drink enough water at night, watch for dehydration and ketoacidosis and check urine ketones (CPG 2566 p. 109)",
+      "guidanceTh": "ควรเริ่มยาอย่างน้อย 12 สัปดาห์ก่อนรอมฎอน รับประทานมื้อ Iftar ดื่มน้ำให้เพียงพอช่วงกลางคืน ระวังภาวะขาดน้ำและเลือดเป็นกรดจากคีโตน และตรวจคีโตนในปัสสาวะ (CPG 2566 หน้า 109)"
+    },
+    "pregnancyLactationEn": "Not recommended in the 2nd and 3rd trimesters; not recommended while breastfeeding (US label)",
+    "pregnancyLactation": "ไม่แนะนำในไตรมาสที่ 2 และ 3 ของการตั้งครรภ์ และไม่แนะนำระหว่างให้นมบุตร (เอกสารกำกับยาสหรัฐฯ)",
+    "patientTipsEn": "Take once daily before the first meal of the day. Drink enough fluid; report genital itching or discharge, painful urination, or a foot sore. Stop it 3 days before surgery.",
+    "patientTips": "รับประทานวันละ 1 ครั้ง ก่อนอาหารมื้อแรกของวัน ดื่มน้ำให้เพียงพอ แจ้งแพทย์หากคันหรือมีตกขาวที่อวัยวะเพศ ปัสสาวะแสบ หรือมีแผลที่เท้า หยุดยา 3 วันก่อนผ่าตัด"
+  },
+  {
+    "id": "tirzepatide",
+    "brandsCancelled": [],
+    "brandsNotFound": [],
+    "nlemCode": null,
+    "genericName": "Tirzepatide",
+    "genericNameTh": "เทอร์เซพาไทด์ (Tirzepatide)",
+    "brandNames": [
+      "Mounjaro"
+    ],
+    "classKey": "gip_glp1ra",
+    "classNameEn": "Dual GIP / GLP-1 Receptor Agonist (Weekly SC)",
+    "classNameTh": "ตัวกระตุ้นตัวรับ GIP และ GLP-1 (ชนิดฉีดสัปดาห์ละครั้ง)",
+    "category": "glp1",
+    "color": "#db2777",
+    "formulations": [
+      "Pen 2.5 / 5 / 7.5 / 10 / 12.5 / 15 mg",
+      "KwikPen 2.5 / 5 / 7.5 / 10 / 12.5 / 15 mg"
+    ],
+    "deviceType": "pen",
+    "mechanismEn": "Activates both GIP and GLP-1 receptors: increases glucose-dependent insulin secretion and lowers glucagon.",
+    "mechanismTh": "กระตุ้นทั้งตัวรับ GIP และ GLP-1: เพิ่มการหลั่งอินซูลินตามระดับน้ำตาล และลดกลูคากอน",
+    "a1cReduction": "1.7 - 1.8%",
+    "weightEffect": "loss",
+    "weightDetailEn": "Weight loss of 6.3-7.8 kg at 40 weeks as monotherapy (SURPASS-1, US label)",
+    "weightDetail": "น้ำหนักลดลง 6.3-7.8 กก. ที่ 40 สัปดาห์เมื่อใช้เดี่ยว (SURPASS-1 เอกสารกำกับยาสหรัฐฯ)",
+    "hypoRisk": "very_low",
+    "hypoDetailEn": "Hypoglycaemia risk rises with insulin or insulin secretagogues; their dose may need lowering (US label)",
+    "hypoDetail": "ความเสี่ยงน้ำตาลต่ำสูงขึ้นเมื่อใช้ร่วมกับอินซูลินหรือยากระตุ้นการหลั่งอินซูลิน อาจต้องลดขนาดยาเหล่านั้น (เอกสารกำกับยาสหรัฐฯ)",
+    "cvBenefit": false,
+    "hfBenefit": false,
+    "ckdBenefit": false,
+    "nlem": false,
+    "nlemCategory": "ไม่อยู่ในบัญชียาหลักแห่งชาติ 2569",
+    "priceLevel": null,
+    "startingDoseEn": "2.5 mg subcutaneously once weekly for 4 weeks (start-up dose), then 5 mg once weekly",
+    "startingDoseTh": "2.5 มก. ฉีดใต้ผิวหนังสัปดาห์ละครั้ง 4 สัปดาห์ (ขนาดเริ่มต้น) จากนั้น 5 มก. สัปดาห์ละครั้ง",
+    "maintenanceDoseEn": "Increase by 2.5 mg after at least 4 weeks on the current dose if needed",
+    "maintenanceDoseTh": "เพิ่มครั้งละ 2.5 มก. หลังใช้ขนาดเดิมอย่างน้อย 4 สัปดาห์ หากจำเป็น",
+    "maxDoseEn": "15 mg once weekly",
+    "maxDoseTh": "15 มก. สัปดาห์ละครั้ง",
+    "renalAdjustment": {
+      "minEgfrGlycemic": 0,
+      "minEgfrOrgan": 0,
+      "dialysisSafe": true,
+      "summaryEn": "No dose adjustment in kidney impairment, including end-stage kidney disease (US label; not in CPG 2566). Watch for dehydration from vomiting or diarrhoea.",
+      "summaryTh": "ไม่ต้องปรับขนาดยาในไตบกพร่อง รวมถึงไตวายระยะสุดท้าย (เอกสารกำกับยาสหรัฐฯ; ไม่มีใน CPG 2566) ระวังภาวะขาดน้ำจากอาเจียนหรือท้องเสีย",
+      "stagesEn": {
+        "g1": "No adjustment",
+        "g2": "No adjustment",
+        "g3a": "No adjustment",
+        "g3b": "No adjustment",
+        "g4": "No adjustment; watch for dehydration",
+        "g5_hd": "No adjustment (US label)"
+      },
+      "stages": {
+        "g1": "ไม่ต้องปรับขนาดยา",
+        "g2": "ไม่ต้องปรับขนาดยา",
+        "g3a": "ไม่ต้องปรับขนาดยา",
+        "g3b": "ไม่ต้องปรับขนาดยา",
+        "g4": "ไม่ต้องปรับขนาดยา ระวังภาวะขาดน้ำ",
+        "g5_hd": "ไม่ต้องปรับขนาดยา (เอกสารกำกับยาสหรัฐฯ)"
+      }
+    },
+    "hepaticAdjustmentEn": "No dose adjustment in liver impairment (US label)",
+    "hepaticAdjustment": "ไม่ต้องปรับขนาดยาในตับบกพร่อง (เอกสารกำกับยาสหรัฐฯ)",
+    "adverseEffectsEn": [
+      "Nausea",
+      "Diarrhoea",
+      "Decreased appetite",
+      "Vomiting",
+      "Constipation",
+      "Dyspepsia",
+      "Abdominal pain"
+    ],
+    "adverseEffectsTh": [
+      "คลื่นไส้",
+      "ท้องเสีย",
+      "เบื่ออาหาร",
+      "อาเจียน",
+      "ท้องผูก",
+      "อาหารไม่ย่อย",
+      "ปวดท้อง"
+    ],
+    "warningsEn": [
+      "Risk of thyroid C-cell tumours",
+      "Acute pancreatitis: stop if suspected",
+      "Acute kidney injury from volume depletion",
+      "Severe gastrointestinal reactions",
+      "Diabetic retinopathy complications in people with a history of retinopathy",
+      "Serious hypersensitivity"
+    ],
+    "warningsTh": [
+      "ความเสี่ยงเนื้องอก C-cell ของต่อมไทรอยด์",
+      "ตับอ่อนอักเสบเฉียบพลัน: หยุดยาเมื่อสงสัย",
+      "ไตบาดเจ็บเฉียบพลันจากภาวะขาดน้ำ",
+      "อาการทางเดินอาหารรุนแรง",
+      "ภาวะแทรกซ้อนจอประสาทตาในผู้ที่มีเบาหวานขึ้นจอตา",
+      "แพ้ยารุนแรง"
+    ],
+    "contraindicationsEn": [
+      "Personal or family history of medullary thyroid carcinoma, or MEN 2",
+      "Known serious hypersensitivity to tirzepatide"
+    ],
+    "contraindicationsTh": [
+      "มีประวัติส่วนตัวหรือครอบครัวเป็นมะเร็งไทรอยด์ชนิด medullary หรือ MEN 2",
+      "แพ้ tirzepatide รุนแรง"
+    ],
+    "ramadanAdjustment": {
+      "riskLevel": "N/A",
+      "guidanceEn": "N/A: CPG 2566 gives no Ramadan advice for tirzepatide",
+      "guidanceTh": "N/A: CPG 2566 ไม่มีคำแนะนำช่วงรอมฎอนสำหรับ tirzepatide"
+    },
+    "pregnancyLactationEn": "Pregnancy: may cause fetal harm based on animal studies; use only if the benefit justifies the risk. Oral contraceptives may work less well: add a barrier method for 4 weeks after starting and after each dose increase (US label)",
+    "pregnancyLactation": "หญิงตั้งครรภ์: อาจเป็นอันตรายต่อทารกจากการศึกษาในสัตว์ ใช้เมื่อประโยชน์มากกว่าความเสี่ยง ยาคุมกำเนิดชนิดรับประทานอาจได้ผลลดลง: ใช้วิธีป้องกันร่วมเป็นเวลา 4 สัปดาห์หลังเริ่มยาและหลังเพิ่มขนาดทุกครั้ง (เอกสารกำกับยาสหรัฐฯ)",
+    "patientTipsEn": "Inject once weekly on the same day, at any time, with or without food, into the abdomen or thigh (upper arm if someone else injects); rotate sites.",
+    "patientTips": "ฉีดสัปดาห์ละครั้งในวันเดิม เวลาใดก็ได้ พร้อมหรือไม่พร้อมอาหาร ที่หน้าท้องหรือต้นขา (ต้นแขนเมื่อผู้อื่นฉีดให้) และเปลี่ยนตำแหน่งฉีดทุกครั้ง"
   }
 ];

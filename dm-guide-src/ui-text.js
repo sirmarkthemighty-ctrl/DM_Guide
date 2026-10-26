@@ -64,7 +64,20 @@ const UI_TEXT = {
     changelogBtn: 'ดูประวัติการอัปเดต',
     themeToLight: 'เปลี่ยนเป็นโหมดสว่าง',
     themeToDark: 'เปลี่ยนเป็นโหมดมืด',
-    langSwitch: 'สลับภาษา / Switch Language'
+    langSwitch: 'สลับภาษา / Switch Language',
+    countriesLabel: 'ประเทศ',
+    countriesAll: 'ทั้งหมด',
+    countryCodes: { th: 'TH', us: 'US', uk: 'UK', eu: 'EU', jp: 'JP' },
+    countryNames: { th: 'ไทย', us: 'สหรัฐฯ', uk: 'สหราชอาณาจักร', eu: 'สหภาพยุโรป', jp: 'ญี่ปุ่น' },
+    regLabel: 'อย.',
+    regTitle: 'สถานะทะเบียนยาในประเทศที่เลือก',
+    regOpts: { current: 'ปัจจุบัน', past: 'เคยมี', never: 'ไม่เคยมี' },
+    regStatusText: { current: 'มีทะเบียน/จำหน่ายอยู่', past: 'เคยมี (ยกเลิกหรือเลิกจำหน่าย)', never: 'ไม่พบ' },
+    noCountry: 'เลือกอย่างน้อย 1 ประเทศ',
+    secReg: 'ทะเบียนยาในแต่ละประเทศ',
+    regExamples: 'ตัวอย่าง',
+    holderLabel: 'ผู้รับอนุญาต',
+    regEuNote: 'EU: EMA และยาที่อนุมัติรายประเทศตรวจเฉพาะไอร์แลนด์ (HPRA); UK: รายการจำหน่ายใน NHS dm+d; JP: PMDA แสดงเฉพาะยาที่มีอยู่ปัจจุบัน'
   },
   en: {
     title: 'DM Guide',
@@ -130,7 +143,20 @@ const UI_TEXT = {
     changelogBtn: 'View update history',
     themeToLight: 'Switch to light mode',
     themeToDark: 'Switch to dark mode',
-    langSwitch: 'สลับภาษา / Switch Language'
+    langSwitch: 'สลับภาษา / Switch Language',
+    countriesLabel: 'Countries',
+    countriesAll: 'All',
+    countryCodes: { th: 'TH', us: 'US', uk: 'UK', eu: 'EU', jp: 'JP' },
+    countryNames: { th: 'Thailand', us: 'United States', uk: 'United Kingdom', eu: 'European Union', jp: 'Japan' },
+    regLabel: 'FDA',
+    regTitle: 'Registration status in the selected countries',
+    regOpts: { current: 'Currently', past: 'Past', never: 'Never' },
+    regStatusText: { current: 'Registered / supplied', past: 'Past (cancelled or discontinued)', never: 'Not found' },
+    noCountry: 'Select at least one country',
+    secReg: 'Registration by country',
+    regExamples: 'e.g.',
+    holderLabel: 'Licence holder',
+    regEuNote: 'EU: EMA plus nationally authorised products checked in Ireland (HPRA) only; UK: NHS dm+d supply list; JP: PMDA lists current products only'
   }
 };
 Object.keys(UI_TEXT).forEach((k) => Object.assign(translations[k], UI_TEXT[k]));

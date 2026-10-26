@@ -194,8 +194,8 @@ async function main() {
     await sleep(500);
     try { fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 }); } catch (e) {}
 
-    if (results.rootMounted && results.cardFound && results.hasCardActionsTopRight && results.hasMaxDoseBadge && results.totalCards === 31 && errors.length === 0) {
-      console.log('\n>>> ALL 31 DRUGS AND FEATURES VERIFIED WITH ZERO ERRORS! <<<');
+    if (results.rootMounted && results.cardFound && results.hasCardActionsTopRight && results.hasMaxDoseBadge && results.totalCards === 33 /* 36 drugs; default filter = currently registered in Thailand */ && errors.length === 0) {
+      console.log('\n>>> ALL DRUG CARDS AND FEATURES VERIFIED WITH ZERO ERRORS! <<<');
       process.exit(0);
     } else {
       console.error('\nVerification checks failed.');
