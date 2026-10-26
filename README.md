@@ -8,6 +8,8 @@ with no installation and no data sent anywhere.
 
 It is decision support for healthcare professionals, not a substitute for the guideline, product labels or clinical judgement.
 
+**Open it:** https://sirmarkthemighty-ctrl.github.io/DM_Guide/
+
 ## What it contains
 
 - 31 glucose-lowering medicines available in Thailand (oral agents, GLP-1 receptor agonists, insulins and fixed combinations):
