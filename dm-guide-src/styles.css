@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base ground */
+html, body {
+  margin: 0;
+  background-color: #f1f5f9;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+html.dark, html.dark body {
+  background-color: #020617;
+  color: #f1f5f9;
+  color-scheme: dark;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.7);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.4);
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Modal clipping for embedded views */
+.fixed.bottom-0 { bottom: var(--clip-bottom, 0px); }
+.fixed.inset-0 { top: var(--clip-top, 0px); bottom: var(--clip-bottom, 0px); }
+.fixed.top-4 { top: calc(1rem + var(--clip-top, 0px)); }
+html.frame-clipped .fixed.inset-0 > * { max-height: 100%; }
+
+/* Animations */
+@keyframes tw-enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0)
+               scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), 1);
+  }
+}
+.animate-in {
+  animation-name: tw-enter;
+  animation-duration: 180ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+.fade-in { --tw-enter-opacity: 0; }
+.zoom-in-95 { --tw-enter-scale: 0.95; }
+.slide-in-from-bottom-2 { --tw-enter-translate-y: 0.5rem; }
+.slide-in-from-bottom-4 { --tw-enter-translate-y: 1rem; }
+.slide-in-from-top-2 { --tw-enter-translate-y: -0.5rem; }
+
+/* Pulse animation for hypo alert & live badges */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-in { animation: none; }
+}
+
+@media print {
+  body { background: white !important; color: black !important; }
+  .no-print { display: none !important; }
+}
+
+/* --- Dark Theme Palette Overrides --- */
+/* Ensures zero blinding white boxes or washed-out text in dark mode */
+html.dark .bg-white {
+  background-color: #151f32 !important;
+}
+html.dark .bg-slate-50 {
+  background-color: #0e1726 !important;
+}
+html.dark .bg-slate-100 {
+  background-color: #192438 !important;
+}
+html.dark .bg-slate-200 {
+  background-color: #24324a !important;
+}
+html.dark .hover\:bg-slate-50:hover,
+html.dark .hover\:bg-white:hover {
+  background-color: #1c2942 !important;
+}
+html.dark .hover\:bg-slate-100:hover {
+  background-color: #223254 !important;
+}
+
+/* Border colors in dark mode */
+html.dark .border-slate-100 {
+  border-color: #1d2940 !important;
+}
+html.dark .border-slate-200,
+html.dark .border-slate-200\/60,
+html.dark .border-slate-200\/70,
+html.dark .border-slate-200\/80 {
+  border-color: #263449 !important;
+}
+html.dark .border-slate-300 {
+  border-color: #33435c !important;
+}
+
+/* Text colors in dark mode */
+html.dark .text-slate-900 {
+  color: #f8fafc !important;
+}
+html.dark .text-slate-800 {
+  color: #e2e8f0 !important;
+}
+html.dark .text-slate-700 {
+  color: #cbd5e1 !important;
+}
+html.dark .text-slate-600 {
+  color: #a8b4c6 !important;
+}
+html.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+/* Form controls & inputs in dark mode (Fixes dark mode textboxes & select dropdowns) */
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background-color: #151f32 !important;
+  color: #f1f5f9 !important;
+  border-color: #263449 !important;
+}
+html.dark select option {
+  background-color: #151f32 !important;
+  color: #f1f5f9 !important;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #7d8ba1 !important;
+}
+html.dark input:focus,
+html.dark select:focus,
+html.dark textarea:focus {
+  border-color: #14b8a6 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.25) !important;
+}
