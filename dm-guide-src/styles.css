@@ -8,6 +8,15 @@ html, body {
   background-color: #f1f5f9;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
+/* Light mode must stay light even when the host page (e.g. the artifact viewer) is in dark mode:
+   form controls without their own background otherwise take the browser's dark default. */
+html:not(.dark) {
+  color-scheme: light;
+}
+:where(html:not(.dark)) :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+  background-color: #ffffff;
+  color: #1e293b;
+}
 html.dark, html.dark body {
   background-color: #020617;
   color: #f1f5f9;

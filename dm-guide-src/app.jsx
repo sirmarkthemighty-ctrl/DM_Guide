@@ -1,13 +1,14 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.5.1";
+const APP_VERSION = "v1.5.2";
 
 const changelogData = [
   {
-    version: "v1.5.1",
+    version: "v1.5.2",
     date: "October 26, 2026",
     dateTh: "26 ตุลาคม 2569",
     features: [
+      "Light mode: input boxes in the tools (e.g. the DKA/HHS calculator) stay white when the page is shown inside a dark-mode viewer.",
       "Renamed to Adult DM Guide.",
       "NLEM filter moved next to the FDA registration filter (shown while Thailand is selected), as in the Bronchodilator Guide.",
       "Pictures for 15 more drugs from written product descriptions: 6 tablets (Glucophage, Glucophage XR/SR, Minidiab, Diamicron MR, Amaryl, Daonil) from UK, Dutch, Australian and New Zealand product information, and 9 pens (Trulicity, Mounjaro, Humalog, Humulin N, Humulin 70/30, Humalog Mix 75/25, Lantus, Tresiba, Soliqua) from their instructions for use; parts a label does not describe are drawn as an outline. Ozempic, Victoza, Actrapid/Humulin R, Toujeo and Xultophy stay N/A (no colour in any label checked).",
@@ -40,6 +41,7 @@ const changelogData = [
       "Sitagliptin and rapid-acting insulin: CKD 3a/3b rows now state the eGFR < 50 cut-off clearly instead of quoting a range that did not match the row."
     ],
     featuresTh: [
+      "โหมดสว่าง: ช่องกรอกข้อมูลในเครื่องมือ (เช่น เครื่องคำนวณ DKA/HHS) เป็นสีขาวแม้เปิดในหน้าจอที่ใช้โหมดมืด",
       "เปลี่ยนชื่อเป็น Adult DM Guide",
       "ย้ายตัวกรองบัญชียาหลักไปไว้ข้างตัวกรองทะเบียน อย. (แสดงเมื่อเลือกประเทศไทย) แบบเดียวกับ Bronchodilator Guide",
       "เพิ่มภาพยาอีก 15 รายการจากคำบรรยายลักษณะยา: ยาเม็ด 6 รายการ (Glucophage, Glucophage XR/SR, Minidiab, Diamicron MR, Amaryl, Daonil) จากเอกสารกำกับยาของสหราชอาณาจักร เนเธอร์แลนด์ ออสเตรเลีย และนิวซีแลนด์ และปากกา 9 รายการ (Trulicity, Mounjaro, Humalog, Humulin N, Humulin 70/30, Humalog Mix 75/25, Lantus, Tresiba, Soliqua) จากวิธีใช้ปากกา ส่วนที่ฉลากไม่ระบุสีวาดเป็นเส้นขอบ; Ozempic, Victoza, Actrapid/Humulin R, Toujeo และ Xultophy ยังเป็น N/A (ไม่มีฉลากใดระบุสี)",
