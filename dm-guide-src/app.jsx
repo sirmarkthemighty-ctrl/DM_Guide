@@ -1,13 +1,16 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.5.0";
+const APP_VERSION = "v1.5.1";
 
 const changelogData = [
   {
-    version: "v1.5.0",
+    version: "v1.5.1",
     date: "October 26, 2026",
     dateTh: "26 ตุลาคม 2569",
     features: [
+      "Renamed to Adult DM Guide.",
+      "NLEM filter moved next to the FDA registration filter (shown while Thailand is selected), as in the Bronchodilator Guide.",
+      "Pictures for 15 more drugs from written product descriptions: 6 tablets (Glucophage, Glucophage XR/SR, Minidiab, Diamicron MR, Amaryl, Daonil) from UK, Dutch, Australian and New Zealand product information, and 9 pens (Trulicity, Mounjaro, Humalog, Humulin N, Humulin 70/30, Humalog Mix 75/25, Lantus, Tresiba, Soliqua) from their instructions for use; parts a label does not describe are drawn as an outline. Ozempic, Victoza, Actrapid/Humulin R, Toujeo and Xultophy stay N/A (no colour in any label checked).",
       "Five new drug cards for guideline drugs registered in Thailand: mitiglinide (Glufast), gemigliptin (Zemiglo), alogliptin (Nesina), canagliflozin (Invokana) and tirzepatide (Mounjaro), from CPG 2566, the product labels and the Thai FDA register. Price level is N/A until checked.",
       "Countries filter (All, TH, US, UK, EU, JP) and an FDA registration filter (Currently, † Past, ⊘ Never), as in the Bronchodilator Guide. Default: currently registered in Thailand.",
       "Cards and list rows show a coloured chip per country: the Thai licence holder or an example product, † if registration was cancelled or discontinued, ⊘ if not found.",
@@ -37,6 +40,9 @@ const changelogData = [
       "Sitagliptin and rapid-acting insulin: CKD 3a/3b rows now state the eGFR < 50 cut-off clearly instead of quoting a range that did not match the row."
     ],
     featuresTh: [
+      "เปลี่ยนชื่อเป็น Adult DM Guide",
+      "ย้ายตัวกรองบัญชียาหลักไปไว้ข้างตัวกรองทะเบียน อย. (แสดงเมื่อเลือกประเทศไทย) แบบเดียวกับ Bronchodilator Guide",
+      "เพิ่มภาพยาอีก 15 รายการจากคำบรรยายลักษณะยา: ยาเม็ด 6 รายการ (Glucophage, Glucophage XR/SR, Minidiab, Diamicron MR, Amaryl, Daonil) จากเอกสารกำกับยาของสหราชอาณาจักร เนเธอร์แลนด์ ออสเตรเลีย และนิวซีแลนด์ และปากกา 9 รายการ (Trulicity, Mounjaro, Humalog, Humulin N, Humulin 70/30, Humalog Mix 75/25, Lantus, Tresiba, Soliqua) จากวิธีใช้ปากกา ส่วนที่ฉลากไม่ระบุสีวาดเป็นเส้นขอบ; Ozempic, Victoza, Actrapid/Humulin R, Toujeo และ Xultophy ยังเป็น N/A (ไม่มีฉลากใดระบุสี)",
       "เพิ่มการ์ดยา 5 รายการตามแนวทางที่มีทะเบียนในไทย: mitiglinide (Glufast), gemigliptin (Zemiglo), alogliptin (Nesina), canagliflozin (Invokana) และ tirzepatide (Mounjaro) จาก CPG 2566 เอกสารกำกับยา และทะเบียนยา อย. ระดับราคาเป็น N/A จนกว่าจะตรวจสอบ",
       "ตัวกรองประเทศ (ทั้งหมด, TH, US, UK, EU, JP) และตัวกรองทะเบียน อย. (ปัจจุบัน, † เคยมี, ⊘ ไม่เคยมี) แบบเดียวกับ Bronchodilator Guide ค่าเริ่มต้น: มีทะเบียนในไทยปัจจุบัน",
       "การ์ดและรายการแสดงชิปสีตามประเทศ: ผู้รับอนุญาตในไทยหรือตัวอย่างผลิตภัณฑ์, † ถ้าทะเบียนถูกยกเลิกหรือเลิกจำหน่าย, ⊘ ถ้าไม่พบ",
@@ -347,7 +353,10 @@ function App() {
   const toggleAllCountries = () => setCountries(allCountries ? [] : [...REG_COUNTRIES]);
   // Registration status in the selected countries: Currently by default; at least one status stays on
   const REG_STATUSES = ['current', 'past', 'never'];
+  const L_NLEM_TITLE = { th: 'บัญชียาหลักแห่งชาติ พ.ศ. 2569', en: 'Thai National List of Essential Medicines B.E. 2569' };
   const [regStatus, setRegStatus] = useState(['current']);
+  // NLEM is Thailand's list, so the switch sits beside the FDA filter and only applies while Thailand is selected
+  const [nlemOnly, setNlemOnly] = useState(false);
   const toggleRegStatus = (k) => setRegStatus((prev) => (prev.includes(k) ? (prev.length > 1 ? prev.filter((x) => x !== k) : prev) : REG_STATUSES.filter((x) => x === k || prev.includes(x))));
   const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
   const [searchOpen, setSearchOpen] = useState(false); // phones: the search box opens across the row
@@ -417,7 +426,7 @@ function App() {
 
   // Active filter count for badge
   const activeFilterCount = (selectedCategory !== 'all' ? 1 : 0) +
-    (countries.join() !== 'th' ? 1 : 0) + (regStatus.join() !== 'current' ? 1 : 0) +
+    (countries.join() !== 'th' ? 1 : 0) + (regStatus.join() !== 'current' ? 1 : 0) + (nlemOnly && countries.includes('th') ? 1 : 0) +
     selectedClasses.length +
     selectedClinicalFilters.length;
 
@@ -479,6 +488,7 @@ function App() {
     setSelectedClinicalFilters([]);
     setCountries(['th']);
     setRegStatus(['current']);
+    setNlemOnly(false);
     setSortOrder('nameAsc');
   };
 
@@ -498,6 +508,7 @@ function App() {
 
       // Registration: some selected country has one of the selected statuses
       if (!countries.some((r) => regStatus.includes(regOf(d, r).s))) return false;
+      if (nlemOnly && countries.includes('th') && !d.nlem) return false;
 
       // 2. Main category
       if (selectedCategory !== 'all') {
@@ -518,7 +529,6 @@ function App() {
           if (cf === 'weight_loss' && d.weightEffect !== 'loss') return false;
           if (cf === 'weight_neutral' && d.weightEffect !== 'neutral') return false;
           if (cf === 'hypo_safe' && d.hypoRisk !== 'very_low' && d.hypoRisk !== 'low') return false;
-          if (cf === 'nlem' && !d.nlem) return false;
         }
       }
 
@@ -534,7 +544,7 @@ function App() {
       }
       return 0;
     });
-  }, [searchTerm, selectedCategory, selectedClasses, selectedClinicalFilters, sortOrder, countries, regStatus]);
+  }, [searchTerm, selectedCategory, selectedClasses, selectedClinicalFilters, sortOrder, countries, regStatus, nlemOnly]);
 
   // Guide (clinical tool) buttons: key, full name, colour, icon, opener
   const GUIDES = [
@@ -555,8 +565,7 @@ function App() {
     ['hf', t.hfFilter, 'bg-sky-600 text-white shadow-sm', 'text-sky-700 hover:bg-sky-50 dark:text-sky-300 dark:hover:bg-slate-700'],
     ['ckd', t.ckdFilter, 'bg-emerald-600 text-white shadow-sm', 'text-emerald-700 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-slate-700'],
     ['weight_loss', t.weightLossFilter, 'bg-purple-600 text-white shadow-sm', 'text-purple-700 hover:bg-purple-50 dark:text-purple-300 dark:hover:bg-slate-700'],
-    ['hypo_safe', t.hypoSafeFilter, 'bg-teal-600 text-white shadow-sm', 'text-teal-700 hover:bg-teal-50 dark:text-teal-300 dark:hover:bg-slate-700'],
-    ['nlem', t.nlemOnly, 'bg-emerald-700 text-white shadow-sm', 'text-emerald-800 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-slate-700']
+    ['hypo_safe', t.hypoSafeFilter, 'bg-teal-600 text-white shadow-sm', 'text-teal-700 hover:bg-teal-50 dark:text-teal-300 dark:hover:bg-slate-700']
   ];
 
   // Active filters as removable chips
@@ -566,6 +575,7 @@ function App() {
     ...(searchTerm.trim() ? [{ key: 'q', label: '"' + searchTerm.trim() + '"', off: () => setSearchTerm('') }] : []),
     ...(countries.join() !== 'th' ? [{ key: 'countries', label: t.countriesLabel + ': ' + (countries.length ? countries.map((r) => t.countryCodes[r]).join(', ') : (lang === 'th' ? 'ไม่มี' : 'none')), off: () => setCountries(['th']) }] : []),
     ...(regStatus.join() !== 'current' ? [{ key: 'reg', label: t.regLabel + ': ' + regStatus.map((k) => t.regOpts[k]).join(', '), off: () => setRegStatus(['current']) }] : []),
+    ...(nlemOnly && countries.includes('th') ? [{ key: 'nlem', label: t.nlemOnly, off: () => setNlemOnly(false) }] : []),
     ...(selectedCategory !== 'all' ? [{ key: 'cat', label: (CATEGORIES.find((c) => c.key === selectedCategory) || {}).label, off: () => setSelectedCategory('all') }] : []),
     ...selectedClasses.map((k) => ({ key: 'cls-' + k, label: classByKey[k] ? (lang === 'th' ? classByKey[k].nameTh.split('(')[0].trim() : classByKey[k].nameEn) : k, off: () => toggleClass(k) })),
     ...selectedClinicalFilters.map((k) => ({ key: 'cf-' + k, label: (CLINICAL.find((c) => c[0] === k) || [k, k])[1], off: () => toggleClinicalFilter(k) }))
@@ -706,6 +716,14 @@ function App() {
                 );
               })}
             </div>
+            {countries.includes('th') && (
+              <div className={segBox} data-nlem-group>
+                <button onClick={() => setNlemOnly((v) => !v)} aria-pressed={nlemOnly} title={L_NLEM_TITLE[lang]} data-nlem-filter
+                  className={`${segBtn} whitespace-nowrap ${nlemOnly ? 'bg-emerald-600 text-white shadow-sm' : 'text-emerald-700 hover:bg-emerald-50 dark:text-emerald-300 dark:hover:bg-slate-700'}`}>
+                  <CheckIcon className="w-2.5 h-2.5 md:w-3 md:h-3" /> {t.nlemOnly}
+                </button>
+              </div>
+            )}
           </div>
 
           <div className={segBox} role="group" aria-label={t.typeLabel} data-filter-row="type">

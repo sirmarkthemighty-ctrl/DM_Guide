@@ -1,7 +1,7 @@
 // UI text for the bronchodilator-style layout (v1.3.0). Merged into translations[lang] below.
 const UI_TEXT = {
   th: {
-    title: 'DM Guide',
+    title: 'Adult DM Guide',
     subtitle: 'ยาเบาหวานและเครื่องมือข้างเตียง ตามแนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566',
     discLink: 'ใช้ช่วยตัดสินใจเท่านั้น: อ่านข้อจำกัดความรับผิดชอบ',
     discTitle: 'ข้อจำกัดความรับผิดชอบ',
@@ -80,7 +80,7 @@ const UI_TEXT = {
     regEuNote: 'EU: EMA และยาที่อนุมัติรายประเทศตรวจเฉพาะไอร์แลนด์ (HPRA); UK: รายการจำหน่ายใน NHS dm+d; JP: PMDA แสดงเฉพาะยาที่มีอยู่ปัจจุบัน'
   },
   en: {
-    title: 'DM Guide',
+    title: 'Adult DM Guide',
     subtitle: 'Diabetes medicines and bedside tools, based on the Thai CPG for Diabetes 2566 (2023).',
     discLink: 'Decision support only: read the disclaimer',
     discTitle: 'Disclaimer',

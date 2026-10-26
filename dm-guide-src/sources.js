@@ -53,8 +53,9 @@ const DRUG_LABEL = {
   tirzepatide: ['US label: Mounjaro', dailymed('0818426a-53eb-4db7-9609-bbae1e7a3964')]
 };
 
-// Tablet pictures drawn only from a written product description (colour and shape).
-// Drugs not listed here show "N/A": no description was found (or, for pens and vials, no label gives colours).
+// Pictures drawn only from a written product description (tablet colour and shape; pen parts named in the
+// instructions for use). Drugs not listed here show "N/A": no label checked gives a description
+// (Ozempic, Victoza, Actrapid / Humulin R, Toujeo, Xultophy).
 const DRUG_PICTURE = {
   repaglinide: { brand: 'NovoNorm 0.5 mg', fill: '#f8fafc', shape: 'round', en: 'white, round', th: 'สีขาว กลม', src: ['EU product information: NovoNorm', emaPi('novonorm')] },
   pioglitazone: { brand: 'Actos 15 mg', fill: '#f7f5ee', shape: 'round', en: 'white to off-white, round', th: 'สีขาวถึงขาวนวล กลม', src: ['US label: Actos', dailymed('d2ddc491-88a9-4063-9150-443b4fa4330c')] },
@@ -71,7 +72,24 @@ const DRUG_PICTURE = {
   mitiglinide: { brand: 'Glufast 10 mg', fill: '#f8fafc', shape: 'capsule', en: 'white, oblong, scored', th: 'สีขาว รูปยาว มีรอยแบ่ง', src: ['Japanese package insert (PMDA): Glufast', 'https://www.pmda.go.jp/PmdaSearch/iyakuDetail/230034_3969008F1029_1_24'] },
   gemigliptin: { brand: 'Zemiglo 50 mg', fill: '#f59e42', shape: 'oval', en: 'orange, lemon-shaped', th: 'สีส้ม รูปมะนาว', src: ['Korean label (MFDS): Zemiglo', 'https://nedrug.mfds.go.kr/pbp/CCBBB01/getItemDetail?itemSeq=201205933'] },
   alogliptin: { brand: 'Nesina 25 mg', fill: '#f2a0a0', shape: 'oval', en: 'light red, oval', th: 'สีแดงอ่อน รูปไข่', src: ['US label: Nesina', dailymed('a3768c7e-aa4c-44d3-bc53-43bb7346c0b0')] },
-  canagliflozin: { brand: 'Invokana 100 mg', fill: '#f0c84a', shape: 'capsule', en: 'yellow, capsule-shaped', th: 'สีเหลือง รูปแคปซูล', src: ['US label: Invokana', dailymed('5f76e16f-0c24-454a-81af-4080b312c940')] }
+  canagliflozin: { brand: 'Invokana 100 mg', fill: '#f0c84a', shape: 'capsule', en: 'yellow, capsule-shaped', th: 'สีเหลือง รูปแคปซูล', src: ['US label: Invokana', dailymed('5f76e16f-0c24-454a-81af-4080b312c940')] },
+  // v1.6.0: tablets from UK / EU / Australian / New Zealand product information (same maker's brand)
+  metformin_ir: { brand: 'Glucophage 500 mg', fill: '#f8fafc', shape: 'round', en: 'white, round, engraved GL 500', th: 'สีขาว กลม สลัก GL 500', src: ['UK SmPC: Glucophage 500 mg', 'https://www.medicines.org.uk/emc/product/987/smpc'] },
+  metformin_xr: { brand: 'Glucophage SR 750 mg (UK name of Glucophage XR)', fill: '#f8fafc', shape: 'capsule', en: 'white, capsule-shaped', th: 'สีขาว รูปแคปซูล', src: ['UK SmPC: Glucophage SR', 'https://www.medicines.org.uk/emc/product/10722/smpc'] },
+  glipizide: { brand: 'Minodiab 5 mg (UK name of Minidiab)', fill: '#f8fafc', shape: 'round', score: true, en: 'white, round, scored on both sides', th: 'สีขาว กลม มีรอยแบ่งทั้งสองด้าน', src: ['UK SmPC: Minodiab 5 mg', 'https://www.medicines.org.uk/emc/product/1687/smpc'] },
+  gliclazide_mr: { brand: 'Diamicron MR 60 mg', fill: '#f8fafc', shape: 'capsule', score: true, en: 'white, oblong, scored, engraved DIA 60', th: 'สีขาว รูปยาว มีรอยแบ่ง สลัก DIA 60', src: ['Australian consumer leaflet: Diamicron 60 mg MR', 'https://medsinfo.com.au/api/documents/Diamicron_60mg_MR_CMI?format=pdf'] },
+  glimepiride: { brand: 'Amaryl 2 mg', fill: '#6fbf73', shape: 'capsule', score: true, en: 'green, oblong, scored (1 mg pink, 3 mg light yellow, 4 mg light blue)', th: 'สีเขียว รูปยาว มีรอยแบ่ง (1 มก. สีชมพู, 3 มก. สีเหลืองอ่อน, 4 มก. สีฟ้าอ่อน)', src: ['Dutch SmPC (CBG-MEB): Amaryl', 'https://www.geneesmiddeleninformatiebank.nl/smpc/h17844_smpc.pdf'] },
+  glibenclamide: { brand: 'Daonil 5 mg', fill: '#f8fafc', shape: 'capsule', score: true, en: 'white, oblong, scored, engraved LDI', th: 'สีขาว รูปยาว มีรอยแบ่ง สลัก LDI', src: ['New Zealand data sheet (Medsafe): Daonil', 'https://www.medsafe.govt.nz/profs/Datasheet/d/Daoniltab.pdf'] },
+  // Pens: only the parts a label describes are coloured; parts it does not describe are drawn as an outline
+  dulaglutide: { brand: 'Trulicity single-dose pen', shape: 'pen', pen: { button: '#16a34a', cap: '#9ca3af' }, en: 'green injection button, grey base cap (body colour not stated)', th: 'ปุ่มฉีดสีเขียว ฝาฐานสีเทา (ไม่ระบุสีตัวปากกา)', src: ['EU product information: Trulicity (instructions for use)', emaPi('trulicity')] },
+  tirzepatide: { brand: 'Mounjaro single-dose pen', shape: 'pen', pen: { button: '#7e22ce', cap: '#9ca3af' }, en: 'purple injection button, grey base cap (body colour not stated; the KwikPen is not described)', th: 'ปุ่มฉีดสีม่วง ฝาฐานสีเทา (ไม่ระบุสีตัวปากกา; ไม่มีคำบรรยาย KwikPen)', src: ['EU product information: Mounjaro (instructions for use)', emaPi('mounjaro')] },
+  insulin_rapid: { brand: 'Humalog KwikPen', shape: 'pen', pen: { body: '#1e3a8a', button: '#1e3a8a', label: '#ffffff', stripe: '#881337' }, en: 'dark blue pen and dose knob, white label with a burgundy stripe (NovoRapid FlexPen: no colour stated)', th: 'ปากกาและปุ่มหมุนสีน้ำเงินเข้ม ฉลากขาวแถบสีเลือดหมู (NovoRapid FlexPen: ไม่ระบุสี)', src: ['US label: Humalog (instructions for use)', dailymed('51d3dc11-52b9-4296-a2f4-58c770d4448d')] },
+  insulin_nph: { brand: 'Humulin N KwikPen', shape: 'pen', pen: { body: '#e7dcc2', button: '#86c98a', label: '#ffffff', stripe: '#86c98a' }, en: 'beige pen, light green dose knob, white label with a light green stripe (Insulatard: no colour stated)', th: 'ปากกาสีเบจ ปุ่มหมุนสีเขียวอ่อน ฉลากขาวแถบเขียวอ่อน (Insulatard: ไม่ระบุสี)', src: ['US label: Humulin N (instructions for use)', dailymed('f6edd793-440b-40c2-96b5-c16133b7a921')] },
+  insulin_premix_human: { brand: 'Humulin 70/30 KwikPen', shape: 'pen', pen: { body: '#e7dcc2', button: '#7c4a24', label: '#ffffff', stripe: '#7c4a24' }, en: 'beige pen, brown dose knob, white label with a brown stripe (Mixtard 30: no colour stated)', th: 'ปากกาสีเบจ ปุ่มหมุนสีน้ำตาล ฉลากขาวแถบน้ำตาล (Mixtard 30: ไม่ระบุสี)', src: ['US label: Humulin 70/30 (instructions for use)', dailymed('e245e0c5-b2d6-418b-baa4-1c3324292885')] },
+  insulin_premix_analog: { brand: 'Humalog Mix 75/25 KwikPen', shape: 'pen', pen: { body: '#1e3a8a', button: '#1e3a8a', label: '#ffffff', stripe: '#facc15' }, en: 'dark blue pen and dose knob, white label with a yellow stripe (NovoMix 30 FlexPen: no colour stated)', th: 'ปากกาและปุ่มหมุนสีน้ำเงินเข้ม ฉลากขาวแถบเหลือง (NovoMix 30 FlexPen: ไม่ระบุสี)', src: ['US label: Humalog Mix75/25 (instructions for use)', dailymed('c73da51a-1899-45ad-b6cf-9c52c36a25dd')] },
+  insulin_glargine_u100: { brand: 'Lantus SoloStar', shape: 'pen', pen: { body: '#9ca3af', button: '#7e22ce' }, en: 'grey pen with a purple injection button', th: 'ปากกาสีเทา ปุ่มฉีดสีม่วง', src: ['EU product information: Lantus (instructions for use)', emaPi('lantus')] },
+  insulin_degludec: { brand: 'Tresiba 100 units/mL FlexTouch', shape: 'pen', pen: { label: '#a3e0a0' }, en: 'light green label and packaging (pen body colour not stated)', th: 'ฉลากและบรรจุภัณฑ์สีเขียวอ่อน (ไม่ระบุสีตัวปากกา)', src: ['EU product information: Tresiba', emaPi('tresiba')] },
+  soliqua: { brand: 'Soliqua (10-40) SoloStar', shape: 'pen', pen: { body: '#f6c7a6', button: '#f97316' }, en: 'peach pen with an orange injection button; the (30-60) pen is olive with a brown button', th: 'ปากกาสีพีช ปุ่มฉีดสีส้ม; ปากกา (30-60) สีเขียวมะกอก ปุ่มสีน้ำตาล', src: ['EU product information: Suliqua (instructions for use)', emaPi('suliqua')] }
 };
 
 // Tablet drawn from its description, or an "N/A" box when there is no reference
@@ -86,6 +104,21 @@ const SourcedPicture = ({ drug, className = 'w-12 h-12' }) => {
     );
   }
   const stroke = '#64748b';
+  if (p.shape === 'pen') {
+    const c = p.pen;
+    const part = (fill) => ({ fill: fill || 'none', stroke, strokeWidth: 1.6 });
+    return (
+      <svg viewBox="0 0 64 64" className={className} role="img" aria-label={p.brand + ': ' + p.en} data-picture="pen">
+        <g transform="rotate(-35 32 32)" strokeLinejoin="round">
+          {c.cap && <rect x="2" y="26.5" width="10" height="11" rx="2.5" {...part(c.cap)} />}
+          <rect x={c.cap ? 11 : 5} y="25" width={c.cap ? 40 : 46} height="14" rx="4" {...part(c.body)} />
+          {c.label && <rect x="20" y="26.5" width="20" height="11" rx="1.5" {...part(c.label)} strokeWidth="1" />}
+          {c.stripe && <rect x="34" y="26.5" width="4" height="11" fill={c.stripe} stroke="none" />}
+          <rect x="51" y="27.5" width="9" height="9" rx="2" {...part(c.button)} />
+        </g>
+      </svg>
+    );
+  }
   const shape = {
     round: <circle cx="32" cy="32" r="19" />,
     oval: <ellipse cx="32" cy="32" rx="23" ry="14" />,
@@ -96,6 +129,7 @@ const SourcedPicture = ({ drug, className = 'w-12 h-12' }) => {
   return (
     <svg viewBox="0 0 64 64" className={className} role="img" aria-label={p.brand + ': ' + p.en} data-picture={p.shape}>
       <g fill={p.fill} stroke={stroke} strokeWidth="1.6">{shape}</g>
+      {p.score && <line x1={p.shape === 'round' ? 32 : 32} y1={p.shape === 'round' ? 15 : 22} x2="32" y2={p.shape === 'round' ? 49 : 42} stroke={stroke} strokeWidth="1.3" />}
     </svg>
   );
 };

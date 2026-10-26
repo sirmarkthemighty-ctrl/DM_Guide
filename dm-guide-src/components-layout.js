@@ -427,7 +427,7 @@ const DrugDetailModal = ({ drug, isOpen, onClose, lang, onToggleCompare, isCompa
             <DetailRow label={L('ภาพยา', 'Picture')} stack valueClass="text-slate-600 dark:text-slate-300 font-medium" attrs={{ 'data-picture-note': '' }}>
               {pic
                 ? <>{pic.brand}: {lang === 'th' ? pic.th : pic.en}</>
-                : L('N/A: ไม่พบคำบรรยายลักษณะยาหรือภาพอ้างอิงที่ตรวจสอบได้', 'N/A: no checked description or reference picture') + (drug.deviceType === 'pill' ? '' : L(' (ฉลากยาไม่ระบุสีของปากกาหรือขวดยา)', ' (product labels do not give pen or vial colours)'))}
+                : L('N/A: ไม่พบคำบรรยายลักษณะยาหรือภาพอ้างอิงที่ตรวจสอบได้', 'N/A: no checked description or reference picture') + (drug.deviceType === 'pill' ? '' : L(' (ฉลากยาที่ตรวจสอบไม่ระบุสีของปากกาหรือขวดยา)', ' (the product labels checked do not give pen or vial colours)'))}
             </DetailRow>
             {src([label, isGlp1 && SRC.cpgGlp1Table, isInsulin && SRC.cpgInsulinTable, pic && pic.src])}
           </FoldSection>
