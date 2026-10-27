@@ -288,6 +288,80 @@ const DrugListRow = ({ drug, lang, isCompared, onToggleCompare, onSelectDetail, 
   );
 };
 
+// --- Table view: one row per drug, the drug column stays pinned while the table scrolls sideways ---
+const DrugTable = ({ drugs, lang, compareList, onToggleCompare, onSelectDetail, regions = ['th'] }) => {
+  const t = translations[lang];
+  const th = 'px-2.5 py-2 text-left text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 whitespace-nowrap border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800';
+  const td = 'px-2.5 py-2 align-top border-b border-slate-100 dark:border-slate-800';
+  const BEN = [['cvBenefit', 'ASCVD', 'text-rose-700 dark:text-rose-300'], ['hfBenefit', 'HF', 'text-sky-700 dark:text-sky-300'], ['ckdBenefit', 'CKD', 'text-emerald-700 dark:text-emerald-300']];
+  return (
+    <div className="rounded-xl md:rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm overflow-x-auto relative" data-drug-table>
+      <table className="w-full min-w-[980px] text-xs border-separate border-spacing-0">
+        <thead>
+          <tr>
+            <th className={th + ' sticky left-0 z-10 min-w-[150px]'}>{t.colDrug}</th>
+            <th className={th}>{t.classLabel}</th>
+            <th className={th}>{t.factA1c}</th>
+            <th className={th}>{t.factWeight}</th>
+            <th className={th}>{t.factHypo}</th>
+            <th className={th}>{t.factKidney}</th>
+            <th className={th}>{t.benefitLabel}</th>
+            <th className={th}>{t.colReg}</th>
+            <th className={th + ' min-w-[180px]'}>{maxDoseHeading(t, lang)}</th>
+            <th className={th}><span className="sr-only">{t.colActions}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {drugs.map((drug) => {
+            const sel = compareList.some((d) => d.id === drug.id);
+            const weight = getWeightBadge(drug.weightEffect, lang);
+            const hypo = getHypoBadge(drug.hypoRisk, lang);
+            const egfr = getEgfrBadge(drug.renalAdjustment, lang);
+            const rowBg = sel ? 'bg-teal-50 dark:bg-teal-950' : 'bg-white dark:bg-slate-900';
+            return (
+              <tr key={drug.id} id={'drug-' + drug.id} onClick={(e) => openFromCard(e, drug, onSelectDetail)}
+                className={`cursor-pointer group ${sel ? '' : 'hover:[&>td]:bg-slate-50 dark:hover:[&>td]:bg-slate-800'}`} data-table-row>
+                <td className={`${td} ${rowBg} sticky left-0 z-[1] min-w-[150px] max-w-[190px] border-r border-slate-100 dark:border-slate-800`}>
+                  <div className="flex items-start gap-2 min-w-0">
+                    <DrugPicture drug={drug} className="w-7 h-7 shrink-0" />
+                    <div className="min-w-0">
+                      <span className="block font-extrabold text-slate-800 dark:text-white leading-tight break-words">{drug.genericName}</span>
+                      <span className="block text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 break-words"><BrandList drug={drug} lang={lang} /></span>
+                    </div>
+                  </div>
+                </td>
+                <td className={`${td} ${rowBg}`}><ClassChip drug={drug} lang={lang} /></td>
+                <td className={`${td} ${rowBg} font-bold text-teal-700 dark:text-teal-300 whitespace-nowrap`}>{drug.a1cReduction}</td>
+                <td className={`${td} ${rowBg} font-bold whitespace-nowrap ${WEIGHT_TONE[drug.weightEffect] || ''}`}>{badgeValue(weight.text)}</td>
+                <td className={`${td} ${rowBg} font-bold whitespace-nowrap ${HYPO_TONE[drug.hypoRisk] || ''}`}>{badgeValue(hypo.text)}</td>
+                <td className={`${td} ${rowBg} font-semibold text-slate-700 dark:text-slate-200 min-w-[110px]`}>{egfr.text.replace(/^eGFR:?\s*/, '')}</td>
+                <td className={`${td} ${rowBg}`}>
+                  <div className="flex flex-col gap-0.5 font-bold text-[10px]" data-table-benefits>
+                    {BEN.filter(([k]) => drug[k]).map(([k, label, tone]) => <span key={k} className={tone}>{label}</span>)}
+                    {!BEN.some(([k]) => drug[k]) && <span className="text-slate-400">-</span>}
+                  </div>
+                </td>
+                <td className={`${td} ${rowBg}`}>
+                  <div className="flex flex-wrap gap-1 w-[118px] [&>*]:whitespace-nowrap">
+                    {REG_COUNTRIES.filter((r) => regions.includes(r) || regOf(drug, r).s !== 'never').map((r) => <StatusChip key={r} drug={drug} r={r} t={t} />)}
+                    {regions.includes('th') && <NlemChip drug={drug} lang={lang} />}
+                  </div>
+                </td>
+                <td className={`${td} ${rowBg} text-amber-800 dark:text-amber-300 font-semibold leading-snug min-w-[180px] max-w-[260px]`}>{lang === 'th' ? drug.maxDoseTh : drug.maxDoseEn}</td>
+                <td className={`${td} ${rowBg}`}>
+                  <div className="flex flex-col gap-1 items-stretch [&_button]:whitespace-nowrap" data-card-actions>
+                    <SelectButtons drug={drug} t={t} isCompared={sel} onToggleCompare={onToggleCompare} onSelectDetail={onSelectDetail} />
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 // --- Colour-coded, foldable section (detail view) ---
 const FOLD_TONE = {
   teal: ['border-l-teal-500', 'text-teal-700 dark:text-teal-300'],

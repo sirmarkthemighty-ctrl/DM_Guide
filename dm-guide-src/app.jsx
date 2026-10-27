@@ -1,8 +1,19 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.5.4";
+const APP_VERSION = "v1.6.0";
 
 const changelogData = [
+  {
+    version: "v1.6.0",
+    date: "October 27, 2026",
+    dateTh: "27 ตุลาคม 2569",
+    features: [
+      "Table view (third view button): one row per drug with class, A1C lowering, weight, hypoglycaemia, kidney limit, ASCVD/HF/CKD benefit, registration chips, NLEM and max dose. The drug column stays pinned while the table scrolls sideways; tap a row for details."
+    ],
+    featuresTh: [
+      "มุมมองตาราง (ปุ่มมุมมองที่สาม): หนึ่งแถวต่อหนึ่งยา แสดงกลุ่มยา การลด A1C น้ำหนักตัว น้ำตาลต่ำ เกณฑ์ไต ประโยชน์ ASCVD/HF/CKD ชิปทะเบียน บัญชียาหลัก และขนาดยาสูงสุด คอลัมน์ชื่อยาค้างไว้ขณะเลื่อนตารางด้านข้าง แตะแถวเพื่อดูรายละเอียด"
+    ]
+  },
   {
     version: "v1.5.4",
     date: "October 26, 2026",
@@ -364,7 +375,7 @@ function App() {
   // NLEM is Thailand's list, so the switch sits beside the FDA filter and only applies while Thailand is selected
   const [nlemOnly, setNlemOnly] = useState(false);
   const toggleRegStatus = (k) => setRegStatus((prev) => (prev.includes(k) ? (prev.length > 1 ? prev.filter((x) => x !== k) : prev) : REG_STATUSES.filter((x) => x === k || prev.includes(x))));
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState('grid'); // 'grid', 'list' or 'table'
   const [searchOpen, setSearchOpen] = useState(false); // phones: the search box opens across the row
   const searchRef = useRef(null);
   useEffect(() => { if (searchOpen && searchRef.current) searchRef.current.focus(); }, [searchOpen]);
@@ -681,6 +692,10 @@ function App() {
                 className={`h-full px-2 md:px-2.5 rounded-md transition-colors flex items-center justify-center ${viewMode === 'list' ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-white' : 'text-slate-400 hover:text-slate-600'}`}>
                 <ListIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
               </button>
+              <button onClick={() => setViewMode('table')} aria-label={t.tableView} title={t.tableView} aria-pressed={viewMode === 'table'} data-view-table
+                className={`h-full px-2 md:px-2.5 rounded-md transition-colors flex items-center justify-center ${viewMode === 'table' ? 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-white' : 'text-slate-400 hover:text-slate-600'}`}>
+                <TableIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
+              </button>
             </div>
 
             <button onClick={() => setFiltersOpen((v) => !v)} aria-expanded={filtersOpen} aria-controls="filter-bar" aria-label={t.filtersBtn} title={t.filtersBtn} data-filters-toggle
@@ -804,6 +819,12 @@ function App() {
             <button onClick={resetFilters} className="mt-2 text-teal-700 dark:text-teal-300 hover:underline text-sm md:text-base">{t.clearFilters}</button>
           </div>
         ) : (
+          viewMode === 'table' ? (
+            <div id="printable-drug-list">
+              <DrugTable drugs={filteredDrugs} lang={lang} compareList={compareList} onToggleCompare={toggleCompare}
+                onSelectDetail={(d) => setSelectedDrugDetail(d)} regions={countries} />
+            </div>
+          ) :
           <div id="printable-drug-list" className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5' : 'flex flex-col gap-2 md:gap-3'}>
             {filteredDrugs.map((drug) => {
               const Comp = viewMode === 'grid' ? DrugCard : DrugListRow;

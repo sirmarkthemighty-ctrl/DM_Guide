@@ -80,6 +80,10 @@ window.__dmAuditRun = async () => {
     document.querySelector('button[aria-label="' + (lang === 'th' ? 'มุมมองรายการ' : 'List view') + '"]').click(); await wait(200);
     audit(L + ' list view');
     if (lang === 'en') thaiLeft('list view');
+    document.querySelector('[data-view-table]').click(); await wait(250);
+    audit(L + ' table view');
+    if (lang === 'en') thaiLeft('table view');
+    if (document.documentElement.scrollWidth > document.documentElement.clientWidth + 1) out.issues[L + ' table view page width'] = ['page wider than the screen: ' + document.documentElement.scrollWidth];
     document.querySelector('button[aria-label="' + (lang === 'th' ? 'มุมมองการ์ด' : 'Card view') + '"]').click(); await wait(200);
 
     const n = document.querySelectorAll('[data-details]').length;
