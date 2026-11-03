@@ -1,19 +1,19 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.7.1";
+const APP_VERSION = "v1.7.2";
 
 const changelogData = [
   {
-    version: "v1.7.1",
+    version: "v1.7.2",
     date: "November 3, 2026",
     dateTh: "3 พฤศจิกายน 2569",
     features: [
-      "Guide buttons grouped into OPD (start drugs, insulin, kidney, Ramadan, Thai DRS, foot, GDM, remission) and IPD (hypoglycaemia, DKA/HHS, inpatient insulin), with soft-tint colours as in the Bronchodilator Guide.",
+      "Guide buttons grouped into OPD (Thai DRS first, then start drugs, insulin, kidney, Ramadan, foot, GDM, remission) and IPD (hypoglycaemia, DKA/HHS, inpatient insulin), with soft-tint colours as in the Bronchodilator Guide.",
       "New Inpatient insulin tool: glucose goal and POCT timing (ADA Standards 2025, section 16), weight-based starting dose (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg if age ≥ 70 or creatinine ≥ 2.0; half basal), and a daily chart of insulin units and POCT glucose per meal and bedtime with the total daily dose (TDD), mean and range, flagged when any reading is < 70 or two or more are ≥ 180.",
       "Each chart column picks its insulin from the drug list, including the premixed insulins (Mixtard 30, NovoMix 30, Humalog Mix); a premix twice-daily plan follows the CPG 2566 testing table (p. 110) and notes that premixes are not routinely recommended in hospital."
     ],
     featuresTh: [
-      "แบ่งปุ่มเครื่องมือเป็น OPD (เริ่มยา อินซูลิน โรคไต รอมฎอน Thai DRS เท้า GDM ระยะสงบ) และ IPD (น้ำตาลต่ำ DKA/HHS อินซูลินผู้ป่วยใน) ใช้สีอ่อนแบบ Bronchodilator Guide",
+      "แบ่งปุ่มเครื่องมือเป็น OPD (Thai DRS อยู่ซ้ายสุด ตามด้วย เริ่มยา อินซูลิน โรคไต รอมฎอน เท้า GDM ระยะสงบ) และ IPD (น้ำตาลต่ำ DKA/HHS อินซูลินผู้ป่วยใน) ใช้สีอ่อนแบบ Bronchodilator Guide",
       "เครื่องมือใหม่ อินซูลินผู้ป่วยใน: เป้าหมายน้ำตาลและเวลาเจาะ POCT (ADA Standards 2025 หมวด 16) ขนาดเริ่มต้นตามน้ำหนัก (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg ถ้าอายุ ≥ 70 ปีหรือ Cr ≥ 2.0; basal ครึ่งหนึ่ง) และตารางรายวันบันทึกยูนิตอินซูลินกับ POCT ทุกมื้อและก่อนนอน คำนวณ TDD ค่าเฉลี่ยและช่วง พร้อมเตือนเมื่อมีค่า < 70 หรือ ≥ 180 ตั้งแต่ 2 ครั้ง",
       "แต่ละคอลัมน์เลือกชนิดอินซูลินจากรายการยา รวมอินซูลินผสม (Mixtard 30, NovoMix 30, Humalog Mix); แผน premix วันละ 2 ครั้งใช้ตารางการเจาะเลือดของ CPG 2566 (หน้า 110) และระบุว่าไม่แนะนำ premix เป็นประจำในโรงพยาบาล"
     ]
@@ -581,13 +581,13 @@ function App() {
 
   // Guide (clinical tool) buttons: key, full name, colour, icon, opener
   const GUIDES = [
+    ['drs', t.toolThaiDrs, 'bg-cyan-50 hover:bg-cyan-100 border-cyan-200 text-cyan-700 dark:bg-cyan-950 dark:hover:bg-cyan-900 dark:border-cyan-800 dark:text-cyan-300', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
     ['start', t.toolStartingWizard, 'bg-teal-50 hover:bg-teal-100 border-teal-200 text-teal-700 dark:bg-teal-950 dark:hover:bg-teal-900 dark:border-teal-800 dark:text-teal-300', GuideStartIcon, () => setIsStartingWizardOpen(true)],
     ['insulin', t.toolInsulinCalc, 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 dark:border-blue-800 dark:text-blue-300', GuideInsulinIcon, () => setIsInsulinCalcOpen(true)],
     ['ckd', t.toolCkdMatrix, 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-700 dark:bg-emerald-950 dark:hover:bg-emerald-900 dark:border-emerald-800 dark:text-emerald-300', GuideKidneyIcon, () => setIsCkdMatrixOpen(true)],
     ['hypo', t.toolHypo, 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-700 dark:bg-amber-950 dark:hover:bg-amber-900 dark:border-amber-800 dark:text-amber-300', GuideHypoIcon, () => setIsHypoOpen(true)],
     ['dka', t.toolDkaHhs, 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-700 dark:bg-rose-950 dark:hover:bg-rose-900 dark:border-rose-800 dark:text-rose-300', GuideDkaIcon, () => setIsDkaHhsOpen(true)],
     ['ramadan', t.toolRamadan, 'bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-700 dark:bg-indigo-950 dark:hover:bg-indigo-900 dark:border-indigo-800 dark:text-indigo-300', GuideRamadanIcon, () => setIsRamadanOpen(true)],
-    ['drs', t.toolThaiDrs, 'bg-cyan-50 hover:bg-cyan-100 border-cyan-200 text-cyan-700 dark:bg-cyan-950 dark:hover:bg-cyan-900 dark:border-cyan-800 dark:text-cyan-300', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
     ['foot', t.toolFoot, 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600 dark:text-slate-200', GuideFootIcon, () => setIsFootCareOpen(true)],
     ['gdm', t.toolGdm, 'bg-pink-50 hover:bg-pink-100 border-pink-200 text-pink-700 dark:bg-pink-950 dark:hover:bg-pink-900 dark:border-pink-800 dark:text-pink-300', GuideGdmIcon, () => setIsGdmOpen(true)],
     ['remission', t.toolRemission, 'bg-violet-50 hover:bg-violet-100 border-violet-200 text-violet-700 dark:bg-violet-950 dark:hover:bg-violet-900 dark:border-violet-800 dark:text-violet-300', GuideRemissionIcon, () => setIsRemissionOpen(true)],
