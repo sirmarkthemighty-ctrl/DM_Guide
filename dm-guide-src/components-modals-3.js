@@ -791,7 +791,7 @@ const ScreeningModal = ({ isOpen, onClose, lang }) => {
           <div className="flex items-center gap-3 min-w-0">
             <div className="p-2.5 rounded-2xl bg-teal-700 text-white shadow-sm shrink-0"><GuideScreenIcon className="w-5 h-5" /></div>
             <div className="min-w-0">
-              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{L('คัดกรองโรคแทรกซ้อนจากเบาหวาน', 'Diabetes Complication Screening')}</h2>
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{L('โรคแทรกซ้อนจากเบาหวาน', 'Diabetes Complications')}</h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">{L('ตามแนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 บทที่ 3, 13 และ 15', 'Thai CPG for Diabetes 2566, chapters 3, 13 and 15')}</p>
             </div>
           </div>
