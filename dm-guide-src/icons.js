@@ -378,6 +378,9 @@ const GuideGdmIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
 const GuideInpatientIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
   <path d="M3 6v13" /><path d="M3 15h18v4" /><path d="M21 15v-3a3 3 0 0 0-3-3h-7v6" /><circle cx="7" cy="11.5" r="1.8" />
 </>);
+const GuideScreenIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <rect x="5" y="4" width="14" height="17" rx="2" /><path d="M9 4V3h6v1" /><path d="m8.5 10 1.5 1.5 2.5-2.5" /><path d="M14.5 10.5H16" /><path d="m8.5 16 1.5 1.5 2.5-2.5" /><path d="M14.5 16.5H16" />
+</>);
 const GuideRemissionIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
   <path d="M3 3v18h18" />
   <path d="m7 7 4.5 4.5 3-3 5.5 5.5" />

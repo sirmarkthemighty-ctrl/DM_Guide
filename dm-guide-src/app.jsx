@@ -1,18 +1,20 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.7.2";
+const APP_VERSION = "v1.8.0";
 
 const changelogData = [
   {
-    version: "v1.7.2",
+    version: "v1.8.0",
     date: "November 3, 2026",
     dateTh: "3 พฤศจิกายน 2569",
     features: [
+      "New Complication screening tool (OPD, next to Thai DRS), from CPG 2566: yearly checklist (exam with feet, eyes, dental, UACR and eGFR, vaccines, lifestyle; pp. 34-35); Table 5 risk grid for glucose, kidney, eye, heart and vessels and foot with the referral advice for the highest level (p. 34); eye exam start and next visit by finding (chart 1, p. 152); kidney plan by eGFR and UACR category, Treatment A/B/C or refer (Table 1, p. 153).",
       "Guide buttons grouped into OPD (Thai DRS first, then start drugs, insulin, kidney, Ramadan, foot, GDM, remission) and IPD (hypoglycaemia, DKA/HHS, inpatient insulin), with soft-tint colours as in the Bronchodilator Guide.",
       "New Inpatient insulin tool: glucose goal and POCT timing (ADA Standards 2025, section 16), weight-based starting dose (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg if age ≥ 70 or creatinine ≥ 2.0; half basal), and a daily chart of insulin units and POCT glucose per meal and bedtime with the total daily dose (TDD), mean and range, flagged when any reading is < 70 or two or more are ≥ 180.",
       "Each chart column picks its insulin from the drug list, including the premixed insulins (Mixtard 30, NovoMix 30, Humalog Mix); a premix twice-daily plan follows the CPG 2566 testing table (p. 110) and notes that premixes are not routinely recommended in hospital."
     ],
     featuresTh: [
+      "เครื่องมือใหม่ คัดกรองโรคแทรกซ้อน (OPD ถัดจาก Thai DRS) ตาม CPG 2566: รายการตรวจประจำปี (ตรวจร่างกายรวมเท้า ตา ฟัน UACR และ eGFR วัคซีน พฤติกรรม; หน้า 34-35) ตารางที่ 5 ประเมินความเสี่ยงด้านน้ำตาล ไต ตา หัวใจและหลอดเลือด เท้า พร้อมคำแนะนำการส่งต่อตามระดับสูงสุด (หน้า 34) การเริ่มตรวจตาและนัดครั้งต่อไปตามผลตรวจ (แผนภูมิที่ 1 หน้า 152) และแผนการรักษาไตตาม eGFR และ UACR (Treatment A/B/C หรือส่งต่อ; ตารางที่ 1 หน้า 153)",
       "แบ่งปุ่มเครื่องมือเป็น OPD (Thai DRS อยู่ซ้ายสุด ตามด้วย เริ่มยา อินซูลิน โรคไต รอมฎอน เท้า GDM ระยะสงบ) และ IPD (น้ำตาลต่ำ DKA/HHS อินซูลินผู้ป่วยใน) ใช้สีอ่อนแบบ Bronchodilator Guide",
       "เครื่องมือใหม่ อินซูลินผู้ป่วยใน: เป้าหมายน้ำตาลและเวลาเจาะ POCT (ADA Standards 2025 หมวด 16) ขนาดเริ่มต้นตามน้ำหนัก (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg ถ้าอายุ ≥ 70 ปีหรือ Cr ≥ 2.0; basal ครึ่งหนึ่ง) และตารางรายวันบันทึกยูนิตอินซูลินกับ POCT ทุกมื้อและก่อนนอน คำนวณ TDD ค่าเฉลี่ยและช่วง พร้อมเตือนเมื่อมีค่า < 70 หรือ ≥ 180 ตั้งแต่ 2 ครั้ง",
       "แต่ละคอลัมน์เลือกชนิดอินซูลินจากรายการยา รวมอินซูลินผสม (Mixtard 30, NovoMix 30, Humalog Mix); แผน premix วันละ 2 ครั้งใช้ตารางการเจาะเลือดของ CPG 2566 (หน้า 110) และระบุว่าไม่แนะนำ premix เป็นประจำในโรงพยาบาล"
@@ -418,6 +420,7 @@ function App() {
   const [isGdmOpen, setIsGdmOpen] = useState(false);
   const [isRemissionOpen, setIsRemissionOpen] = useState(false);
   const [isInpatientOpen, setIsInpatientOpen] = useState(false);
+  const [isScreenOpen, setIsScreenOpen] = useState(false);
 
   // Categories definition
   const CATEGORIES = [
@@ -582,6 +585,7 @@ function App() {
   // Guide (clinical tool) buttons: key, full name, colour, icon, opener
   const GUIDES = [
     ['drs', t.toolThaiDrs, 'bg-cyan-50 hover:bg-cyan-100 border-cyan-200 text-cyan-700 dark:bg-cyan-950 dark:hover:bg-cyan-900 dark:border-cyan-800 dark:text-cyan-300', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
+    ['screen', t.guide.screen, 'bg-lime-50 hover:bg-lime-100 border-lime-200 text-lime-800 dark:bg-lime-950 dark:hover:bg-lime-900 dark:border-lime-800 dark:text-lime-300', GuideScreenIcon, () => setIsScreenOpen(true)],
     ['start', t.toolStartingWizard, 'bg-teal-50 hover:bg-teal-100 border-teal-200 text-teal-700 dark:bg-teal-950 dark:hover:bg-teal-900 dark:border-teal-800 dark:text-teal-300', GuideStartIcon, () => setIsStartingWizardOpen(true)],
     ['insulin', t.toolInsulinCalc, 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 dark:border-blue-800 dark:text-blue-300', GuideInsulinIcon, () => setIsInsulinCalcOpen(true)],
     ['ckd', t.toolCkdMatrix, 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-700 dark:bg-emerald-950 dark:hover:bg-emerald-900 dark:border-emerald-800 dark:text-emerald-300', GuideKidneyIcon, () => setIsCkdMatrixOpen(true)],
@@ -915,6 +919,7 @@ function App() {
       <GdmModal isOpen={isGdmOpen} onClose={() => setIsGdmOpen(false)} lang={lang} />
       <RemissionModal isOpen={isRemissionOpen} onClose={() => setIsRemissionOpen(false)} lang={lang} />
       <InpatientInsulinModal isOpen={isInpatientOpen} onClose={() => setIsInpatientOpen(false)} lang={lang} />
+      <ScreeningModal isOpen={isScreenOpen} onClose={() => setIsScreenOpen(false)} lang={lang} />
       
       {/* Monograph Detail Modal */}
       <DrugDetailModal

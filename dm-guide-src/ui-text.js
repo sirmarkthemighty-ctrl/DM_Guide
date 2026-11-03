@@ -8,11 +8,11 @@ const UI_TEXT = {
     discBody: 'คู่มือนี้สรุปแนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 และข้อมูลผลิตภัณฑ์ยาสำหรับผู้ใหญ่ เพื่อช่วยการตัดสินใจเท่านั้น ไม่ใช่คำสั่งการรักษา โปรดตรวจสอบแนวทางฉบับเต็ม เอกสารกำกับยาฉบับปัจจุบัน และสภาวะของผู้ป่วยแต่ละรายก่อนสั่งใช้ยา',
     guide: {
       start: 'เริ่มยา T2D', insulin: 'ปรับอินซูลิน', ckd: 'ยาในโรคไต', hypo: 'น้ำตาลต่ำ', dka: 'DKA / HHS',
-      ramadan: 'รอมฎอน', drs: 'Thai DRS', foot: 'เท้าเบาหวาน', gdm: 'GDM', remission: 'ระยะสงบ', inpatient: 'อินซูลินผู้ป่วยใน'
+      ramadan: 'รอมฎอน', drs: 'Thai DRS', foot: 'เท้าเบาหวาน', gdm: 'GDM', remission: 'ระยะสงบ', inpatient: 'อินซูลินผู้ป่วยใน', screen: 'คัดกรองโรคแทรกซ้อน'
     },
     guideShort: {
       start: 'เริ่มยา', insulin: 'อินซูลิน', ckd: 'โรคไต', hypo: 'น้ำตาลต่ำ', dka: 'DKA',
-      ramadan: 'รอมฎอน', drs: 'DRS', foot: 'เท้า', gdm: 'GDM', remission: 'ระยะสงบ', inpatient: 'ผู้ป่วยใน'
+      ramadan: 'รอมฎอน', drs: 'DRS', foot: 'เท้า', gdm: 'GDM', remission: 'ระยะสงบ', inpatient: 'ผู้ป่วยใน', screen: 'คัดกรอง'
     },
     searchOpen: 'ค้นหา',
     searchClose: 'ปิดการค้นหา',
@@ -91,11 +91,11 @@ const UI_TEXT = {
     discBody: 'This guide summarises the Thai Clinical Practice Guideline for Diabetes 2566 (2023) and product information for adults, as decision support only. It is not a treatment order. Check the full guideline, the current product label and the individual patient before prescribing.',
     guide: {
       start: 'Start T2D drugs', insulin: 'Insulin', ckd: 'Kidney dosing', hypo: 'Hypoglycaemia', dka: 'DKA / HHS',
-      ramadan: 'Ramadan', drs: 'Thai DRS', foot: 'Diabetic foot', gdm: 'GDM', remission: 'Remission', inpatient: 'Inpatient insulin'
+      ramadan: 'Ramadan', drs: 'Thai DRS', foot: 'Diabetic foot', gdm: 'GDM', remission: 'Remission', inpatient: 'Inpatient insulin', screen: 'Complication screening'
     },
     guideShort: {
       start: 'Start', insulin: 'Insulin', ckd: 'Kidney', hypo: 'Hypo', dka: 'DKA',
-      ramadan: 'Ramadan', drs: 'DRS', foot: 'Foot', gdm: 'GDM', remission: 'Remission', inpatient: 'Inpatient'
+      ramadan: 'Ramadan', drs: 'DRS', foot: 'Foot', gdm: 'GDM', remission: 'Remission', inpatient: 'Inpatient', screen: 'Screening'
     },
     searchOpen: 'Search',
     searchClose: 'Close search',

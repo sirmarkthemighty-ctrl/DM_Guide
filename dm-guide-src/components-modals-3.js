@@ -714,3 +714,171 @@ const InpatientInsulinModal = ({ isOpen, onClose, lang }) => {
     </div>
   );
 };
+
+// --- Complication screening (CPG 2566): yearly checks (pp. 34-35), Table 5 risk grid (p. 34),
+// eye follow-up (chart 1, p. 152) and kidney UACR x eGFR plan (Table 1, p. 153) ---
+const SCR_LEVELS = [
+  { th: 'ต่ำ / ไม่มี', en: 'Low / none', tone: 'emerald' },
+  { th: 'ปานกลาง / ระยะต้น *', en: 'Moderate / early *', tone: 'amber' },
+  { th: 'สูง / ระยะกลาง *', en: 'High / intermediate *', tone: 'orange' },
+  { th: 'เรื้อรังรุนแรง **', en: 'Severe chronic **', tone: 'rose' }
+];
+const SCR_ROWS = [
+  { k: 'glu', th: 'ระดับน้ำตาล', en: 'Glucose control', cells: [['A1C < 7%', 'A1C < 7%'], ['A1C 7.0-7.9%', 'A1C 7.0-7.9%'], ['A1C ≥ 8% หรือ hypoglycemia > 3 ครั้ง/สัปดาห์', 'A1C ≥ 8% or hypoglycaemia > 3 times/week'], null] },
+  { k: 'kid', th: 'ไต', en: 'Kidney', cells: [['ไม่มี proteinuria, UACR < 30 มก./ก.', 'No proteinuria, UACR < 30 mg/g'], ['UACR 30-300 มก./ก.', 'UACR 30-300 mg/g'], ['UACR > 300 มก./ก. หรือ eGFR 30-59', 'UACR > 300 mg/g or eGFR 30-59'], ['eGFR < 30', 'eGFR < 30']] },
+  { k: 'eye', th: 'ตา', en: 'Eye', cells: [['ไม่มี retinopathy', 'No retinopathy'], ['Mild NPDR', 'Mild NPDR'], ['Moderate NPDR หรือ VA ผิดปกติ', 'Moderate NPDR or abnormal visual acuity'], ['Severe NPDR, PDR, macular edema', 'Severe NPDR, PDR, macular oedema']] },
+  { k: 'cv', th: 'หัวใจและหลอดเลือด', en: 'Heart and vessels', cells: [['ไม่มี HT, dyslipidemia หรืออาการโรคหัวใจ', 'No hypertension, dyslipidaemia or CV symptoms'], ['HT และ/หรือ dyslipidemia คุมได้ตามเป้าหมาย', 'Hypertension and/or dyslipidaemia at target'], ['HT และ/หรือ dyslipidemia ไม่ได้ตามเป้าหมาย', 'Hypertension and/or dyslipidaemia not at target'], ['Angina, CAD, MI, CABG, heart failure หรือ CVA', 'Angina, CAD, MI, CABG, heart failure or stroke']] },
+  { k: 'foot', th: 'เท้า', en: 'Foot', cells: [['Protective sensation และชีพจรปกติ', 'Normal protective sensation and pulses'], ['Peripheral neuropathy, ชีพจรลดลง', 'Peripheral neuropathy, reduced pulses'], ['เคยมีแผลที่เท้า, เคยตัดขา/เท้า, intermittent claudication', 'Past foot ulcer, previous amputation, intermittent claudication'], ['Rest pain, gangrene', 'Rest pain, gangrene']] }
+];
+const SCR_TONE = {
+  emerald: ['bg-emerald-600 text-white border-emerald-600', 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-900'],
+  amber: ['bg-amber-500 text-white border-amber-500', 'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-900'],
+  orange: ['bg-orange-600 text-white border-orange-600', 'bg-orange-50 text-orange-800 border-orange-200 dark:bg-orange-950 dark:text-orange-300 dark:border-orange-900'],
+  rose: ['bg-rose-600 text-white border-rose-600', 'bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:border-rose-900']
+};
+// Eye follow-up by finding (chart 1, p. 152)
+const SCR_EYE = [
+  ['ปกติ', 'Normal', 'นัดตรวจตา 1 ปี', 'Recheck in 1 year'],
+  ['Mild NPDR', 'Mild NPDR', 'นัด 6 เดือน', 'Recheck in 6 months'],
+  ['Moderate NPDR', 'Moderate NPDR', 'นัด 3-6 เดือน', 'Recheck in 3-6 months'],
+  ['Severe NPDR / PDR / macular edema', 'Severe NPDR / PDR / macular oedema', 'นัดตรวจติดตามและรักษาโดยจักษุแพทย์ทันที', 'Ophthalmologist follow-up and treatment now']
+];
+// Kidney plan by eGFR (G) and albuminuria (A) category (Table 1, p. 153)
+const SCR_G = [['G1', '≥ 90'], ['G2', '60-89'], ['G3a', '45-59'], ['G3b', '30-44'], ['G4', '15-29'], ['G5', '< 15']];
+const SCR_A = [['A1', '< 30'], ['A2', '30-299'], ['A3', '≥ 300']];
+const scrKidneyPlan = (g, a) => (g >= 4 ? ['refer'] : a === 0 ? ['A'] : a === 1 ? ['B', 'C'] : ['C', 'refer']);
+const SCR_TX = {
+  A: ['ควบคุมน้ำตาลและความดันโลหิตให้อยู่ในระดับที่เหมาะสม', 'Control glucose and blood pressure to target'],
+  B: ['A + ยากลุ่ม ACE inhibitor หรือ ARB', 'A + an ACE inhibitor or ARB'],
+  C: ['A + ACE inhibitor หรือ ARB, SGLT2 inhibitor (และ/หรือ GLP-1 RA) และ aldosterone receptor antagonist (finerenone)', 'A + an ACE inhibitor or ARB, an SGLT2 inhibitor (and/or GLP-1 RA) and an aldosterone receptor antagonist (finerenone)'],
+  refer: ['ส่งต่อพบอายุรแพทย์โรคไต', 'Refer to a nephrologist']
+};
+
+const ScreeningModal = ({ isOpen, onClose, lang }) => {
+  const th = lang === 'th';
+  const L = (a, b) => (th ? a : b);
+  const [levels, setLevels] = useState({});
+  const [done, setDone] = useState({});
+  const [eye, setEye] = useState(0);
+  const [g, setG] = useState(0);
+  const [a, setA] = useState(0);
+  if (!isOpen) return null;
+
+  const YEARLY = [
+    ['exam', 'ตรวจร่างกายอย่างละเอียด รวมการตรวจเท้า', 'Full physical examination, including the feet'],
+    ['eye', 'ตรวจตา (จอตา)', 'Eye (retina) examination'],
+    ['dental', 'ตรวจสุขภาพช่องปากและฟันโดยทันตแพทย์', 'Dental check by a dentist'],
+    ['kidney', 'ตรวจปัสสาวะ spot UACR และ eGFR (CKD-EPI)', 'Spot urine UACR and eGFR (CKD-EPI)'],
+    ['flu', 'วัคซีนไข้หวัดใหญ่ และวัคซีนอื่นตามกระทรวงสาธารณสุข', 'Influenza vaccine, and other vaccines as advised by the Ministry of Public Health'],
+    ['life', 'ทบทวนการสูบบุหรี่ แอลกอฮอล์ คุณภาพชีวิตและสุขภาพจิต', 'Review smoking, alcohol, quality of life and mental health']
+  ];
+  const worst = Math.max(-1, ...Object.values(levels));
+  const box = 'p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60';
+  const h4 = 'font-bold text-slate-800 dark:text-slate-200 mb-2';
+  const seg = (on) => `px-2 py-1 rounded-md border font-bold ${on ? 'bg-teal-700 text-white border-teal-700' : 'bg-white text-slate-600 border-slate-200 hover:border-teal-300 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-700'}`;
+  const plan = scrKidneyPlan(g, a);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden" data-screening-modal>
+        <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 bg-teal-50/60 dark:bg-slate-800/40">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="p-2.5 rounded-2xl bg-teal-700 text-white shadow-sm shrink-0"><GuideScreenIcon className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{L('คัดกรองโรคแทรกซ้อนจากเบาหวาน', 'Diabetes Complication Screening')}</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{L('ตามแนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 บทที่ 3 และ 13', 'Thai CPG for Diabetes 2566, chapters 3 and 13')}</p>
+            </div>
+          </div>
+          <button onClick={onClose} aria-label={L('ปิด', 'Close')} className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"><XIcon className="w-5 h-5" /></button>
+        </div>
+
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+          {/* Yearly checks */}
+          <div className={box} data-scr-yearly>
+            <h4 className={h4}>{L('ตรวจอย่างน้อยปีละ 1 ครั้ง (ยังไม่มีโรคแทรกซ้อน)', 'At least once a year (no complications yet)')}</h4>
+            <div className="grid sm:grid-cols-2 gap-1.5">
+              {YEARLY.map(([k, t1, t2]) => (
+                <label key={k} className="flex items-start gap-2 p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 cursor-pointer">
+                  <input type="checkbox" checked={!!done[k]} onChange={() => setDone({ ...done, [k]: !done[k] })} className="mt-0.5 rounded" />
+                  <span className={`font-semibold leading-snug ${done[k] ? 'text-slate-400 line-through' : 'text-slate-700 dark:text-slate-200'}`}>{L(t1, t2)}</span>
+                </label>
+              ))}
+            </div>
+            <p className="mt-1.5 text-slate-500 dark:text-slate-400">{L('ความถี่ตรวจเท้าตามระดับความเสี่ยง: ดูเครื่องมือ "เท้าเบาหวาน"', 'Foot check frequency by risk level: see the Diabetic foot tool.')} {L('ช่องทำเครื่องหมายไม่ถูกบันทึก', 'Ticks are not saved.')}</p>
+          </div>
+
+          {/* Table 5 risk grid */}
+          <div className={box} data-scr-grid>
+            <h4 className={h4}>{L('ประเมินความเสี่ยงและระยะของโรคแทรกซ้อน: แตะช่องที่ตรงกับผู้ป่วย', 'Risk and stage of complications: tap the box that fits the patient')}</h4>
+            <div className="space-y-2">
+              {SCR_ROWS.map((r) => (
+                <div key={r.k} data-scr-row={r.k}>
+                  <p className="font-bold text-slate-700 dark:text-slate-200 mb-1">{L(r.th, r.en)}</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
+                    {r.cells.map((c, i) => c ? (
+                      <button key={i} onClick={() => setLevels({ ...levels, [r.k]: levels[r.k] === i ? undefined : i })} aria-pressed={levels[r.k] === i} data-scr-cell={i}
+                        className={`text-left p-2 rounded-lg border leading-snug ${levels[r.k] === i ? SCR_TONE[SCR_LEVELS[i].tone][0] : SCR_TONE[SCR_LEVELS[i].tone][1]}`}>
+                        <span className="block text-[10px] font-bold opacity-80">{L(SCR_LEVELS[i].th, SCR_LEVELS[i].en)}</span>
+                        <span className="font-semibold">{L(c[0], c[1])}</span>
+                      </button>
+                    ) : <div key={i} className="hidden sm:block" />)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            {worst >= 0 && (
+              <div className={`mt-3 p-3 rounded-xl border font-semibold leading-snug ${SCR_TONE[SCR_LEVELS[worst].tone][1]}`} data-scr-result={worst}>
+                <b>{L('ระดับสูงสุด: ', 'Highest level: ')}{L(SCR_LEVELS[worst].th, SCR_LEVELS[worst].en).replace(/ \*+$/, '')}</b>
+                <span className="block mt-0.5">{worst === 0
+                  ? L('ติดตามตามปกติและตรวจประจำปี', 'Usual follow-up and yearly checks')
+                  : worst < 3
+                    ? L('* ควรส่งพบอายุรแพทย์หรือแพทย์เชี่ยวชาญเฉพาะทางเป็นระยะ', '* See an internist or specialist from time to time')
+                    : L('** ควรส่งพบแพทย์เชี่ยวชาญเฉพาะโรคเพื่อดูแลรักษาต่อเนื่อง', '** Refer to a specialist for that complication for ongoing care')}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Eye */}
+            <div className={box} data-scr-eye>
+              <h4 className={h4}>{L('ตา: เริ่มตรวจและนัดครั้งต่อไป', 'Eyes: first exam and next visit')}</h4>
+              <ul className="list-disc pl-4 space-y-0.5 text-slate-700 dark:text-slate-300 mb-2">
+                <li>{L('เบาหวานชนิดที่ 1: หลังเป็นเบาหวาน 5 ปี หรือเมื่ออายุ 12 ปี', 'Type 1: 5 years after diagnosis or at age 12')}</li>
+                <li>{L('เบาหวานชนิดที่ 2: เมื่อวินิจฉัยโดยไม่ล่าช้า', 'Type 2: at diagnosis, without delay')}</li>
+                <li>{L('มีครรภ์: ทันทีหรือในไตรมาสแรก', 'Pregnant: straight away or in the first trimester')}</li>
+                <li>{L('ขยายม่านตาโดยจักษุแพทย์ หรือถ่ายภาพจอตา (fundus photography)', 'Dilated exam by an ophthalmologist, or fundus photography')}</li>
+              </ul>
+              <div className="flex flex-wrap gap-1">
+                {SCR_EYE.map((e, i) => <button key={i} onClick={() => setEye(i)} aria-pressed={eye === i} data-scr-eye-pick={i} className={seg(eye === i)}>{L(e[0], e[1])}</button>)}
+              </div>
+              <p className={`mt-2 p-2 rounded-lg border font-bold ${SCR_TONE[eye === 3 ? 'rose' : eye ? 'amber' : 'emerald'][1]}`} data-scr-eye-result>{L(SCR_EYE[eye][2], SCR_EYE[eye][3])}</p>
+            </div>
+
+            {/* Kidney */}
+            <div className={box} data-scr-kidney>
+              <h4 className={h4}>{L('ไต: UACR และ eGFR อย่างน้อยปีละครั้ง', 'Kidneys: UACR and eGFR at least yearly')}</h4>
+              <p className="text-slate-600 dark:text-slate-300 mb-2">{L('ชนิดที่ 1 ที่เป็นมากกว่า 5 ปี และชนิดที่ 2 ทุกราย; ถ้า UACR ผิดปกติ ตรวจซ้ำภายใน 3 เดือนเพื่อยืนยัน', 'Type 1 for more than 5 years and all type 2; if UACR is abnormal, repeat within 3 months to confirm.')}</p>
+              <p className="font-semibold text-slate-500 dark:text-slate-400 mb-1">eGFR (mL/min/1.73 m²)</p>
+              <div className="flex flex-wrap gap-1 mb-2">{SCR_G.map(([k, v], i) => <button key={k} onClick={() => setG(i)} aria-pressed={g === i} data-scr-g={k} className={seg(g === i)}>{k} <span className="font-semibold opacity-80">{v}</span></button>)}</div>
+              <p className="font-semibold text-slate-500 dark:text-slate-400 mb-1">UACR (mg/g)</p>
+              <div className="flex flex-wrap gap-1">{SCR_A.map(([k, v], i) => <button key={k} onClick={() => setA(i)} aria-pressed={a === i} data-scr-a={k} className={seg(a === i)}>{k} <span className="font-semibold opacity-80">{v}</span></button>)}</div>
+              <div className={`mt-2 p-2 rounded-lg border ${SCR_TONE[plan.includes('refer') && plan.length === 1 ? 'rose' : plan[0] === 'A' ? 'emerald' : 'amber'][1]}`} data-scr-kidney-result={plan.join('|')}>
+                {plan.map((p, i) => (
+                  <p key={p} className="leading-snug">{i > 0 && <b>{L('หรือ ', 'or ')}</b>}<b>{p === 'refer' ? 'Refer' : 'Treatment ' + p}:</b> {L(SCR_TX[p][0], SCR_TX[p][1])}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400" data-scr-source>
+            {L('ที่มา: แนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 ตารางที่ 5 และการตรวจประจำปี (หน้า 34-35), แผนภูมิที่ 1 การคัดกรองจอตา (หน้า 150-152), ตารางที่ 1 โรคไตจากเบาหวาน (หน้า 153)', 'Source: Thai CPG for Diabetes 2566, Table 5 and yearly checks (pp. 34-35), chart 1 eye screening (pp. 150-152), Table 1 diabetic kidney disease (p. 153).')}
+          </p>
+        </div>
+
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end">
+          <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs">{L('ปิดหน้าต่าง', 'Close')}</button>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -112,7 +112,7 @@ window.__dmAuditRun = async () => {
     await closeTop();
     [...document.querySelector('[data-select-bar]').querySelectorAll('button')].find((b) => /^(Clear|ล้าง)$/.test(b.textContent.trim())).click(); await wait(150);
 
-    for (const k of ['start', 'insulin', 'ckd', 'hypo', 'dka', 'ramadan', 'drs', 'foot', 'gdm', 'remission', 'inpatient']) {
+    for (const k of ['start', 'insulin', 'ckd', 'hypo', 'dka', 'ramadan', 'drs', 'foot', 'gdm', 'remission', 'inpatient', 'screen']) {
       const b = [...document.querySelectorAll('[data-guide="' + k + '"]')].find(visible);
       b.click(); await wait(250);
       // every tab of the tool (tab buttons carry a bottom border), and the content that appears once inputs are filled
