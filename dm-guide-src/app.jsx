@@ -1,8 +1,21 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.6.0";
+const APP_VERSION = "v1.7.0";
 
 const changelogData = [
+  {
+    version: "v1.7.0",
+    date: "November 3, 2026",
+    dateTh: "3 พฤศจิกายน 2569",
+    features: [
+      "New Inpatient insulin tool: glucose goal and POCT timing (ADA Standards 2025, section 16), weight-based starting dose (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg if age ≥ 70 or creatinine ≥ 2.0; half basal), and a daily chart of insulin units and POCT glucose per meal and bedtime with the total daily dose (TDD), mean and range, flagged when any reading is < 70 or two or more are ≥ 180.",
+      "Each chart column picks its insulin from the drug list, including the premixed insulins (Mixtard 30, NovoMix 30, Humalog Mix); a premix twice-daily plan follows the CPG 2566 testing table (p. 110) and notes that premixes are not routinely recommended in hospital."
+    ],
+    featuresTh: [
+      "เครื่องมือใหม่ อินซูลินผู้ป่วยใน: เป้าหมายน้ำตาลและเวลาเจาะ POCT (ADA Standards 2025 หมวด 16) ขนาดเริ่มต้นตามน้ำหนัก (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg ถ้าอายุ ≥ 70 ปีหรือ Cr ≥ 2.0; basal ครึ่งหนึ่ง) และตารางรายวันบันทึกยูนิตอินซูลินกับ POCT ทุกมื้อและก่อนนอน คำนวณ TDD ค่าเฉลี่ยและช่วง พร้อมเตือนเมื่อมีค่า < 70 หรือ ≥ 180 ตั้งแต่ 2 ครั้ง",
+      "แต่ละคอลัมน์เลือกชนิดอินซูลินจากรายการยา รวมอินซูลินผสม (Mixtard 30, NovoMix 30, Humalog Mix); แผน premix วันละ 2 ครั้งใช้ตารางการเจาะเลือดของ CPG 2566 (หน้า 110) และระบุว่าไม่แนะนำ premix เป็นประจำในโรงพยาบาล"
+    ]
+  },
   {
     version: "v1.6.0",
     date: "October 27, 2026",
@@ -402,6 +415,7 @@ function App() {
   const [isFootCareOpen, setIsFootCareOpen] = useState(false);
   const [isGdmOpen, setIsGdmOpen] = useState(false);
   const [isRemissionOpen, setIsRemissionOpen] = useState(false);
+  const [isInpatientOpen, setIsInpatientOpen] = useState(false);
 
   // Categories definition
   const CATEGORIES = [
@@ -574,7 +588,8 @@ function App() {
     ['drs', t.toolThaiDrs, 'bg-cyan-700 hover:bg-cyan-800 border-cyan-800', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
     ['foot', t.toolFoot, 'bg-slate-700 hover:bg-slate-800 border-slate-800', GuideFootIcon, () => setIsFootCareOpen(true)],
     ['gdm', t.toolGdm, 'bg-pink-600 hover:bg-pink-700 border-pink-700', GuideGdmIcon, () => setIsGdmOpen(true)],
-    ['remission', t.toolRemission, 'bg-violet-600 hover:bg-violet-700 border-violet-700', GuideRemissionIcon, () => setIsRemissionOpen(true)]
+    ['remission', t.toolRemission, 'bg-violet-600 hover:bg-violet-700 border-violet-700', GuideRemissionIcon, () => setIsRemissionOpen(true)],
+    ['inpatient', t.guide.inpatient, 'bg-sky-700 hover:bg-sky-800 border-sky-800', GuideInpatientIcon, () => setIsInpatientOpen(true)]
   ];
 
   const CLINICAL = [
@@ -881,6 +896,7 @@ function App() {
       <FootCareModal isOpen={isFootCareOpen} onClose={() => setIsFootCareOpen(false)} lang={lang} />
       <GdmModal isOpen={isGdmOpen} onClose={() => setIsGdmOpen(false)} lang={lang} />
       <RemissionModal isOpen={isRemissionOpen} onClose={() => setIsRemissionOpen(false)} lang={lang} />
+      <InpatientInsulinModal isOpen={isInpatientOpen} onClose={() => setIsInpatientOpen(false)} lang={lang} />
       
       {/* Monograph Detail Modal */}
       <DrugDetailModal

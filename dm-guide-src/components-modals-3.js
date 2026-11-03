@@ -543,3 +543,174 @@ const CompareModal = ({ isOpen, onClose, compareList, onRemoveFromCompare, onCle
     </div>
   );
 };
+
+// --- Inpatient insulin: starting dose, daily insulin + POCT glucose chart with TDD per day ---
+// Sources: ADA Standards of Care 2025 s16 (goal 100-180, intensify at >=180 x2/24 h, review at <70, POCT timing,
+// premixes not routinely recommended); RABBIT 2 / RABBIT 2 Surgery (weight-based TDD, half basal); CPG 2566 pp. 109-110.
+const IP_SLOTS = ['b', 'l', 'd', 'hs'];
+const IP_REGIMENS = {
+  basal_bolus: { b: 'insulin_rapid', l: 'insulin_rapid', d: 'insulin_rapid', hs: 'insulin_glargine_u100' },
+  basal: { b: '', l: '', d: '', hs: 'insulin_glargine_u100' },
+  premix: { b: 'insulin_premix_human', l: '', d: 'insulin_premix_human', hs: '' }
+};
+const ipNum = (v) => { const n = parseFloat(v); return Number.isFinite(n) ? n : null; };
+const InpatientInsulinModal = ({ isOpen, onClose, lang }) => {
+  const th = lang === 'th';
+  const [weight, setWeight] = useState('60');
+  const [bg0, setBg0] = useState('220');
+  const [lowDose, setLowDose] = useState(false);
+  const [regimen, setRegimen] = useState('basal_bolus');
+  const [insulin, setInsulin] = useState(IP_REGIMENS.basal_bolus);
+  const blankDay = () => ({ u: { b: '', l: '', d: '', hs: '' }, g: { b: '', l: '', d: '', hs: '' } });
+  const [days, setDays] = useState(() => [blankDay(), blankDay(), blankDay()]);
+  if (!isOpen) return null;
+
+  const insulins = antiDmDrugs.filter((x) => x.category === 'insulin');
+  const nameOf = (id) => { const x = insulins.find((d) => d.id === id); return x ? x.brandNames[0] : ''; };
+  const slotName = { b: th ? 'ก่อนเช้า' : 'Pre-breakfast', l: th ? 'ก่อนกลางวัน' : 'Pre-lunch', d: th ? 'ก่อนเย็น' : 'Pre-dinner', hs: th ? 'ก่อนนอน' : 'Bedtime' };
+
+  // Starting dose (RABBIT 2): 0.4 U/kg if BG 140-200, 0.5 if 201-400; 0.3 if age >= 70 or creatinine >= 2.0
+  const w = ipNum(weight), g0 = ipNum(bg0);
+  const perKg = lowDose ? 0.3 : g0 != null && g0 > 200 ? 0.5 : 0.4;
+  const tdd0 = w ? Math.round(w * perKg) : null;
+  const basal0 = tdd0 != null ? Math.round(tdd0 / 2) : null;
+  const meal0 = tdd0 != null ? Math.round(tdd0 / 2 / 3) : null;
+
+  const pickRegimen = (k) => { setRegimen(k); setInsulin(IP_REGIMENS[k]); };
+  const setCell = (i, kind, slot, v) => setDays((prev) => prev.map((d, j) => (j === i ? { ...d, [kind]: { ...d[kind], [slot]: v } } : d)));
+  const used = IP_SLOTS.filter((s) => insulin[s]);
+
+  // Per day: TDD = all units given; glucose summary and what the readings call for
+  const summary = (d) => {
+    const units = IP_SLOTS.map((s) => ipNum(d.u[s])).filter((x) => x != null);
+    const gl = IP_SLOTS.map((s) => ipNum(d.g[s])).filter((x) => x != null);
+    const tdd = units.length ? units.reduce((a, b) => a + b, 0) : null;
+    const min = gl.length ? Math.min(...gl) : null, max = gl.length ? Math.max(...gl) : null;
+    const mean = gl.length ? Math.round(gl.reduce((a, b) => a + b, 0) / gl.length) : null;
+    const high = gl.filter((x) => x >= 180).length;
+    const flag = min != null && min < 70 ? 'low' : high >= 2 ? 'high' : gl.length ? 'ok' : null;
+    return { tdd, min, max, mean, flag };
+  };
+  const FLAG = {
+    low: ['bg-rose-50 text-rose-800 border-rose-200 dark:bg-rose-950 dark:text-rose-300 dark:border-rose-900', th ? 'มีค่า < 70: ทบทวนและลดขนาดอินซูลิน' : '< 70 seen: review and reduce insulin'],
+    high: ['bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950 dark:text-amber-300 dark:border-amber-900', th ? '≥ 180 อย่างน้อย 2 ครั้ง: พิจารณาเพิ่มขนาด' : '≥ 180 twice or more: consider increasing'],
+    ok: ['bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-300 dark:border-emerald-900', th ? 'ไม่มีค่า < 70 และค่า ≥ 180 น้อยกว่า 2 ครั้ง' : 'No reading < 70 and fewer than 2 readings ≥ 180']
+  };
+  const inp = 'w-full min-w-[3.25rem] px-1.5 py-1 rounded-md border border-slate-300 dark:border-slate-700 dark:bg-slate-900 font-bold text-center tabular-nums';
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden" data-inpatient-modal>
+        <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 bg-sky-50/60 dark:bg-slate-800/40">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="p-2.5 rounded-2xl bg-sky-700 text-white shadow-sm shrink-0"><GuideInpatientIcon className="w-5 h-5" /></div>
+            <div className="min-w-0">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">{th ? 'อินซูลินสำหรับผู้ป่วยใน (ไม่วิกฤต)' : 'Inpatient Insulin (non-critical care)'}</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{th ? 'บันทึกอินซูลินและ POCT รายวัน พร้อมคำนวณ TDD' : 'Daily insulin and POCT glucose chart with TDD'}</p>
+            </div>
+          </div>
+          <button onClick={onClose} aria-label={th ? 'ปิด' : 'Close'} className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"><XIcon className="w-5 h-5" /></button>
+        </div>
+
+        <div className="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1 text-xs">
+          {/* Goals */}
+          <div className="p-3 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/40 text-slate-700 dark:text-slate-300 space-y-1" data-ip-goals>
+            <p><b className="text-sky-800 dark:text-sky-300">{th ? 'เป้าหมาย:' : 'Goal:'}</b> {th ? 'น้ำตาล 100-180 มก./ดล. เริ่ม/เพิ่มอินซูลินเมื่อ ≥ 180 มก./ดล. 2 ครั้งใน 24 ชม. ทบทวนแผนเมื่อ < 70 มก./ดล.' : 'Glucose 100-180 mg/dL. Start or intensify insulin at ≥ 180 mg/dL twice within 24 h; review the plan at < 70 mg/dL.'}</p>
+            <p><b className="text-sky-800 dark:text-sky-300">POCT:</b> {th ? 'รับประทานอาหารได้: ก่อนอาหารทุกมื้อ (และก่อนนอน) / งดอาหาร: ทุก 4-6 ชม.' : 'Eating: before each meal (and at bedtime). Not eating: every 4-6 h.'}</p>
+            <p><b className="text-sky-800 dark:text-sky-300">{th ? 'แผนที่แนะนำ:' : 'Preferred plan:'}</b> {th ? 'กินได้ดี: basal + prandial + correction / กินได้น้อยหรืองด: basal ± correction / ไม่ใช้ sliding scale อย่างเดียว / อินซูลินผสม (premix) ไม่แนะนำเป็นประจำในโรงพยาบาล' : 'Eating well: basal + prandial + correction. Poor or no intake: basal ± correction. Avoid sliding scale alone. Premixed insulins are not routinely recommended in hospital.'}</p>
+          </div>
+
+          {/* Starting dose */}
+          <div className="p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60" data-ip-start>
+            <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-2">{th ? 'ขนาดเริ่มต้นตามน้ำหนัก (ไม่เคยใช้อินซูลินหรือใช้น้อย)' : 'Weight-based starting dose (insulin-naive or low-dose)'}</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 items-end">
+              <label className="block"><span className="text-slate-500 dark:text-slate-400">{th ? 'น้ำหนัก (กก.)' : 'Weight (kg)'}</span><input type="number" value={weight} onChange={(e) => setWeight(e.target.value)} className={inp + ' mt-0.5'} /></label>
+              <label className="block"><span className="text-slate-500 dark:text-slate-400">{th ? 'น้ำตาลแรกรับ (มก./ดล.)' : 'Admission glucose (mg/dL)'}</span><input type="number" value={bg0} onChange={(e) => setBg0(e.target.value)} className={inp + ' mt-0.5'} /></label>
+              <label className="col-span-2 sm:col-span-1 flex items-center gap-2 py-1"><input type="checkbox" checked={lowDose} onChange={(e) => setLowDose(e.target.checked)} className="rounded" /><span className="text-slate-700 dark:text-slate-300">{th ? 'อายุ ≥ 70 ปี หรือ Cr ≥ 2.0 มก./ดล.' : 'Age ≥ 70 or creatinine ≥ 2.0 mg/dL'}</span></label>
+            </div>
+            <div className="grid grid-cols-3 gap-2 mt-2 text-center" data-ip-start-result>
+              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"><span className="block text-slate-500 dark:text-slate-400">TDD ({perKg} U/kg)</span><b className="text-base text-sky-700 dark:text-sky-300">{tdd0 != null ? tdd0 + ' U' : 'N/A'}</b></div>
+              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"><span className="block text-slate-500 dark:text-slate-400">{th ? 'Basal วันละครั้ง (50%)' : 'Basal once daily (50%)'}</span><b className="text-base text-sky-700 dark:text-sky-300">{basal0 != null ? basal0 + ' U' : 'N/A'}</b></div>
+              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700"><span className="block text-slate-500 dark:text-slate-400">{th ? 'ก่อนอาหารต่อมื้อ' : 'Before each meal'}</span><b className="text-base text-sky-700 dark:text-sky-300">{meal0 != null ? meal0 + ' U' : 'N/A'}</b></div>
+            </div>
+            <p className="mt-1.5 text-slate-500 dark:text-slate-400">{th ? 'งดอาหาร: ให้ basal ต่อ งดยาก่อนอาหารจนกว่าจะกลับมากินได้' : 'Not eating: give the basal dose and hold the meal doses until eating resumes.'}</p>
+          </div>
+
+          {/* Daily chart */}
+          <div data-ip-chart>
+            <div className="flex flex-wrap items-center gap-1.5 mb-2">
+              <span className="font-bold text-slate-800 dark:text-slate-200 mr-1">{th ? 'ตารางรายวัน:' : 'Daily chart:'}</span>
+              {[['basal_bolus', 'Basal-bolus'], ['basal', th ? 'Basal อย่างเดียว' : 'Basal only'], ['premix', th ? 'Premix 2 มื้อ' : 'Premix twice daily']].map(([k, label]) => (
+                <button key={k} onClick={() => pickRegimen(k)} aria-pressed={regimen === k} data-ip-regimen={k}
+                  className={`px-2.5 py-1 rounded-md border font-bold ${regimen === k ? 'bg-sky-700 text-white border-sky-700' : 'bg-white text-slate-600 border-slate-200 hover:border-sky-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'}`}>{label}</button>
+              ))}
+            </div>
+            <div className="overflow-x-auto relative rounded-xl border border-slate-200 dark:border-slate-700">
+              <table className="w-full min-w-[640px] border-separate border-spacing-0">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-800 text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <th className="px-2 py-1.5 text-left sticky left-0 bg-slate-50 dark:bg-slate-800">{th ? 'วัน' : 'Day'}</th>
+                    {IP_SLOTS.map((s) => (
+                      <th key={s} className="px-1.5 py-1.5 text-left align-bottom min-w-[118px]">
+                        <span className="block">{slotName[s]}</span>
+                        <select value={insulin[s]} onChange={(e) => setInsulin({ ...insulin, [s]: e.target.value })} aria-label={slotName[s]} data-ip-insulin={s}
+                          className="mt-1 w-full px-1 py-0.5 rounded border border-slate-300 dark:border-slate-700 dark:bg-slate-900 normal-case tracking-normal font-semibold text-[11px] text-slate-700 dark:text-slate-200">
+                          <option value="">{th ? '- ไม่มี -' : '- none -'}</option>
+                          {insulins.map((x) => <option key={x.id} value={x.id}>{x.brandNames[0]}</option>)}
+                        </select>
+                      </th>
+                    ))}
+                    <th className="px-2 py-1.5 text-left">TDD</th>
+                    <th className="px-2 py-1.5 text-left min-w-[150px]">POCT</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {days.map((d, i) => {
+                    const sm = summary(d);
+                    return (
+                      <tr key={i} data-ip-day={i + 1}>
+                        <td className="px-2 py-1.5 font-bold text-slate-700 dark:text-slate-200 border-t border-slate-100 dark:border-slate-800 sticky left-0 bg-white dark:bg-slate-900">{i + 1}</td>
+                        {IP_SLOTS.map((s) => (
+                          <td key={s} className="px-1.5 py-1.5 border-t border-slate-100 dark:border-slate-800">
+                            <div className="grid grid-cols-2 gap-1">
+                              <input type="number" value={d.u[s]} onChange={(e) => setCell(i, 'u', s, e.target.value)} disabled={!insulin[s]} placeholder="U" aria-label={slotName[s] + ' units'} className={inp + ' disabled:opacity-30'} />
+                              <input type="number" value={d.g[s]} onChange={(e) => setCell(i, 'g', s, e.target.value)} placeholder="mg/dL" aria-label={slotName[s] + ' glucose'} className={inp} />
+                            </div>
+                          </td>
+                        ))}
+                        <td className="px-2 py-1.5 border-t border-slate-100 dark:border-slate-800 font-extrabold text-sky-700 dark:text-sky-300 tabular-nums whitespace-nowrap" data-ip-tdd>{sm.tdd != null ? sm.tdd + ' U' : '-'}</td>
+                        <td className="px-2 py-1.5 border-t border-slate-100 dark:border-slate-800">
+                          {sm.mean != null && <span className="block tabular-nums text-slate-600 dark:text-slate-300 whitespace-nowrap">{th ? 'เฉลี่ย' : 'Mean'} {sm.mean} ({sm.min}-{sm.max})</span>}
+                          {sm.flag && <span className={`mt-0.5 inline-block px-1.5 py-0.5 rounded border text-[10px] font-bold leading-snug ${FLAG[sm.flag][0]}`} data-ip-flag={sm.flag}>{FLAG[sm.flag][1]}</span>}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 mt-2">
+              <button onClick={() => setDays((p) => [...p, blankDay()])} data-ip-add className="px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-300 hover:border-sky-300">{th ? '+ เพิ่มวัน' : '+ Add day'}</button>
+              {days.length > 1 && <button onClick={() => setDays((p) => p.slice(0, -1))} className="px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700 font-bold text-slate-600 dark:text-slate-300 hover:border-rose-300">{th ? '- ลบวันสุดท้าย' : '- Remove last day'}</button>}
+              <span className="text-slate-500 dark:text-slate-400">{th ? 'ช่องซ้าย = ยูนิตที่ฉีดจริง (รวม correction), ช่องขวา = POCT; TDD = ผลรวมยูนิตทั้งวัน' : 'Left box = units actually given (incl. correction), right box = POCT; TDD = all units that day.'}</span>
+            </div>
+            {regimen === 'premix' && <p className="mt-2 p-2 rounded-lg border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">{th ? 'Premix (เช่น Mixtard 30, NovoMix 30) ไม่แนะนำเป็นประจำในโรงพยาบาล; หากใช้ ตรวจก่อนเช้าและก่อนเย็น ปรับยามื้อเย็นตามน้ำตาลก่อนเช้า และปรับยามื้อเช้าตามน้ำตาลก่อนเย็น' : 'Premixes (e.g. Mixtard 30, NovoMix 30) are not routinely recommended in hospital. If used: test before breakfast and dinner; adjust the dinner dose by the pre-breakfast reading and the breakfast dose by the pre-dinner reading.'}</p>}
+            {used.length > 0 && <p className="mt-2 text-slate-500 dark:text-slate-400" data-ip-plan>{th ? 'แผน: ' : 'Plan: '}{used.map((s) => slotName[s] + ' ' + nameOf(insulin[s])).join(' · ')}</p>}
+          </div>
+
+          <p className="text-[10px] leading-snug text-slate-500 dark:text-slate-400" data-ip-source>
+            {th ? 'ที่มา: ' : 'Sources: '}
+            <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11635037/" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">ADA Standards of Care in Diabetes 2025, section 16 (16.4b, 16.5b, 16.8b-16.10, 16.13)</a>;{' '}
+            <a href="https://doi.org/10.2337/dc07-0295" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">RABBIT 2 (Umpierrez 2007)</a>;{' '}
+            <a href="https://doi.org/10.2337/dc10-1407" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted">RABBIT 2 Surgery (Umpierrez 2011)</a>;{' '}
+            {th ? 'CPG 2566 หน้า 109-110 (ตารางการเจาะเลือดและปรับอินซูลิน)' : 'CPG 2566 pp. 109-110 (glucose testing and insulin adjustment tables)'}
+          </p>
+        </div>
+
+        <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end">
+          <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs">{th ? 'ปิดหน้าต่าง' : 'Close'}</button>
+        </div>
+      </div>
+    </div>
+  );
+};

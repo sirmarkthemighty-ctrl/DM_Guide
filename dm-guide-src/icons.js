@@ -375,6 +375,9 @@ const GuideGdmIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
   <path d="M10 7.6C8.5 8.2 8 9.9 8.2 11.8l.3 2.6c.1 1.5-.3 2.9-.3 4.5v3.1h3l.2-2.9c2.2.1 4.6-1.3 4.9-3.8.3-2.5-1.4-4.2-3.2-4.5-.2-1.1-.7-2.4-1.2-3.2Z" />
 </>, true);
 // Diabetes remission: a falling trend
+const GuideInpatientIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
+  <path d="M3 6v13" /><path d="M3 15h18v4" /><path d="M21 15v-3a3 3 0 0 0-3-3h-7v6" /><circle cx="7" cy="11.5" r="1.8" />
+</>);
 const GuideRemissionIcon = ({ className = 'w-4 h-4' }) => guideSvg(className, <>
   <path d="M3 3v18h18" />
   <path d="m7 7 4.5 4.5 3-3 5.5 5.5" />
