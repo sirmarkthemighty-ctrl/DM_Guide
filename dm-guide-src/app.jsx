@@ -1,17 +1,19 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.7.0";
+const APP_VERSION = "v1.7.1";
 
 const changelogData = [
   {
-    version: "v1.7.0",
+    version: "v1.7.1",
     date: "November 3, 2026",
     dateTh: "3 พฤศจิกายน 2569",
     features: [
+      "Guide buttons grouped into OPD (start drugs, insulin, kidney, Ramadan, Thai DRS, foot, GDM, remission) and IPD (hypoglycaemia, DKA/HHS, inpatient insulin), with soft-tint colours as in the Bronchodilator Guide.",
       "New Inpatient insulin tool: glucose goal and POCT timing (ADA Standards 2025, section 16), weight-based starting dose (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg if age ≥ 70 or creatinine ≥ 2.0; half basal), and a daily chart of insulin units and POCT glucose per meal and bedtime with the total daily dose (TDD), mean and range, flagged when any reading is < 70 or two or more are ≥ 180.",
       "Each chart column picks its insulin from the drug list, including the premixed insulins (Mixtard 30, NovoMix 30, Humalog Mix); a premix twice-daily plan follows the CPG 2566 testing table (p. 110) and notes that premixes are not routinely recommended in hospital."
     ],
     featuresTh: [
+      "แบ่งปุ่มเครื่องมือเป็น OPD (เริ่มยา อินซูลิน โรคไต รอมฎอน Thai DRS เท้า GDM ระยะสงบ) และ IPD (น้ำตาลต่ำ DKA/HHS อินซูลินผู้ป่วยใน) ใช้สีอ่อนแบบ Bronchodilator Guide",
       "เครื่องมือใหม่ อินซูลินผู้ป่วยใน: เป้าหมายน้ำตาลและเวลาเจาะ POCT (ADA Standards 2025 หมวด 16) ขนาดเริ่มต้นตามน้ำหนัก (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg ถ้าอายุ ≥ 70 ปีหรือ Cr ≥ 2.0; basal ครึ่งหนึ่ง) และตารางรายวันบันทึกยูนิตอินซูลินกับ POCT ทุกมื้อและก่อนนอน คำนวณ TDD ค่าเฉลี่ยและช่วง พร้อมเตือนเมื่อมีค่า < 70 หรือ ≥ 180 ตั้งแต่ 2 ครั้ง",
       "แต่ละคอลัมน์เลือกชนิดอินซูลินจากรายการยา รวมอินซูลินผสม (Mixtard 30, NovoMix 30, Humalog Mix); แผน premix วันละ 2 ครั้งใช้ตารางการเจาะเลือดของ CPG 2566 (หน้า 110) และระบุว่าไม่แนะนำ premix เป็นประจำในโรงพยาบาล"
     ]
@@ -579,17 +581,23 @@ function App() {
 
   // Guide (clinical tool) buttons: key, full name, colour, icon, opener
   const GUIDES = [
-    ['start', t.toolStartingWizard, 'bg-teal-600 hover:bg-teal-700 border-teal-700', GuideStartIcon, () => setIsStartingWizardOpen(true)],
-    ['insulin', t.toolInsulinCalc, 'bg-blue-600 hover:bg-blue-700 border-blue-700', GuideInsulinIcon, () => setIsInsulinCalcOpen(true)],
-    ['ckd', t.toolCkdMatrix, 'bg-emerald-600 hover:bg-emerald-700 border-emerald-700', GuideKidneyIcon, () => setIsCkdMatrixOpen(true)],
-    ['hypo', t.toolHypo, 'bg-amber-600 hover:bg-amber-700 border-amber-700', GuideHypoIcon, () => setIsHypoOpen(true)],
-    ['dka', t.toolDkaHhs, 'bg-rose-600 hover:bg-rose-700 border-rose-700', GuideDkaIcon, () => setIsDkaHhsOpen(true)],
-    ['ramadan', t.toolRamadan, 'bg-indigo-600 hover:bg-indigo-700 border-indigo-700', GuideRamadanIcon, () => setIsRamadanOpen(true)],
-    ['drs', t.toolThaiDrs, 'bg-cyan-700 hover:bg-cyan-800 border-cyan-800', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
-    ['foot', t.toolFoot, 'bg-slate-700 hover:bg-slate-800 border-slate-800', GuideFootIcon, () => setIsFootCareOpen(true)],
-    ['gdm', t.toolGdm, 'bg-pink-600 hover:bg-pink-700 border-pink-700', GuideGdmIcon, () => setIsGdmOpen(true)],
-    ['remission', t.toolRemission, 'bg-violet-600 hover:bg-violet-700 border-violet-700', GuideRemissionIcon, () => setIsRemissionOpen(true)],
-    ['inpatient', t.guide.inpatient, 'bg-sky-700 hover:bg-sky-800 border-sky-800', GuideInpatientIcon, () => setIsInpatientOpen(true)]
+    ['start', t.toolStartingWizard, 'bg-teal-50 hover:bg-teal-100 border-teal-200 text-teal-700 dark:bg-teal-950 dark:hover:bg-teal-900 dark:border-teal-800 dark:text-teal-300', GuideStartIcon, () => setIsStartingWizardOpen(true)],
+    ['insulin', t.toolInsulinCalc, 'bg-blue-50 hover:bg-blue-100 border-blue-200 text-blue-700 dark:bg-blue-950 dark:hover:bg-blue-900 dark:border-blue-800 dark:text-blue-300', GuideInsulinIcon, () => setIsInsulinCalcOpen(true)],
+    ['ckd', t.toolCkdMatrix, 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-700 dark:bg-emerald-950 dark:hover:bg-emerald-900 dark:border-emerald-800 dark:text-emerald-300', GuideKidneyIcon, () => setIsCkdMatrixOpen(true)],
+    ['hypo', t.toolHypo, 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-700 dark:bg-amber-950 dark:hover:bg-amber-900 dark:border-amber-800 dark:text-amber-300', GuideHypoIcon, () => setIsHypoOpen(true)],
+    ['dka', t.toolDkaHhs, 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-700 dark:bg-rose-950 dark:hover:bg-rose-900 dark:border-rose-800 dark:text-rose-300', GuideDkaIcon, () => setIsDkaHhsOpen(true)],
+    ['ramadan', t.toolRamadan, 'bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-700 dark:bg-indigo-950 dark:hover:bg-indigo-900 dark:border-indigo-800 dark:text-indigo-300', GuideRamadanIcon, () => setIsRamadanOpen(true)],
+    ['drs', t.toolThaiDrs, 'bg-cyan-50 hover:bg-cyan-100 border-cyan-200 text-cyan-700 dark:bg-cyan-950 dark:hover:bg-cyan-900 dark:border-cyan-800 dark:text-cyan-300', GuideDrsIcon, () => setIsThaiDrsOpen(true)],
+    ['foot', t.toolFoot, 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600 dark:text-slate-200', GuideFootIcon, () => setIsFootCareOpen(true)],
+    ['gdm', t.toolGdm, 'bg-pink-50 hover:bg-pink-100 border-pink-200 text-pink-700 dark:bg-pink-950 dark:hover:bg-pink-900 dark:border-pink-800 dark:text-pink-300', GuideGdmIcon, () => setIsGdmOpen(true)],
+    ['remission', t.toolRemission, 'bg-violet-50 hover:bg-violet-100 border-violet-200 text-violet-700 dark:bg-violet-950 dark:hover:bg-violet-900 dark:border-violet-800 dark:text-violet-300', GuideRemissionIcon, () => setIsRemissionOpen(true)],
+    ['inpatient', t.guide.inpatient, 'bg-sky-50 hover:bg-sky-100 border-sky-200 text-sky-700 dark:bg-sky-950 dark:hover:bg-sky-900 dark:border-sky-800 dark:text-sky-300', GuideInpatientIcon, () => setIsInpatientOpen(true)]
+  ];
+
+  const IPD_GUIDES = ['hypo', 'dka', 'inpatient'];
+  const GUIDE_GROUPS = [
+    ['opd', 'OPD', lang === 'th' ? 'ผู้ป่วยนอก' : 'Outpatient', GUIDES.filter((g) => !IPD_GUIDES.includes(g[0]))],
+    ['ipd', 'IPD', lang === 'th' ? 'ผู้ป่วยใน' : 'Inpatient', GUIDES.filter((g) => IPD_GUIDES.includes(g[0]))]
   ];
 
   const CLINICAL = [
@@ -620,8 +628,8 @@ function App() {
   const guideButton = ([k, label, tone, Icon, open], phone) => (
     <button key={k} onClick={open} data-guide={k} aria-label={label} title={label}
       className={phone
-        ? `flex flex-col items-center justify-center gap-0.5 min-w-0 ${tone} border text-white px-0.5 py-1.5 rounded-lg font-bold shadow-sm active:scale-95 transition-all`
-        : `flex items-center justify-center gap-1.5 ${tone} border text-white px-3 py-2 rounded-lg font-bold shadow-sm transition-all active:scale-95 text-xs md:text-sm whitespace-nowrap`}>
+        ? `flex flex-col items-center justify-center gap-0.5 min-w-0 ${tone} border px-0.5 py-1.5 rounded-lg font-bold shadow-sm active:scale-95 transition-all`
+        : `flex items-center justify-center gap-1.5 ${tone} border px-3 py-2 rounded-lg font-bold shadow-sm transition-all active:scale-95 text-xs md:text-sm whitespace-nowrap`}>
       <Icon className={phone ? 'w-4 h-4 shrink-0' : 'w-3.5 h-3.5 md:w-4 md:h-4 shrink-0'} />
       <span className={phone ? 'text-[10px] leading-[1.15] text-center max-w-full break-words' : ''}>{phone ? t.guideShort[k] : t.guide[k]}</span>
     </button>
@@ -661,14 +669,24 @@ function App() {
         </header>
 
         {/* Phones: guides as two rows of icon tiles (scroll away with the page) */}
-        <div className="grid grid-cols-5 gap-1 sm:hidden mb-2" data-guide-buttons="phone">
-          {GUIDES.map((g) => guideButton(g, true))}
+        <div className="sm:hidden mb-2 space-y-1.5" data-guide-buttons="phone">
+          {GUIDE_GROUPS.map(([k, code, name, list]) => (
+            <div key={k} data-guide-group={k}>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">{code} <span className="normal-case tracking-normal font-semibold">· {name}</span></p>
+              <div className="grid grid-cols-5 gap-1">{list.map((g) => guideButton(g, true))}</div>
+            </div>
+          ))}
         </div>
 
         {/* Guides (tablet up) and the search row: pinned */}
         <div className="sticky top-0 z-30 pt-2 pb-2 md:pt-3 md:pb-2.5 -mt-2 md:-mt-3 bg-slate-100/95 dark:bg-slate-950/95 backdrop-blur-md" data-search-bar>
-          <div className="hidden sm:flex sm:flex-wrap sm:items-center sm:gap-2 w-full mb-2" data-guide-buttons="wide">
-            {GUIDES.map((g) => guideButton(g, false))}
+          <div className="hidden sm:flex sm:flex-col sm:gap-1.5 w-full mb-2" data-guide-buttons="wide">
+            {GUIDE_GROUPS.map(([k, code, name, list]) => (
+              <div key={k} className="flex flex-wrap items-center gap-2" data-guide-group={k}>
+                <span className="w-9 shrink-0 text-[11px] font-extrabold tracking-wider text-slate-500 dark:text-slate-400" title={name}>{code}</span>
+                {list.map((g) => guideButton(g, false))}
+              </div>
+            ))}
           </div>
 
           <div className="flex gap-2 md:gap-3 w-full h-9 md:h-10">
