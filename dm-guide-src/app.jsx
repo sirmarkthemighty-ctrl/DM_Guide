@@ -1,19 +1,21 @@
 
 // Application Version and Changelog Data
-const APP_VERSION = "v1.8.0";
+const APP_VERSION = "v1.8.1";
 
 const changelogData = [
   {
-    version: "v1.8.0",
+    version: "v1.8.1",
     date: "November 3, 2026",
     dateTh: "3 พฤศจิกายน 2569",
     features: [
+      "Diabetic foot is now a tab inside Complication screening (Screening | Diabetic foot), with the same Ipswich Touch Test and foot risk levels; the separate foot button is removed. The toe buttons now fit their boxes on phones.",
       "New Complication screening tool (OPD, next to Thai DRS), from CPG 2566: yearly checklist (exam with feet, eyes, dental, UACR and eGFR, vaccines, lifestyle; pp. 34-35); Table 5 risk grid for glucose, kidney, eye, heart and vessels and foot with the referral advice for the highest level (p. 34); eye exam start and next visit by finding (chart 1, p. 152); kidney plan by eGFR and UACR category, Treatment A/B/C or refer (Table 1, p. 153).",
       "Guide buttons grouped into OPD (Thai DRS first, then start drugs, insulin, kidney, Ramadan, foot, GDM, remission) and IPD (hypoglycaemia, DKA/HHS, inpatient insulin), with soft-tint colours as in the Bronchodilator Guide.",
       "New Inpatient insulin tool: glucose goal and POCT timing (ADA Standards 2025, section 16), weight-based starting dose (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg if age ≥ 70 or creatinine ≥ 2.0; half basal), and a daily chart of insulin units and POCT glucose per meal and bedtime with the total daily dose (TDD), mean and range, flagged when any reading is < 70 or two or more are ≥ 180.",
       "Each chart column picks its insulin from the drug list, including the premixed insulins (Mixtard 30, NovoMix 30, Humalog Mix); a premix twice-daily plan follows the CPG 2566 testing table (p. 110) and notes that premixes are not routinely recommended in hospital."
     ],
     featuresTh: [
+      "รวมเท้าเบาหวานเป็นแท็บในเครื่องมือคัดกรองโรคแทรกซ้อน (คัดกรอง | เท้าเบาหวาน) เนื้อหา Ipswich Touch Test และระดับความเสี่ยงเท้าเหมือนเดิม และนำปุ่มเท้าเบาหวานแยกออก ปุ่มนิ้วเท้าพอดีกรอบบนโทรศัพท์แล้ว",
       "เครื่องมือใหม่ คัดกรองโรคแทรกซ้อน (OPD ถัดจาก Thai DRS) ตาม CPG 2566: รายการตรวจประจำปี (ตรวจร่างกายรวมเท้า ตา ฟัน UACR และ eGFR วัคซีน พฤติกรรม; หน้า 34-35) ตารางที่ 5 ประเมินความเสี่ยงด้านน้ำตาล ไต ตา หัวใจและหลอดเลือด เท้า พร้อมคำแนะนำการส่งต่อตามระดับสูงสุด (หน้า 34) การเริ่มตรวจตาและนัดครั้งต่อไปตามผลตรวจ (แผนภูมิที่ 1 หน้า 152) และแผนการรักษาไตตาม eGFR และ UACR (Treatment A/B/C หรือส่งต่อ; ตารางที่ 1 หน้า 153)",
       "แบ่งปุ่มเครื่องมือเป็น OPD (Thai DRS อยู่ซ้ายสุด ตามด้วย เริ่มยา อินซูลิน โรคไต รอมฎอน เท้า GDM ระยะสงบ) และ IPD (น้ำตาลต่ำ DKA/HHS อินซูลินผู้ป่วยใน) ใช้สีอ่อนแบบ Bronchodilator Guide",
       "เครื่องมือใหม่ อินซูลินผู้ป่วยใน: เป้าหมายน้ำตาลและเวลาเจาะ POCT (ADA Standards 2025 หมวด 16) ขนาดเริ่มต้นตามน้ำหนัก (RABBIT 2: 0.4-0.5 U/kg, 0.3 U/kg ถ้าอายุ ≥ 70 ปีหรือ Cr ≥ 2.0; basal ครึ่งหนึ่ง) และตารางรายวันบันทึกยูนิตอินซูลินกับ POCT ทุกมื้อและก่อนนอน คำนวณ TDD ค่าเฉลี่ยและช่วง พร้อมเตือนเมื่อมีค่า < 70 หรือ ≥ 180 ตั้งแต่ 2 ครั้ง",
@@ -416,7 +418,6 @@ function App() {
   const [isDkaHhsOpen, setIsDkaHhsOpen] = useState(false);
   const [isRamadanOpen, setIsRamadanOpen] = useState(false);
   const [isThaiDrsOpen, setIsThaiDrsOpen] = useState(false);
-  const [isFootCareOpen, setIsFootCareOpen] = useState(false);
   const [isGdmOpen, setIsGdmOpen] = useState(false);
   const [isRemissionOpen, setIsRemissionOpen] = useState(false);
   const [isInpatientOpen, setIsInpatientOpen] = useState(false);
@@ -592,7 +593,6 @@ function App() {
     ['hypo', t.toolHypo, 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-700 dark:bg-amber-950 dark:hover:bg-amber-900 dark:border-amber-800 dark:text-amber-300', GuideHypoIcon, () => setIsHypoOpen(true)],
     ['dka', t.toolDkaHhs, 'bg-rose-50 hover:bg-rose-100 border-rose-200 text-rose-700 dark:bg-rose-950 dark:hover:bg-rose-900 dark:border-rose-800 dark:text-rose-300', GuideDkaIcon, () => setIsDkaHhsOpen(true)],
     ['ramadan', t.toolRamadan, 'bg-indigo-50 hover:bg-indigo-100 border-indigo-200 text-indigo-700 dark:bg-indigo-950 dark:hover:bg-indigo-900 dark:border-indigo-800 dark:text-indigo-300', GuideRamadanIcon, () => setIsRamadanOpen(true)],
-    ['foot', t.toolFoot, 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:border-slate-600 dark:text-slate-200', GuideFootIcon, () => setIsFootCareOpen(true)],
     ['gdm', t.toolGdm, 'bg-pink-50 hover:bg-pink-100 border-pink-200 text-pink-700 dark:bg-pink-950 dark:hover:bg-pink-900 dark:border-pink-800 dark:text-pink-300', GuideGdmIcon, () => setIsGdmOpen(true)],
     ['remission', t.toolRemission, 'bg-violet-50 hover:bg-violet-100 border-violet-200 text-violet-700 dark:bg-violet-950 dark:hover:bg-violet-900 dark:border-violet-800 dark:text-violet-300', GuideRemissionIcon, () => setIsRemissionOpen(true)],
     ['inpatient', t.guide.inpatient, 'bg-sky-50 hover:bg-sky-100 border-sky-200 text-sky-700 dark:bg-sky-950 dark:hover:bg-sky-900 dark:border-sky-800 dark:text-sky-300', GuideInpatientIcon, () => setIsInpatientOpen(true)]
@@ -915,7 +915,6 @@ function App() {
       <DkaHhsModal isOpen={isDkaHhsOpen} onClose={() => setIsDkaHhsOpen(false)} lang={lang} />
       <RamadanModal isOpen={isRamadanOpen} onClose={() => setIsRamadanOpen(false)} lang={lang} />
       <ThaiDrsModal isOpen={isThaiDrsOpen} onClose={() => setIsThaiDrsOpen(false)} lang={lang} />
-      <FootCareModal isOpen={isFootCareOpen} onClose={() => setIsFootCareOpen(false)} lang={lang} />
       <GdmModal isOpen={isGdmOpen} onClose={() => setIsGdmOpen(false)} lang={lang} />
       <RemissionModal isOpen={isRemissionOpen} onClose={() => setIsRemissionOpen(false)} lang={lang} />
       <InpatientInsulinModal isOpen={isInpatientOpen} onClose={() => setIsInpatientOpen(false)} lang={lang} />

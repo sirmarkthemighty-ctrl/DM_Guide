@@ -1,6 +1,7 @@
 
 // --- Modal 8: Diabetic Foot & Neuropathy Evaluation (CPG 2566 บทที่ 15) ---
-const FootCareModal = ({ isOpen, onClose, lang }) => {
+// embedded: body only, shown as the Diabetic foot tab of the complication screening window
+const FootCareModal = ({ isOpen, onClose, lang, embedded = false }) => {
   // Interactive Ipswich Touch Test: 6 sites (Right: 1, 3, 5; Left: 1, 3, 5)
   const [ipswichState, setIpswichState] = useState({
     r1: true, r3: true, r5: true,
@@ -17,9 +18,10 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
   const hasLops = lossCount >= 2;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden">
+    <div className={embedded ? '' : 'fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in'}>
+      <div className={embedded ? '' : 'bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden'}>
         {/* Header */}
+        {!embedded && (
         <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-amber-50/50 dark:bg-slate-800/40">
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-2xl bg-amber-600 text-white shadow-sm shadow-amber-600/30">
@@ -38,9 +40,10 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
             <XIcon className="w-5 h-5" />
           </button>
         </div>
+        )}
 
         {/* Content Body */}
-        <div className="p-5 overflow-y-auto space-y-5 flex-1 text-xs">
+        <div className={embedded ? 'space-y-5 text-xs' : 'p-5 overflow-y-auto space-y-5 flex-1 text-xs'}>
           {/* Interactive Ipswich Touch Test */}
           <div className="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200/60 dark:border-slate-700/60">
             <div className="flex items-center justify-between mb-2">
@@ -61,11 +64,11 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
             </p>
 
             {/* Interactive Visual Toes Grid */}
-            <div className="grid grid-cols-2 gap-4 max-w-md mx-auto my-2">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-md mx-auto my-2">
               {/* Right Foot */}
-              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+              <div className="p-1.5 sm:p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-center min-w-0">
                 <span className="font-bold text-slate-700 dark:text-slate-300 block mb-2">{tx("เท้าขวา (Right Foot)")}</span>
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-1 sm:gap-2">
                   {[
                     { id: 'r1', label: tx("นิ้วโป้ง (1)") },
                     { id: 'r3', label: tx("นิ้วกลาง (3)") },
@@ -75,7 +78,7 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
                       key={toe.id}
                       type="button"
                       onClick={() => toggleSite(toe.id)}
-                      className={`px-2.5 py-3 rounded-xl border text-[11px] font-bold transition-all flex flex-col items-center gap-1 ${
+                      className={`px-1.5 sm:px-2.5 py-3 rounded-xl border text-[11px] font-bold transition-all flex flex-col items-center gap-1 min-w-0 ${
                         ipswichState[toe.id]
                           ? 'bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300'
                           : 'bg-rose-50 border-rose-300 text-rose-800 dark:bg-rose-950/40 dark:border-rose-800 dark:text-rose-300 shadow-sm'
@@ -89,9 +92,9 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
               </div>
 
               {/* Left Foot */}
-              <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+              <div className="p-1.5 sm:p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-center min-w-0">
                 <span className="font-bold text-slate-700 dark:text-slate-300 block mb-2">{tx("เท้าซ้าย (Left Foot)")}</span>
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-1 sm:gap-2">
                   {[
                     { id: 'l1', label: tx("นิ้วโป้ง (1)") },
                     { id: 'l3', label: tx("นิ้วกลาง (3)") },
@@ -101,7 +104,7 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
                       key={toe.id}
                       type="button"
                       onClick={() => toggleSite(toe.id)}
-                      className={`px-2.5 py-3 rounded-xl border text-[11px] font-bold transition-all flex flex-col items-center gap-1 ${
+                      className={`px-1.5 sm:px-2.5 py-3 rounded-xl border text-[11px] font-bold transition-all flex flex-col items-center gap-1 min-w-0 ${
                         ipswichState[toe.id]
                           ? 'bg-emerald-50 border-emerald-300 text-emerald-800 dark:bg-emerald-950/40 dark:border-emerald-800 dark:text-emerald-300'
                           : 'bg-rose-50 border-rose-300 text-rose-800 dark:bg-rose-950/40 dark:border-rose-800 dark:text-rose-300 shadow-sm'
@@ -160,11 +163,13 @@ const FootCareModal = ({ isOpen, onClose, lang }) => {
         </div>
 
         {/* Footer */}
+        {!embedded && (
         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end">
           <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors">
             {lang === 'th' ? 'ปิดหน้าต่าง' : 'Close'}
           </button>
         </div>
+        )}
       </div>
     </div>
   );
@@ -762,6 +767,7 @@ const ScreeningModal = ({ isOpen, onClose, lang }) => {
   const [eye, setEye] = useState(0);
   const [g, setG] = useState(0);
   const [a, setA] = useState(0);
+  const [tab, setTab] = useState('screen');
   if (!isOpen) return null;
 
   const YEARLY = [
@@ -786,12 +792,24 @@ const ScreeningModal = ({ isOpen, onClose, lang }) => {
             <div className="p-2.5 rounded-2xl bg-teal-700 text-white shadow-sm shrink-0"><GuideScreenIcon className="w-5 h-5" /></div>
             <div className="min-w-0">
               <h2 className="text-lg font-bold text-slate-900 dark:text-white">{L('คัดกรองโรคแทรกซ้อนจากเบาหวาน', 'Diabetes Complication Screening')}</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{L('ตามแนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 บทที่ 3 และ 13', 'Thai CPG for Diabetes 2566, chapters 3 and 13')}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{L('ตามแนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 บทที่ 3, 13 และ 15', 'Thai CPG for Diabetes 2566, chapters 3, 13 and 15')}</p>
             </div>
           </div>
           <button onClick={onClose} aria-label={L('ปิด', 'Close')} className="p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"><XIcon className="w-5 h-5" /></button>
         </div>
 
+        <div className="flex border-b border-slate-200 dark:border-slate-800 px-4 sm:px-5 pt-2 gap-2 bg-slate-50/70 dark:bg-slate-800/20" role="tablist">
+          {[['screen', L('คัดกรองโรคแทรกซ้อน', 'Screening'), GuideScreenIcon], ['foot', L('เท้าเบาหวาน', 'Diabetic foot'), GuideFootIcon]].map(([k, label, Icon]) => (
+            <button key={k} onClick={() => setTab(k)} role="tab" aria-selected={tab === k} data-scr-tab={k}
+              className={`flex items-center gap-1.5 px-3 py-2 text-xs font-bold border-b-2 -mb-px ${tab === k ? 'border-teal-600 text-teal-700 dark:text-teal-300' : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>
+              <Icon className="w-3.5 h-3.5" />{label}
+            </button>
+          ))}
+        </div>
+
+        {tab === 'foot' ? (
+          <div className="p-4 sm:p-5 overflow-y-auto flex-1"><FootCareModal isOpen embedded lang={lang} onClose={onClose} /></div>
+        ) : (
         <div className="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1 text-xs">
           {/* Yearly checks */}
           <div className={box} data-scr-yearly>
@@ -804,7 +822,7 @@ const ScreeningModal = ({ isOpen, onClose, lang }) => {
                 </label>
               ))}
             </div>
-            <p className="mt-1.5 text-slate-500 dark:text-slate-400">{L('ความถี่ตรวจเท้าตามระดับความเสี่ยง: ดูเครื่องมือ "เท้าเบาหวาน"', 'Foot check frequency by risk level: see the Diabetic foot tool.')} {L('ช่องทำเครื่องหมายไม่ถูกบันทึก', 'Ticks are not saved.')}</p>
+            <p className="mt-1.5 text-slate-500 dark:text-slate-400">{L('ความถี่ตรวจเท้าตามระดับความเสี่ยง: ', 'Foot check frequency by risk level: ')}<button onClick={() => setTab('foot')} className="font-bold text-teal-700 dark:text-teal-300 underline decoration-dotted">{L('แท็บเท้าเบาหวาน', 'Diabetic foot tab')}</button>. {L('ช่องทำเครื่องหมายไม่ถูกบันทึก', 'Ticks are not saved.')}</p>
           </div>
 
           {/* Table 5 risk grid */}
@@ -874,6 +892,7 @@ const ScreeningModal = ({ isOpen, onClose, lang }) => {
             {L('ที่มา: แนวทางเวชปฏิบัติสำหรับโรคเบาหวาน 2566 ตารางที่ 5 และการตรวจประจำปี (หน้า 34-35), แผนภูมิที่ 1 การคัดกรองจอตา (หน้า 150-152), ตารางที่ 1 โรคไตจากเบาหวาน (หน้า 153)', 'Source: Thai CPG for Diabetes 2566, Table 5 and yearly checks (pp. 34-35), chart 1 eye screening (pp. 150-152), Table 1 diabetic kidney disease (p. 153).')}
           </p>
         </div>
+        )}
 
         <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 flex justify-end">
           <button onClick={onClose} className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs">{L('ปิดหน้าต่าง', 'Close')}</button>
